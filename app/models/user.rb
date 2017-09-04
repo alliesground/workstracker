@@ -7,9 +7,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  def role=(role)
+    @role = role
+  end
+
+  def role
+    @role
+  end
+
   private
 
   def assign_role
-    self.add_role "freelancer"
+    self.add_role role
   end
 end

@@ -16,6 +16,11 @@
     = f.label :password_confirmation
     %br/
     = f.password_field :password_confirmation, autocomplete: "off"
+  .field
+    = label_tag 'freelancer'
+    = radio_button_tag "user[role]", 'freelancer', false
+    = label_tag 'client'
+    = radio_button_tag "user[role]", 'client', false
   .actions
     = f.submit "Sign up"
-= render "users/shared/links"
+= render "devise/shared/links"
