@@ -17,4 +17,4 @@
 /yarn-error.log
 
 .byebug_history
-.ruby-gemset
+/.ruby-gemset
