@@ -1,0 +1,8 @@
+%nav.navbar.navbar-default
+  .container
+    = link_to 'Works Tracker', root_path, class:"navbar-brand"
+
+    - if user_signed_in?
+      = link_to 'Sign out', destroy_user_session_path, method: :delete
+    - else
+      = link_to 'Sign in', new_user_session_path
