@@ -1,1 +1,10 @@
-%h1 Create a new project
+%section.container
+  .row
+    .col-sm-6
+      = simple_form_for @project do |f|
+        %header
+          %h1 Create new project
+        %fieldset
+          .form-group
+            = f.input :title, label: 'Title'
+        = f.submit 'Save', class: "btn btn-default"

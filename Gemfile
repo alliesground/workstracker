@@ -24,6 +24,7 @@ gem 'rolify'
 gem 'haml-rails', '~> 1.0'
 gem 'bootstrap', '~> 4.0.0.beta'
 gem 'jquery-rails'
+gem 'simple_form'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
