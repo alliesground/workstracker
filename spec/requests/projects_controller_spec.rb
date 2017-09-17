@@ -5,19 +5,27 @@ describe 'ProjectsController', type: :request do
     it 'responds with success' do
       get '/projects/new'
       expect(response).to have_http_status :success
+      expect(response.body).to include "Create new project"
     end
   end
 
   describe 'POST /projects' do
-    it 'creates a project' do
-      project = FactoryGirl.build(:project)
-      project_attributes = FactoryGirl.attributes_for(project)
+    context 'with valid attributes' do
+      it 'creates a project in the database' do
+        project_attributes = attributes_for(:project)
 
-      expect {
-        post '/projects', { title: project_attributes }
-      }.to change(Project, :count)
+        expect {
+          post '/projects', params: { project: attributes_for(:project) }
+        }.to change(Project, :count).by 1
+      end
     end
 
-    it 'redirect to the project show page'
+    context 'with invalid attributes' do
+      it 'does not create a project in the database' do
+        expect {
+          post '/projects', params: { project: attributes_for(:invalid_project) }
+        }.to_not change(Project, :count)
+      end
+    end
   end
 end

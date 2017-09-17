@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
   root to: "home#index"
   resources :users, only: :show
-  resources :projects, only: [:new, :create]
+  resources :projects, only: [:new, :show, :create]
 end
