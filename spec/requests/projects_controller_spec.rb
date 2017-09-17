@@ -8,16 +8,16 @@ describe 'ProjectsController', type: :request do
     end
   end
 
-#  describe 'POST /projects' do
-#    it 'creates a project' do
-#      project = FactoryGirl.build(:project)
-#      project_attributes = FactoryGirl.attributes_for(project)
-#
-#      expect {
-#        post '/projects', { title: project_attributes }
-#      }.to change(Project, :count)
-#    end
-#
-#    it 'redirect to the project show page'
-#  end
+  describe 'POST /projects' do
+    it 'creates a project' do
+      project = FactoryGirl.build(:project)
+      project_attributes = FactoryGirl.attributes_for(project)
+
+      expect {
+        post '/projects', { title: project_attributes }
+      }.to change(Project, :count)
+    end
+
+    it 'redirect to the project show page'
+  end
 end
