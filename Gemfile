@@ -24,6 +24,9 @@ gem 'haml-rails', '~> 1.0'
 gem 'bootstrap', '~> 4.0.0.beta'
 gem 'jquery-rails'
 gem 'simple_form'
+gem 'octokit', '~> 4.0'
+gem 'omniauth-github', '~> 1.1', '>= 1.1.2'
+gem 'figaro'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
