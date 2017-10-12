@@ -1,4 +1,6 @@
 class ProjectFormsController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @project_form = ProjectForm.new
   end

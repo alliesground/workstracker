@@ -6,6 +6,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 require 'support/factory_girl'
+require 'support/request_macros'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -28,6 +29,9 @@ require 'support/factory_girl'
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  # controller spec macros
+  config.extend RequestMacros, :type => :request
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -56,3 +60,31 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+OmniAuth.config.test_mode = true
+OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
+  provider: 'github',
+  uid: 1,
+  info: {
+    name: "Github User",
+    email: "test_user1@example.com",
+    first_name: "github",
+    last_name: "user",
+    image: ""
+  },
+  credentials: {
+    token: "token",
+    refresh_token: "another_token",
+    expires_at: 1354920555,
+    expires: true
+  },
+  extra: {
+    id_token: 1000.times.map { "string" }.join, # this huge chunk is used to test for CookieOverflow exception
+    raw_info: OmniAuth::AuthHash.new(
+      email: "test@example.com",
+      email_verified:"true",
+      kind:"plus#personOpenIdConnect",
+      name:"Test Person",
+    )
+  }
+})

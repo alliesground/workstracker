@@ -1,6 +1,8 @@
-require 'rails_helper'
+require 'rails_helper' 
 
 describe 'ProjectFormsController', type: :request do
+  login
+
   describe 'GET /project_forms/new' do
     it 'responds with success' do
       get '/project_forms/new'
