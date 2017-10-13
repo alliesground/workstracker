@@ -17,7 +17,7 @@ describe 'ProjectFormsController', type: :request do
         project_form_attributes = attributes_for(:project_form)
 
         expect {
-          post('/project_forms', 
+          post('/project_forms',
                params: { project_form: attributes_for(:project_form) })
         }.to change(Project, :count).by 1
       end

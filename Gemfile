@@ -37,6 +37,7 @@ end
 
 group :test do
   gem 'faker', '~> 1.6', '>= 1.6.3'
+  gem 'database_cleaner'
 end
 
 group :development do
