@@ -8,6 +8,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:github]
 
+  delegate :access_token, :to => :github_profile, :prefix => true
+
   def self.from_omniauth(auth)
     user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

@@ -1,4 +1,4 @@
-require 'rails_helper' 
+require 'rails_helper'
 
 describe 'ProjectFormsController', type: :request do
   login
@@ -23,7 +23,7 @@ describe 'ProjectFormsController', type: :request do
       end
 
       it 'redirects to the /projects/:id' do
-        post('/project_forms', 
+        post('/project_forms',
              params: { project_form: attributes_for(:project_form) })
 
         expect(response).to redirect_to "/projects/#{Project.last.id}"

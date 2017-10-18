@@ -8,7 +8,7 @@ class ProjectFormsController < ApplicationController
   def create
     @project_form = ProjectForm.new(project_form_params)
     
-    if @project_form.save
+    if @project_form.save(current_user: current_user)
       flash[:success] = "New project created successfully"
       redirect_to project_path(Project.last)
     else
