@@ -88,13 +88,13 @@ OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
   uid: 1,
   info: {
     name: "Github User",
-    email: "test_user1@example.com",
+    email: "sameer-limbu.768@gmail.com",
     first_name: "github",
     last_name: "user",
     image: ""
   },
   credentials: {
-    token: "token",
+    token: ENV["TEST_USER_GITHUB_TOKEN"],
     refresh_token: "another_token",
     expires_at: 1354920555,
     expires: true

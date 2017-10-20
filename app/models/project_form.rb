@@ -19,9 +19,10 @@ class ProjectForm
         @project = Project.create!(title: project_title)
       end
     rescue => e
-      errors.add(:repo_name, message: "#{e.message}")
+      errors.add(:base, message: e.message)
       return false
     end
+
     true
   end
 
