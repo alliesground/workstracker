@@ -6,7 +6,7 @@ class ProjectForm
                 :repo_description,
                 :current_user
 
-  validates_presence_of :project_title
+  validates_presence_of :project_title, :repo_name
 
   def save(current_user:)
     self.current_user = current_user
@@ -19,6 +19,7 @@ class ProjectForm
         @project = Project.create!(title: project_title)
       end
     rescue => e
+      errors.add(:repo_name, message: e.message)
       errors.add(:base, message: e.message)
       return false
     end
