@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'support/factory_girl'
 require 'support/request_macros'
+require 'shoulda/matchers'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -29,6 +30,10 @@ require 'support/request_macros'
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  # making shoulda matchers methods available
+  config.include(Shoulda::Matchers::ActiveModel, type: :model)
+  config.include(Shoulda::Matchers::ActiveRecord, type: :model)
+
   # controller spec macros
   config.extend RequestMacros, :type => :request
 

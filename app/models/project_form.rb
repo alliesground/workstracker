@@ -18,9 +18,8 @@ class ProjectForm
         create_github_repo
         @project = Project.create!(title: project_title)
       end
-    rescue => e
-      errors.add(:repo_name, message: e.message)
-      errors.add(:base, message: e.message)
+    rescue Octokit::UnprocessableEntity => e
+      errors.add(:repo_name, e.message)
       return false
     end
 

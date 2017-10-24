@@ -38,6 +38,7 @@ end
 group :test do
   gem 'faker', '~> 1.6', '>= 1.6.3'
   gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1', '>= 3.1.2'
 end
 
 group :development do
