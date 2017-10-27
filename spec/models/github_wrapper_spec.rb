@@ -9,7 +9,7 @@ RSpec.describe GithubWrapper, type: :model do
       )
     end
 
-    describe "#create_repo" do
+    describe "#create_repo", :vcr do
       it "creates a github repository for the authenticated user" do
         repository = github_wrapper_client.create_repo("my-repo")
         expect(repository.name).to eq("my-repo")
