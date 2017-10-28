@@ -10,10 +10,14 @@ describe ProjectForm, type: :model do
     let(:invalid_project_form) { build(:invalid_project_form) }
 
     context "with valid attributes" do
+      let(:response) {
+        double("Sawyer::Resource", { name: "My-first-test-repository" })
+      }
+
       it "returns true" do
         allow(project_form).
           to receive(:create_github_repo).
-          and_return({ name: "My first test repository" })
+          and_return(response)
 
         expect(project_form.save(current_user: current_user)).to be true
       end
@@ -29,7 +33,12 @@ describe ProjectForm, type: :model do
       it "returns false" do
         allow(project_form).
           to receive(:create_github_repo).
-          and_raise(Octokit::UnprocessableEntity)
+          and_raise(
+            Octokit::ClientError.new(
+              errors: [{ field: "name", 
+                         message: "name already exists" }]
+            )
+          )
 
         expect(project_form.save(current_user: current_user)).to be false
       end

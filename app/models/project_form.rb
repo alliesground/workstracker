@@ -2,8 +2,8 @@ class ProjectForm
   include ActiveModel::Model
 
   attr_accessor :project_title,
+                :project_description,
                 :repo_name,
-                :repo_description,
                 :current_user
 
   validates_presence_of :project_title, :repo_name
@@ -15,11 +15,13 @@ class ProjectForm
 
     begin
       ActiveRecord::Base.transaction do
-        create_github_repo
-        @project = Project.create!(title: project_title)
+        repo = create_github_repo
+        @project = Project.create!(title: project_title,
+                                   description: project_description,
+                                   repo_name: repo.name)
       end
-    rescue Octokit::UnprocessableEntity => e
-      errors.add(:repo_name, e.message)
+    rescue Octokit::ClientError => e
+      present_error(e)
       return false
     end
 
@@ -27,6 +29,16 @@ class ProjectForm
   end
 
   private
+
+  def present_error(e)
+    e.errors.each do |error|
+      if error[:field] == "name"
+        errors.add(:repo_name, error[:message])
+      else
+        errors.add(:base, error[:message])
+      end
+    end
+  end
 
   def create_github_repo
     client = GithubWrapper::Client.new(

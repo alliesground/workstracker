@@ -15,9 +15,11 @@ describe 'ProjectFormsController', type: :request do
 
     context 'with valid attributes' do
       before :each do
+        response = double("Sawyer::Resource", { name: "My-first-test-repository" })
+
         expect_any_instance_of(ProjectForm).
           to receive(:create_github_repo).
-          and_return({ name: "My-first-test-repository" })
+          and_return(response)
 
         post(
           '/project_forms',
@@ -38,7 +40,12 @@ describe 'ProjectFormsController', type: :request do
       before :each do
         expect_any_instance_of(ProjectForm).
           to receive(:create_github_repo).
-          and_raise(StandardError.new("Github Error"))
+          and_raise(
+            Octokit::ClientError.new(
+              errors: [{ field: "name",
+                         message: "name already exists" }]
+            )
+          )
 
         post(
           '/project_forms',

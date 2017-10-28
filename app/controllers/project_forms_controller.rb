@@ -21,7 +21,7 @@ class ProjectFormsController < ApplicationController
   def project_form_params
     params.require(:project_form).
       permit(:project_title,
-             :repo_name,
-             :repo_description)
+             :project_description,
+             :repo_name)
   end
 end
