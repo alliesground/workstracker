@@ -1,2 +1,8 @@
 %section.container
-  %h2= @project.title
+  %h2
+    = @project.title
+  %p
+    to start working on the project please clone it from your terminal:
+  %p
+    = "git clone: #{@project.repository_clone_url(user: current_user)}"
+

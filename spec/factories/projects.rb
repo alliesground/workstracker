@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :project do
-    title "My first project"
-    repo_name "My-first-project"
+    title "test project"
+    repo_full_name "#{ENV['TEST_USER']}/test-project"
 
     factory :invalid_project do
       title ""

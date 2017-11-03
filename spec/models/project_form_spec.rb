@@ -11,7 +11,7 @@ describe ProjectForm, type: :model do
 
     context "with valid attributes" do
       let(:response) {
-        double("Sawyer::Resource", { name: "My-first-test-repository" })
+        double("Sawyer::Resource", { full_name: "test_user/My-first-test-repository" })
       }
 
       it "returns true" do

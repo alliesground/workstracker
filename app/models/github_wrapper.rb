@@ -13,6 +13,10 @@ class GithubWrapper
       octokit_client.create_repository(name, auto_init: true)
     end
 
+    def repository(repo_full_name)
+      octokit_client.repository(repo_full_name)
+    end
+
     def delete_repo(full_name)
       octokit_client.delete_repository(full_name)
     rescue Octokit::NotFound

@@ -15,7 +15,7 @@ describe 'ProjectFormsController', type: :request do
 
     context 'with valid attributes' do
       before :each do
-        response = double("Sawyer::Resource", { name: "My-first-test-repository" })
+        response = double("Sawyer::Resource", { full_name: "test_user/My-first-test-repository" })
 
         expect_any_instance_of(ProjectForm).
           to receive(:create_github_repo).
