@@ -5,7 +5,7 @@ describe ProjectForm, type: :model do
   it { should validate_presence_of(:repo_name) }
 
   describe "#save" do
-    let(:current_user) { build(:user) }
+    let(:current_user) { create(:user) }
     let(:project_form) { build(:project_form) }
     let(:invalid_project_form) { build(:invalid_project_form) }
 

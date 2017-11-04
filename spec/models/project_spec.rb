@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Project, type: :model do
   before :each do
-    @user = create(:user)
+    #@user = create(:user)
     @project = create(:project)
     @repository = double(
       "Sawyer::Resource",
@@ -19,10 +19,9 @@ describe Project, type: :model do
 
       allow(@project).
         to receive(:repo).
-        with(user: @user).
         and_return(repository)
 
-      expect(@project.repository_clone_url(user: @user)).to eq repository.clone_url
+      expect(@project.repository_clone_url).to eq repository.clone_url
     end
   end
 
@@ -37,10 +36,9 @@ describe Project, type: :model do
 
       allow(@project).
         to receive(:github_client).
-        with(user: @user).
         and_return(client)
 
-      expect(@project.repo(user: @user)).to eq @repository
+      expect(@project.repo).to eq @repository
     end
   end
 end

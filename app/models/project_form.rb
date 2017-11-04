@@ -16,9 +16,12 @@ class ProjectForm
     begin
       ActiveRecord::Base.transaction do
         repo = create_github_repo
-        @project = Project.create!(title: project_title,
-                                   description: project_description,
-                                   repo_full_name: repo.full_name)
+
+        @project = current_user.projects.create!(
+          title: project_title,
+          description: project_description,
+          repo_full_name: repo.full_name
+        )
       end
     rescue Octokit::ClientError => e
       present_error(e)

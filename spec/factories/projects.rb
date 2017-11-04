@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :project do
+    association :user
     title "test project"
     repo_full_name "#{ENV['TEST_USER']}/test-project"
 

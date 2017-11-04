@@ -3,6 +3,7 @@ class User < ApplicationRecord
   after_create :assign_role
 
   has_one :github_profile
+  has_many :projects
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
