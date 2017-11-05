@@ -5,6 +5,8 @@ module RequestMacros
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:github]
 
       get '/users/auth/github/callback'
+
+      @current_user = User.find_by_email(request.env['omniauth.auth'].info.email)
 		end
 	end
 end

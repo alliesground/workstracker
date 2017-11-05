@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   resources :users, only: :show
   resources :projects, only: :show
   resources :project_forms, only: [:new, :create]
+  get 'choose_role' => 'roles#new'
+  post 'roles' => 'roles#create'
 end

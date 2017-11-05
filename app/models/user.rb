@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   rolify
-  after_create :assign_role
 
   has_one :github_profile
   has_many :projects
@@ -22,14 +21,6 @@ class User < ApplicationRecord
     user
   end
 
-  def role=(role)
-    @role = role
-  end
-
-  def role
-    @role
-  end
-
   private
 
   def self.create_github_profile(user, auth)
@@ -37,9 +28,4 @@ class User < ApplicationRecord
       access_token: auth[:credentials][:token]
     )
   end
-
-  def assign_role
-    self.add_role role
-  end
-
 end
