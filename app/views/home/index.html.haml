@@ -1,1 +1,16 @@
-%h2 This is Home page
+.container
+  %section#hero.row.justify-content-center
+    .col
+      %h1.text-center
+        Simple Solution
+        %br
+        for Managing your Projects
+
+      %p.text-center
+        Manage your projects and client without any
+        distraction
+
+      .row.justify-content-center
+        = link_to 'Sign in with Github', user_github_omniauth_authorize_path, class: 'btn btn-primary'
+
+
