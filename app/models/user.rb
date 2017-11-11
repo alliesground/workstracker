@@ -16,16 +16,22 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0,20]
     end
 
-    create_github_profile(user, auth) if user.github_profile.nil?
+    create_or_update_github_profile(user, auth)
 
     user
   end
 
   private
 
-  def self.create_github_profile(user, auth)
-    user.create_github_profile(
-      access_token: auth[:credentials][:token]
-    )
+  def self.create_or_update_github_profile(user, auth)
+    if user.github_profile.nil?
+      user.create_github_profile(
+        access_token: auth[:credentials][:token]
+      )
+    else
+      user.github_profile.update(
+        access_token: auth[:credentials][:token]
+      )
+    end
   end
 end
