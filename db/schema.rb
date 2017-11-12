@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(version: 20171104004253) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "description"
-    t.string "repo_full_name"
     t.bigint "user_id"
+    t.string "repo_full_name"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 

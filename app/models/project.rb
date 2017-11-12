@@ -1,4 +1,6 @@
 class Project < ApplicationRecord
+  resourcify
+
   validates_presence_of :title
   validates_presence_of :repo_full_name
 
