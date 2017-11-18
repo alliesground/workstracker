@@ -1,0 +1,16 @@
+%section.invite.container
+  .row.justify-content-center
+    .col-4
+      = simple_form_for @invitation do |f|
+        = render 'shared/error_messages', object: f.object
+
+        %header
+          %h2.text-center Invite People to join your project
+
+        %fieldset.form-group
+          = f.input :recipient_name, label: 'Recipient Name'
+          = f.input :recipient_email, label: 'Recipient Email'
+          = f.input :message, as: 'text', label: 'Message'
+
+        %fieldset.form-group
+          = f.submit 'Send', class: 'btn btn-light'

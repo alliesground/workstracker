@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_one :github_profile
   has_many :projects
+  has_many :invitations, dependent: :destroy, foreign_key: :inviter_id
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
