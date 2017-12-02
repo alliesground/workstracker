@@ -6,7 +6,7 @@ FactoryGirl.define do
     password { Faker::Internet.password }
 
     after(:build) do |user|
-      user.github_profile = build(:github_profile, access_token: ENV['TEST_USER_GITHUB_TOKEN'])
+      user.github_profile = build(:github_profile)
     end
   end
 end

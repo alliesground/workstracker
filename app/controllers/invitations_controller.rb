@@ -1,4 +1,5 @@
 class InvitationsController < ApplicationController
+  before_action :authenticate_user!
   skip_before_action :delete_project_session, only: [:new, :create]
 
   def new
@@ -6,12 +7,13 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    params[:invitation].merge!(resource_id: session[:project_id])
+    params[:invitation].merge!(resource_id: current_project.id)
     @invitation = current_user.invitations.build(invitation_params)
 
     if @invitation.save
+      UserMailer.send_project_invitation(@invitation).deliver
       flash[:success] = "Invitation sent"
-      redirect_to project_path @invitation.resource_id
+      redirect_to current_project
     else
       render :new
     end

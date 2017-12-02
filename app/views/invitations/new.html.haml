@@ -11,6 +11,7 @@
           = f.input :recipient_name, label: 'Recipient Name'
           = f.input :recipient_email, label: 'Recipient Email'
           = f.input :message, as: 'text', label: 'Message'
+          = f.input :recipient_role, collection: Invitation.recipient_roles.keys, include_blank: 'Please select a role'
 
         %fieldset.form-group
           = f.submit 'Send', class: 'btn btn-light'

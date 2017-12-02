@@ -11,13 +11,9 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-
 gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
-
 gem 'devise'
 gem 'rolify'
 gem 'haml-rails', '~> 1.0'
@@ -27,6 +23,7 @@ gem 'simple_form'
 gem 'octokit', '~> 4.0'
 gem 'omniauth-github', '~> 1.1', '>= 1.1.2'
 gem 'figaro'
+gem 'draper'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -50,6 +47,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'letter_opener', '~> 1.4', '>= 1.4.1'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

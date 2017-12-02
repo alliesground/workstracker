@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171117032707) do
+ActiveRecord::Schema.define(version: 20171123232820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(version: 20171117032707) do
   create_table "invitations", force: :cascade do |t|
     t.string "recipient_name"
     t.string "recipient_email"
-    t.string "recipient_role"
     t.string "message"
     t.string "token"
     t.integer "inviter_id"
     t.integer "recipient_id"
     t.integer "resource_id"
+    t.integer "recipient_role"
     t.index ["inviter_id"], name: "index_invitations_on_inviter_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["token"], name: "index_invitations_on_token"
