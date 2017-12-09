@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   get 'expired_token', to: 'static_pages#invalid_token'
 
-  resources :projects, only: :show
+  resources :projects, only: [:show, :new, :create]
   resources :project_forms, only: [:new, :create]
 
   post 'roles' => 'roles#create'
