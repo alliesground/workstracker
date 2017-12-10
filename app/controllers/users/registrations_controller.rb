@@ -7,10 +7,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  def new_with_invitation_token
+    if @invitation = Invitation.find_by(token: params[:token])
+      @user = User.new(email: @invitation.recipient_email)
+      render :new
+    else
+      flash[:alert] = 'token expired'
+      redirect_to expired_token_path
+    end
+  end
+
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    invitation_token = params[:invitation_token]
+    handle_invitation(invitation_token, resource) if invitation_token.present?
+  end
 
   # GET /resource/edit
   # def edit
@@ -57,4 +69,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  private
+
+  def handle_invitation(invitation_token, resource)
+    invitation = Invitation.find_by(token: invitation_token)
+
+    if invitation
+      assign_role(resource: resource, 
+                  role: invitation.recipient_role, 
+                  scope: project(invitation))
+
+      invitation.update_column(:token, nil)
+    end
+  end
+
+  def assign_role(resource:, role:, scope:)
+    resource.add_role(role, scope)
+  end
+
+  def project(invitation)
+    Project.find_by(id: invitation.resource_id)
+  end
 end
