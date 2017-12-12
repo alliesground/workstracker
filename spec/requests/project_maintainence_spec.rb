@@ -20,7 +20,7 @@ describe 'Project maintainence', type: :request do
   end
 
   context 'with invalid input' do
-    it 'displays the user-interface to create a new project' do
+    it 'does not create a project, instead renders create new project page' do
       post(
         '/projects', 
         params: { project: attributes_for(:invalid_project, user: @current_user) }
@@ -30,14 +30,7 @@ describe 'Project maintainence', type: :request do
     end
   end
 
-  context ""
-  it 'returns the information for the requested project' do
-    project = create(:project)
-    get project_url(project)
-    expect(response.body).to include project.title
-  end
-
-  context "when current_user accesses own projects info" do
+  context "when current_user accesses their project" do
     it 'gives access' do
       project = create(:project, user: @current_user)
       get project_url(project)
@@ -45,26 +38,11 @@ describe 'Project maintainence', type: :request do
     end
   end
 
-  context "when current_user accesses other users projects info" do
+  context "when current_user accesses other users project" do
     it 'does not give access and redirects to root path' do
       project = create(:project)
       get project_url(project)
       expect(response).to redirect_to root_url
     end
   end
-
-#  it 'returns the information for the requested project', :vcr do
-#    project = create(:project)
-#
-#    client = GithubWrapper::Client.new(
-#      access_token: ENV['TEST_USER_GITHUB_TOKEN']
-#    )
-#
-#    client.create_repo(project.title)
-#
-#    get project_url(project)
-#    expect(response.body).to include "test project"
-#
-#    client.delete_repo(project.repo_full_name)
-#  end
 end

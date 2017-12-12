@@ -21,7 +21,6 @@ gem 'bootstrap', '~> 4.0.0.beta'
 gem 'jquery-rails'
 gem 'simple_form'
 gem 'octokit', '~> 4.0'
-gem 'omniauth-github', '~> 1.1', '>= 1.1.2'
 gem 'figaro'
 gem 'draper'
 

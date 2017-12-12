@@ -10,18 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123232820) do
+ActiveRecord::Schema.define(version: 20171211154652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "github_profiles", force: :cascade do |t|
-    t.string "access_token"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_github_profiles_on_user_id"
-  end
 
   create_table "invitations", force: :cascade do |t|
     t.string "recipient_name"
@@ -85,7 +77,6 @@ ActiveRecord::Schema.define(version: 20171123232820) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
-  add_foreign_key "github_profiles", "users"
   add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "projects", "users"
 end

@@ -8,8 +8,8 @@ class ProjectsController < ApplicationController
   def show
     @project = current_user.projects.find_by(id: params[:id])
     if @project
-      @project.decorate
       set_project_session(id: @project.id)
+      @project
     else
       redirect_to root_url, notice: "You are not authorized to access this page"
     end
