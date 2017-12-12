@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'Invitation maintainence', type: :request do
-  let(:user) { create(:user) }
+describe 'InvitationsController', type: :request do
+  let(:user) { create(:user, email: 'test_user@example.com') }
   let(:project) { create(:project, user: user) }
 
   before :each do 
@@ -9,14 +9,14 @@ describe 'Invitation maintainence', type: :request do
     get project_url(project) # to set the project session
   end
 
-  describe '#show' do
+  describe 'GET /invitations/new' do
     it "provides user interface to send new invitation" do
       get '/invitations/new'
       expect(response).to have_http_status :success
     end
   end
 
-  describe '#create' do
+  describe 'POST /invitations' do
     context 'with valid attributes' do
       before :each do
         post('/invitations', params: { invitation: attributes_for(:invitation) })
