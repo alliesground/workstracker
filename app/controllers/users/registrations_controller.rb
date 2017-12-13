@@ -80,7 +80,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
                   role: invitation.recipient_role, 
                   scope: project(invitation))
 
-      invitation.update_column(:token, nil)
+      #invitation.update_column(:token, nil)
     end
   end
 

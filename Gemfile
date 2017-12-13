@@ -39,6 +39,7 @@ group :test do
   gem 'webmock', '~> 3.0', '>= 3.0.1'
   gem 'capybara'
   gem 'launchy', '~> 2.4', '>= 2.4.3'
+  gem 'capybara-email'
 end
 
 group :development do

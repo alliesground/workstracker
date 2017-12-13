@@ -6,6 +6,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 require 'capybara/rails'
+require 'capybara/email/rspec'
 require 'support/factory_girl'
 require 'support/request_spec_helper'
 require 'shoulda/matchers'
