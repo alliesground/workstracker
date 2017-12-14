@@ -2,7 +2,7 @@
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = f.error_notification
   .form-inputs
-    = hidden_field_tag :invitation_token, @invitation.token if @invitation
+    = hidden_field_tag :token, @invitation.token if @invitation
     = f.input :email, required: true, autofocus: true
     = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
     = f.input :password_confirmation, required: true

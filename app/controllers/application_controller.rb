@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :delete_project_session, if: :project_session_active?
 
   def after_sign_in_path_for(user)
-    users_profile_path(user)
+    session[:return_to_after_invitation_acceptance] || users_profile_path(current_user)
   end
 
   protected
