@@ -8,4 +8,4 @@ class Project < ApplicationRecord
   def self.to_join(id:)
     select('title').where(id: id).limit(1)
   end
-end
+end 

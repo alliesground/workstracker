@@ -10,4 +10,8 @@ class Role < ApplicationRecord
             :allow_nil => true
 
   scopify
+
+  def self.scoped_to(resource_id:)
+    where("resource_id = ? AND name IS NOT NULL", resource_id)
+  end
 end

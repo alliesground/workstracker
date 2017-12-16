@@ -6,12 +6,17 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = current_user.projects.find_by(id: params[:id])
+    @project = Project.find_by(id: params[:id])
+
     if @project
-      set_project_session(id: @project.id)
-      @project
+      if current_user.has_any_role_scoped_to?(resource: @project)
+        set_project_session(id: @project.id)
+        @project
+      else
+        redirect_to root_url, notice: "You are not authorized to access this page"
+      end
     else
-      redirect_to root_url, notice: "You are not authorized to access this page"
+      redirect_to root_url, notice: "This project does not exist"
     end
   end
 
@@ -19,6 +24,7 @@ class ProjectsController < ApplicationController
     @project = current_user.projects.build(project_params)
     
     if @project.save
+      current_user.add_role('owner', @project)
       flash[:success] = "New project created successfully"
       redirect_to project_path @project
     else

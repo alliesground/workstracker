@@ -6,4 +6,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  def has_any_role_scoped_to?(resource:)
+    roles.merge(Role.scoped_to(resource_id: resource.id)).exists?
+  end
 end
