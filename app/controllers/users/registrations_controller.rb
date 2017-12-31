@@ -21,8 +21,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def handle_invitation
     if invitation
       current_user.add_role(invitation.recipient_role, scope(invitation))
-      Stakeholder.create(user: current_user, resource_id: scope(invitation).id)
-
       invitation.update_column(:token, nil)
     end
   end

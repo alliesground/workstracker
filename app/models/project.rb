@@ -1,7 +1,7 @@
 class Project < ApplicationRecord
   resourcify
 
-  after_create :assign_owner, :assign_stakeholder
+  after_create :assign_owner
 
   validates_presence_of :title
 
@@ -19,9 +19,5 @@ class Project < ApplicationRecord
 
   def assign_owner
     user.add_role('owner', self)
-  end
-
-  def assign_stakeholder
-    Stakeholder.create(user: user, resource_id: self.id)
   end
 end

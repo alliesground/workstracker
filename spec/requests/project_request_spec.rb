@@ -31,12 +31,6 @@ describe 'ProjectsController', type: :request do
       it 'assigns the role of owner to the current_user, scoped to a project' do
         expect(user.has_role? :owner, Project.last).to be true
       end
-
-      it 'assigns the current_user as a stakeholder of a project' do
-        expect(Stakeholder.count).to eq 1
-        expect(Stakeholder.last.user).to eq user
-        expect(Stakeholder.last.resource_id).to eq Project.last.id
-      end
     end
 
     context 'with invalid input' do

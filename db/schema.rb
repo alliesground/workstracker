@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217095927) do
+ActiveRecord::Schema.define(version: 20171231073748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,13 +49,6 @@ ActiveRecord::Schema.define(version: 20171217095927) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
-  create_table "stakeholders", force: :cascade do |t|
-    t.integer "resource_id"
-    t.bigint "user_id"
-    t.index ["resource_id"], name: "index_stakeholders_on_resource_id"
-    t.index ["user_id"], name: "index_stakeholders_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -83,5 +76,4 @@ ActiveRecord::Schema.define(version: 20171217095927) do
 
   add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "projects", "users"
-  add_foreign_key "stakeholders", "users"
 end
