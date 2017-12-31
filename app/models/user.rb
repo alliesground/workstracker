@@ -10,4 +10,8 @@ class User < ApplicationRecord
   def has_any_role_scoped_to?(resource:)
     roles.merge(Role.scoped_to(resource_id: resource.id)).exists?
   end
+
+  def roles_scoped_to(resource:)
+    roles.merge(Role.scoped_to(resource_id: resource.id))
+  end
 end

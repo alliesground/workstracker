@@ -1,0 +1,4 @@
+%h2= stakeholder.email
+%ul
+  - stakeholder.roles_scoped_to(resource: @project).each do |role|
+    %li= role.name

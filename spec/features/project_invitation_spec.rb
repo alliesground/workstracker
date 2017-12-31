@@ -26,7 +26,7 @@ feature 'Project invitation' do
     register_invited_user
 
     expect(page).to have_content project.title
-    #expect(page).to have_content invited_user[:email]
+    expect(page).to have_content invited_user[:email]
   end
 
   def register_invited_user

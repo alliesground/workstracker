@@ -24,7 +24,6 @@ class ProjectsController < ApplicationController
     @project = current_user.projects.build(project_params)
     
     if @project.save
-      current_user.add_role('owner', @project)
       flash[:success] = "New project created successfully"
       redirect_to project_path @project
     else

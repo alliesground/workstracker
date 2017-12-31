@@ -1,7 +1,8 @@
 %section.container
   %h2
     = @project.title
-  %p
-    to start working on the project please clone it from your terminal:
+
+  - @project.stakeholders.each do |stakeholder|
+    = render partial: 'stakeholder', object: stakeholder
 
   = link_to "Invite people to join this project", new_invitation_path, class: 'btn btn-primary'
