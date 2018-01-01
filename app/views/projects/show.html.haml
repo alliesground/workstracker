@@ -1,8 +1,8 @@
 %section.container
-  %h2
-    = @project.title
+  %h2= @project.title
 
-  - @project.stakeholders.each do |stakeholder|
-    = render partial: 'stakeholder', object: stakeholder
+  %section.stakeholder
+    - @project.stakeholders.each do |stakeholder|
+      = render partial: 'stakeholder', object: stakeholder
 
   = link_to "Invite people to join this project", new_invitation_path, class: 'btn btn-primary'
