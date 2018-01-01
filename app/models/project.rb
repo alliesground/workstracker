@@ -7,8 +7,8 @@ class Project < ApplicationRecord
 
   belongs_to :user
 
-  def self.to_join(id:)
-    select('title').where(id: id).limit(1)
+  def self.title_for(id:)
+    where(id: id).pluck(:title).first
   end
 
   def stakeholders
