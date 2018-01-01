@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171231073748) do
+ActiveRecord::Schema.define(version: 20171231153051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,8 +24,10 @@ ActiveRecord::Schema.define(version: 20171231073748) do
     t.integer "recipient_id"
     t.integer "resource_id"
     t.integer "recipient_role"
+    t.integer "status", default: 0
     t.index ["inviter_id"], name: "index_invitations_on_inviter_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
+    t.index ["status"], name: "index_invitations_on_status"
     t.index ["token"], name: "index_invitations_on_token"
   end
 

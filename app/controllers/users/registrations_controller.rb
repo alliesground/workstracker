@@ -1,4 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  after_action :handle_invitation, only: [:create], if: :invitation
+
   def new_with_invitation_token
     if invitation
       session[:return_to_after_invitation_acceptance] = url_for(scope(invitation))
@@ -13,7 +15,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    handle_invitation if invitation
   end
 
   private
@@ -21,7 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def handle_invitation
     if invitation
       current_user.add_role(invitation.recipient_role, scope(invitation))
-      invitation.update_column(:token, nil)
+      invitation.update_columns(token: nil, recipient_id: current_user.id)
     end
   end
 
