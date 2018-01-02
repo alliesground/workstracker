@@ -18,20 +18,52 @@ describe 'InvitationsController', type: :request do
 
   describe 'POST /invitations' do
     context 'with valid attributes' do
-      before :each do
-        post('/invitations', params: { invitation: attributes_for(:invitation) })
+      context 'when new invitation is sent' do
+        before :each do
+          post('/invitations', params: { invitation: attributes_for(:invitation) })
+        end
+
+        it "creates a new invitation" do
+          expect(Invitation.count).to eq 1
+        end
+
+        it "redirects to the projects page for which invitation was sent" do
+          expect(response).to redirect_to project
+        end
+
+        it "sends an invitation email" do
+          expect(ActionMailer::Base.deliveries).to_not be_empty
+        end
       end
 
-      it "creates a new invitation" do
-        expect(Invitation.count).to eq 1
-      end
+      #check resource_id, email, role
+      context 'when an invitation is already sent' do
+        before :each do
+          create(:invitation,
+                 inviter: user,
+                 resource_id: project.id,
+                 recipient_email:'test@email.com')
 
-      it "redirects to the projects page for which invitation was sent" do
-        expect(response).to redirect_to project
-      end
+          post('/invitations',
+               params: {
+                invitation: attributes_for(
+                  :invitation,
+                  recipient_email: 'test@email.com',
+                )
+               })
+        end
 
-      it "sends an invitation email" do
-        expect(ActionMailer::Base.deliveries).to_not be_empty
+        it 'does not create a new invitation in the database' do
+          expect(Invitation.count).to eq 1
+        end
+
+        it 'redirects to project show page' do
+          expect(response).to redirect_to project
+        end
+
+        it 'does not send an invitation email' do
+          expect(ActionMailer::Base.deliveries).to be_empty
+        end
       end
     end
 
