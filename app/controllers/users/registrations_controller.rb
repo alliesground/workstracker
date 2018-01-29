@@ -27,7 +27,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def invitation
-    @invitation ||= Invitation.find_by(token: params[:token])
+    unless params[:token].nil?
+      @invitation ||= Invitation.find_by(token: params[:token])
+    end
   end
 
   def scope(invitation)
