@@ -1,8 +1,11 @@
-%section.container
+%section.eleven.wide.column
   %h2= @project.title
+ 
+.five.wide.column
+  %section.ui.segment
+    .ui.small.horizontal.list
+      - @project.stakeholders.each do |stakeholder|
+        = render partial: 'stakeholder', object: stakeholder
 
-  %section.stakeholder
-    - @project.stakeholders.each do |stakeholder|
-      = render partial: 'stakeholder', object: stakeholder
+    = link_to "Invite people to join this project", new_invitation_path, class: 'ui primary button'
 
-  = link_to "Invite people to join this project", new_invitation_path, class: 'btn btn-primary'

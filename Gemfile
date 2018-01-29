@@ -23,6 +23,7 @@ gem 'simple_form'
 gem 'octokit', '~> 4.0'
 gem 'figaro'
 gem 'draper'
+gem 'gravtastic'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

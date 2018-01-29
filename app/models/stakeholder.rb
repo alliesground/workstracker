@@ -1,5 +1,5 @@
 class Stakeholder
-  delegate :email, :to => :user
+  delegate :email, :gravatar_url, :to => :user
   delegate :roles_scoped_to, :to => :user
 
   attr_reader :user
