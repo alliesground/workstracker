@@ -3,7 +3,9 @@
  
 .five.wide.column
   %section.ui.segment
-    .ui.small.horizontal.list
+    %h3.ui.header
+      Members
+    .ui.small.list
       - @project.stakeholders.each do |stakeholder|
         = render partial: 'stakeholder', object: stakeholder
 
