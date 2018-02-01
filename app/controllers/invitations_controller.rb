@@ -1,6 +1,7 @@
 class InvitationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_invitation, only: :create
+  before_action :check_pending_invitation, only: :create
+  before_action :check_invitation_to_owner, only: :create
 
   skip_before_action :delete_project_session, only: [:new, :create]
 
@@ -24,22 +25,25 @@ class InvitationsController < ApplicationController
 
   private
 
-  def check_invitation
-    if invitation.present?
-      @invitation = Invitation.new(
-        recipient_email: invitation_params[:recipient_email]
-      )
+  def check_invitation_to_owner
+    if current_project.user_email.eql?(invitation_params[:recipient_email])
+      flash[:alert] = "You cannot invite the owner of this project."
+      redirect_to current_project
+    end
+ end
 
-      flash[:warning] = "This user has already been invited to this project as a #{invitation_params[:recipient_role]}"
+  def check_pending_invitation
+    if pending_invitation.present?
+      flash[:alert] = "The invitation to this user for this project is pending."
       redirect_to current_project
     end
   end
 
-  def invitation
+  def pending_invitation
     Invitation.find_by(
       recipient_email: invitation_params[:recipient_email],
-      recipient_role: invitation_params[:recipient_role],
-      resource_id: current_project.id
+      resource_id: current_project.id,
+      status: 'pending'
     )
   end
 

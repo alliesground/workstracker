@@ -14,5 +14,5 @@ class Invitation < ApplicationRecord
 
   validates :recipient_email, length: { maximum: 255 },
                              format: { with: VALID_EMAIL_REGEXP },
-                             uniqueness: { case_sensitive: false }
+                             uniqueness: { scope: :resource_id, case_sensitive: false }
 end

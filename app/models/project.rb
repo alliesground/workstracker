@@ -7,6 +7,8 @@ class Project < ApplicationRecord
 
   belongs_to :user
 
+  delegate :email, :to => :user, prefix: true
+
   def self.title_for(id:)
     where(id: id).pluck(:title).first
   end
