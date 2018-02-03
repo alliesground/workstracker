@@ -26,11 +26,11 @@ class InvitationsController < ApplicationController
   private
 
   def check_invitation_to_owner
-    if current_project.user_email.eql?(invitation_params[:recipient_email])
+    if current_project.owner_email.eql?(invitation_params[:recipient_email])
       flash[:alert] = "You cannot invite the owner of this project."
       redirect_to current_project
     end
- end
+  end
 
   def check_pending_invitation
     if pending_invitation.present?

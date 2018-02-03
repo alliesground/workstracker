@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe 'InvitationsController', type: :request do
-  let(:user) { create(:user, email: 'test_user@example.com') }
-  let(:project) { create(:project, user: user) }
+  let(:owner) { create(:user, email: 'test_user@example.com') }
+  let(:project) { create(:project, user: owner) }
 
   before :each do 
-    sign_in user
+    sign_in owner
     get project_url(project) # to set the project session
   end
 
@@ -36,11 +36,34 @@ describe 'InvitationsController', type: :request do
         end
       end
 
-      #check resource_id, email, role
-      context 'when an invitation is already sent' do
+      context 'when invitation is sent to the owner of the project' do
+        before :each do
+          post('/invitations',
+               params: {
+                invitation: attributes_for(
+                  :invitation,
+                  recipient_email: owner.email,
+                )
+               })
+        end
+
+        it 'does not create a new invitation in the database' do
+          expect(Invitation.count).to eq 0
+        end
+
+        it 'redirects to project show page' do
+          expect(response).to redirect_to project
+        end
+
+        it 'does not send an invitation email' do
+          expect(ActionMailer::Base.deliveries).to be_empty
+        end
+      end
+
+      context 'when user invitation is pending for a resource' do
         before :each do
           create(:invitation,
-                 inviter: user,
+                 inviter: owner,
                  resource_id: project.id,
                  recipient_email:'test@email.com')
 

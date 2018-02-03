@@ -7,14 +7,16 @@ class Project < ApplicationRecord
 
   belongs_to :user
 
-  delegate :email, :to => :user, prefix: true
-
   def self.title_for(id:)
     where(id: id).pluck(:title).first
   end
 
   def stakeholders
     Stakeholder.all_scoped_to(resource: self)
+  end
+
+  def owner_email
+    user.email 
   end
 
   private
