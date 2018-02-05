@@ -1,5 +1,13 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :index
+
+  def index
+    @projects = Project.all
+    respond_to do |format|
+      format.json { render( status: 200,
+                            json: @projects) }
+    end
+  end
 
   def new
     @project = Project.new
