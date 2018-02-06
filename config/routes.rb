@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   get 'expired_token', to: 'static_pages#invalid_token'
 
   resources :projects, only: [:index, :show, :new, :create]
+  scope 'api' do
+    get '/projects' => 'projects#index'
+  end
 
   resources :project_forms, only: [:new, :create]
 
