@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180218062435) do
+ActiveRecord::Schema.define(version: 20180321225402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,12 +30,6 @@ ActiveRecord::Schema.define(version: 20180218062435) do
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["status"], name: "index_invitations_on_status"
     t.index ["token"], name: "index_invitations_on_token"
-  end
-
-  create_table "jwt_blacklist", force: :cascade do |t|
-    t.string "jti", null: false
-    t.datetime "exp", null: false
-    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -71,7 +65,9 @@ ActiveRecord::Schema.define(version: 20180218062435) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "jti", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

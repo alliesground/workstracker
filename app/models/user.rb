@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include Devise::JWT::RevocationStrategies::JTIMatcher
   include Gravtastic
   gravtastic
   rolify
@@ -7,8 +8,7 @@ class User < ApplicationRecord
   has_many :invitations, dependent: :destroy, foreign_key: :inviter_id
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: JWTBlacklist
+         :recoverable, :rememberable, :trackable, :validatable
 
   def has_any_role_scoped_to?(resource:)
     roles.merge(Role.scoped_to(resource_id: resource.id)).exists?
@@ -16,5 +16,9 @@ class User < ApplicationRecord
 
   def roles_scoped_to(resource:)
     roles.merge(Role.scoped_to(resource_id: resource.id))
+  end
+
+  def jwt_payload
+    super
   end
 end
