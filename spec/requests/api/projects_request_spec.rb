@@ -10,7 +10,7 @@ describe 'ProjectsController', type: :request do
       get '/api/projects', headers: auth_headers(user)
       projects_response = json_response
 
-      expect(projects_response[:projects].size).to eq 3
+      expect(projects_response[:data].size).to eq 3
     end
   end
 
