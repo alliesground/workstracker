@@ -41,6 +41,7 @@ RSpec.configure do |config|
 
   # controller spec macros
   config.include RequestSpecHelper, :type => :request
+  config.include RequestSpecHelper::HeadersHelpers, :type => :request
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :project do
     association :user
-    title "test project"
+    title Faker::Lorem.sentence
 
     after(:create) do |project|
       project.user.add_role('owner', project)
