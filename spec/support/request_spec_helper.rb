@@ -22,8 +22,7 @@ module RequestSpecHelper
 
   module HeadersHelpers
     def headers
-      { 'Accept' => 'application/json', 
-        'Content-Type' => 'application/json' }
+      { "ACCEPT" => "application/vnd.api+json" }
     end
 
     def auth_headers(user)
