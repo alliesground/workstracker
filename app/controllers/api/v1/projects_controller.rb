@@ -8,13 +8,14 @@ class Api::V1::ProjectsController < ApiController
     if @project.save
       render json: @project, status: :created
     else
-      render json: { errors: @project.errors }, status: 422
+      render_error resource:@project, status: 422
     end
   end
 
   private
 
   def project_params
-    params.require(:project).permit(:title, :description)
+    ActiveModelSerializers::Deserialization
+      .jsonapi_parse(params, only: [:title, :description])
   end
 end

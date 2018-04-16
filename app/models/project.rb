@@ -3,7 +3,7 @@ class Project < ApplicationRecord
 
   after_create :assign_owner
 
-  validates_presence_of :title
+  validates_presence_of :title, :description
 
   belongs_to :user
 
