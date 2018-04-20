@@ -24,7 +24,12 @@ describe 'Api::V1::ProjectsController', type: :request do
     context 'with valid request' do
       before :each do
         post('/api/projects',
-             params: { project: {title: 'new project'} },
+             params: {
+              data: {
+                type: 'projects',
+                attributes: { title: 'new project' }
+              }
+             },
              headers: auth_headers(user))
       end
 
@@ -45,23 +50,38 @@ describe 'Api::V1::ProjectsController', type: :request do
     end
 
     context 'with invalid request' do
-      before :each do
-        post('/api/projects',
-             params: { project: attributes_for(:invalid_project) },
-             headers: auth_headers(user))
+      context 'when content-type is not in json-api format' do
+        it 'responds with status 422' do
+          post('/api/projects',
+               params: { project: attributes_for(:project) },
+               headers: auth_headers(user))
+
+          expect(response).to have_http_status 422
+        end
       end
 
-      it 'does not create a project in the database' do
-        expect(Project.count).to eq 0
-      end
+      context 'when data is invalid' do
+        before :each do
+          post('/api/projects',
+               params: {
+                type: 'projects',
+                attributes: attributes_for(:invalid_project)
+               },
+               headers: auth_headers(user))
+        end
 
-      it 'renders an errors json explaining the issue' do
-        expect(json_response).to have_key :errors
-        expect(json_response[:errors][:title]).to include "can't be blank"
-      end
+        it 'does not create a project in the database' do
+          expect(Project.count).to eq 0
+        end
 
-      it 'responds with status 422' do
-        expect(response).to have_http_status 422
+        it 'renders an errors json explaining the issue' do
+          expect(json_response).to have_key :errors
+          expect(json_response[:errors].first[:detail]).to include "can't be blank"
+        end
+
+        it 'responds with status 422' do
+          expect(response).to have_http_status 422
+        end
       end
     end
   end
