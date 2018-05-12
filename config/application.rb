@@ -50,7 +50,7 @@ module Workstracker
         resource '*',
           headers: %w(Authorization),
           methods: :any,
-          expose: %w(Authorization),
+          expose: %w(Authorization, access-token, expiry, token-type, uid, client),
           max_age: 600
       end
     end
