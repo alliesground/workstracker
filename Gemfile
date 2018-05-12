@@ -29,6 +29,7 @@ gem 'gravtastic'
 gem 'devise-jwt', '~> 0.5.5'
 gem 'jwt'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'devise_token_auth'
 
 
 group :development, :test do
