@@ -48,7 +48,8 @@ module Workstracker
       allow do
         origins 'http://localhost:3000'
         resource '*',
-          headers: %w(Authorization),
+          #headers: %w(Authorization),
+          headers: :any,
           methods: :any,
           expose: %w(Authorization, access-token, expiry, token-type, uid, client),
           max_age: 600
