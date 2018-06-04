@@ -1,5 +1,3 @@
-require 'devise/jwt/test_helpers'
-
 module RequestSpecHelper
   include Warden::Test::Helpers
 
@@ -14,21 +12,7 @@ module RequestSpecHelper
 
   def sign_out(resource)
     logout(warden_scope(resource))
-  end
-
-  def json_response
-    @json_response ||= JSON.parse(response.body, symbolize_names: true)
-  end
-
-  module HeadersHelpers
-    def headers
-      { "ACCEPT" => "application/vnd.api+json" }
-    end
-
-    def auth_headers(user)
-      Devise::JWT::TestHelpers.auth_headers(headers, user)
-    end
-  end
+  end 
 
   private
 

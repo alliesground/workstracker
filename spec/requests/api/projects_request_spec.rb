@@ -1,12 +1,15 @@
 require 'rails_helper'
+require 'api_helper'
+
 
 describe 'Api::V1::ProjectsController', type: :request do
-  let(:user) { create(:user, email: 'test_user@example.com') }
+  let(:user) { create(:user, email: 'test_user@example.com', password: 'password', confirmed_at: DateTime.now) }
 
   describe 'GET /api/projects' do
     before :each do
       3.times { create(:project, user: user) }
-      get '/api/projects', headers: auth_headers(user)
+      sign_in user
+      get '/api/projects', headers: auth_headers
     end
 
     it 'renders json representation for users projects' do

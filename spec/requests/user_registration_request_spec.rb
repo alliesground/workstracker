@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'helper'
 
 describe 'Users::RegistrationsController', type: :request do
   describe 'POST /users' do

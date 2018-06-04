@@ -7,10 +7,6 @@ class Project < ApplicationRecord
 
   belongs_to :user
 
-  def self.title_for(id:)
-    where(id: id).pluck(:title).first
-  end
-
   def stakeholders
     Stakeholder.all_scoped_to(resource: self)
   end

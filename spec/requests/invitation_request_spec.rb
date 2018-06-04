@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'helper'
 
 describe 'InvitationsController', type: :request do
   let(:owner) { create(:user, email: 'test_user@example.com') }

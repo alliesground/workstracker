@@ -8,7 +8,6 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'support/factory_girl'
-require 'support/request_spec_helper'
 require 'shoulda/matchers'
 require 'support/vcr_setup'
 require 'support/utilities'
@@ -38,10 +37,6 @@ RSpec.configure do |config|
   # making shoulda matchers methods available
   config.include(Shoulda::Matchers::ActiveModel, type: :model)
   config.include(Shoulda::Matchers::ActiveRecord, type: :model)
-
-  # controller spec macros
-  config.include RequestSpecHelper, :type => :request
-  config.include RequestSpecHelper::HeadersHelpers, :type => :request
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

@@ -1,11 +1,11 @@
 class User < ApplicationRecord
+  include DeviseTokenAuth::Concerns::User
+  include Gravtastic
+
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
-  include DeviseTokenAuth::Concerns::User
-  include Devise::JWT::RevocationStrategies::JTIMatcher
-  include Gravtastic
+          :confirmable
+
   gravtastic
   rolify
 
@@ -18,9 +18,5 @@ class User < ApplicationRecord
 
   def roles_scoped_to(resource:)
     roles.merge(Role.scoped_to(resource_id: resource.id))
-  end
-
-  def jwt_payload
-    super
   end
 end

@@ -12,6 +12,7 @@ class Role < ApplicationRecord
   scopify
 
   def self.scoped_to(resource_id:)
-    where("resource_id = ? AND name IS NOT NULL", resource_id)
+    where(arel_table[:resource_id].eq(resource_id).
+          and(arel_table[:name].not_eq(nil)))
   end
 end

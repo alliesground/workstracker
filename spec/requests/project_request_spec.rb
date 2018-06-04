@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'helper'
 
 describe 'ProjectsController', type: :request do
   let(:user) { create(:user, email: 'test_user@example.com') }
