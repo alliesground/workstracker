@@ -1,6 +1,7 @@
 require 'rails_helper'
 require 'helper'
 
+=begin
 describe 'InvitationsController', type: :request do
   let(:owner) { create(:user, email: 'test_user@example.com') }
   let(:project) { create(:project, user: owner) }
@@ -103,3 +104,4 @@ describe 'InvitationsController', type: :request do
     end
   end
 end
+=end

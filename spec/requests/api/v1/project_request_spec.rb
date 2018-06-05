@@ -1,14 +1,15 @@
 require 'rails_helper'
 require 'api_helper'
 
-
 describe 'Api::V1::ProjectsController', type: :request do
   let(:user) { create(:user, email: 'test_user@example.com', password: 'password', confirmed_at: DateTime.now) }
+  before :each do
+    sign_in user
+  end
 
   describe 'GET /api/projects' do
     before :each do
       3.times { create(:project, user: user) }
-      sign_in user
       get '/api/projects', headers: auth_headers
     end
 
@@ -33,7 +34,7 @@ describe 'Api::V1::ProjectsController', type: :request do
                 attributes: { title: 'new project' }
               }
              },
-             headers: auth_headers(user))
+             headers: auth_headers)
       end
 
       it 'creates a new project in the database' do
@@ -57,7 +58,7 @@ describe 'Api::V1::ProjectsController', type: :request do
         it 'responds with status 422' do
           post('/api/projects',
                params: { project: attributes_for(:project) },
-               headers: auth_headers(user))
+               headers: auth_headers)
 
           expect(response).to have_http_status 422
         end
@@ -70,7 +71,7 @@ describe 'Api::V1::ProjectsController', type: :request do
                 type: 'projects',
                 attributes: attributes_for(:invalid_project)
                },
-               headers: auth_headers(user))
+               headers: auth_headers)
         end
 
         it 'does not create a project in the database' do

@@ -4,13 +4,19 @@ module ApiRequestSpecHelper
   end
 
   def auth_headers
-    binding.pry
+    {
+      'access-token' => response.headers['access-token'],
+      'client' => response.headers['client'],
+      'uid' => response.headers['uid'],
+      'expiry' => response.headers['expiry'],
+      'token_type' => response.headers['token_type']
+    }
   end
 
   def sign_in(user)
     post(
       '/api/auth/sign_in', 
-      params: { 
+      params: {
         email: user.email, 
         password: user.password 
       }.to_json,

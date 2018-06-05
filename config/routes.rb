@@ -7,10 +7,12 @@ Rails.application.routes.draw do
     end
   end 
 
+=begin
   devise_for :users, :controllers => {
     :sessions => "users/sessions",
     :registrations => "users/registrations"
   }
+=end
 
   devise_scope :user do
     get '/users/sign_up_with_token/:token', to: 'users/registrations#new_with_invitation_token', as: :new_user_registration_with_token

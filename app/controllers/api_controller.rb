@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
   before_action :set_default_format
-  before_action :authenticate_user!
+  before_action :authenticate_api_user!
 
   private
 
