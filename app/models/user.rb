@@ -9,7 +9,7 @@ class User < ApplicationRecord
   gravtastic
   rolify
 
-  has_many :projects
+  has_many :projects, dependent: :destroy
   has_many :invitations, dependent: :destroy, foreign_key: :inviter_id
 
   def has_any_role_scoped_to?(resource:)
