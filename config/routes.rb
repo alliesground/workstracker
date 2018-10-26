@@ -17,7 +17,6 @@ Rails.application.routes.draw do
 #  end
 
   get 'ui(/:action)', controller: 'ui'
-  root to: "home#index"
 
   namespace :users do
     resources :profiles, only: :show
