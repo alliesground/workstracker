@@ -46,7 +46,7 @@ module Workstracker
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://localhost:3000', 'http://workstracker.s3-website-ap-southeast-2.amazonaws.com'
+        origins 'localhost:3000', 'workstracker.s3-website-ap-southeast-2.amazonaws.com'
         resource '*',
           #headers: %w(Authorization),
           headers: :any,
