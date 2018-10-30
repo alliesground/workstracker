@@ -51,7 +51,7 @@ module Workstracker
           #headers: %w(Authorization),
           headers: :any,
           methods: :any,
-          expose: ['Authorization', 'access-token', 'expiry', 'token-type', 'uid', 'client']
+          expose: ['Authorization', 'access-token', 'expiry', 'token-type', 'uid', 'client'],
           max_age: 600
       end
     end
