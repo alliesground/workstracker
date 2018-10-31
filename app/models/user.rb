@@ -3,8 +3,7 @@ class User < ApplicationRecord
   include Gravtastic
 
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable
+          :recoverable, :rememberable, :trackable, :validatable
 
   gravtastic
   rolify
