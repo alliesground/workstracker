@@ -9,7 +9,7 @@
 user = User.where(email: ENV['TEST_USER_EMAIL'])
 unless user.exists?
   puts "Creating test User"
-  User.create!(email: ENV['TEST_USER_EMAIL'], password: ENV['TEST_USER_PASSWORD'], confirmed_at: Time.now)
+  User.create!(email: ENV['TEST_USER_EMAIL'], password: ENV['TEST_USER_PASSWORD'])
 else
   puts "dummy user exists"
 end
