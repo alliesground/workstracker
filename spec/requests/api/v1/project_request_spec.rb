@@ -8,15 +8,20 @@ describe 'Api::V1::ProjectsController', type: :request do
   end
 
   describe 'GET /api/projects' do
+    let(:project1) { create(:project) }
+    let(:project2) { create(:project) }
+
     before :each do
-      3.times { create(:project, user: user) }
+      create(:membership, user: user, project: project1)
+      create(:membership, user: user, project: project2)
+
       get '/api/projects', headers: auth_headers
     end
 
     it 'renders json representation for users projects' do
       projects_response = json_response
 
-      expect(projects_response[:data].size).to eq 3
+      expect(projects_response[:data].size).to eq 2
     end
     
     it 'responds with success status' do
