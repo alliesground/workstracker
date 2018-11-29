@@ -7,7 +7,6 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   gravtastic
-  rolify
 
   has_many :memberships
   has_many :projects, through: :memberships, dependent: :destroy
