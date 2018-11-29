@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181101120902) do
+ActiveRecord::Schema.define(version: 20181128130525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,13 +32,22 @@ ActiveRecord::Schema.define(version: 20181101120902) do
     t.index ["token"], name: "index_invitations_on_token"
   end
 
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "project_id"
+    t.integer "type", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_memberships_on_project_id"
+    t.index ["user_id", "project_id"], name: "index_memberships_on_user_id_and_project_id", unique: true
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "description"
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -86,5 +95,6 @@ ActiveRecord::Schema.define(version: 20181101120902) do
   end
 
   add_foreign_key "invitations", "users", column: "inviter_id"
-  add_foreign_key "projects", "users"
+  add_foreign_key "memberships", "projects"
+  add_foreign_key "memberships", "users"
 end

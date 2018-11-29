@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'api_helper'
 
 describe 'Api::V1::ProjectsController', type: :request do
-  let(:user) { create(:user, email: 'test_user@example.com', password: 'password', confirmed_at: DateTime.now) }
+  let(:user) { create(:user, email: 'test_user@example.com', password: 'password') }
   before :each do
     sign_in user
   end

@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe User do
+  it { should have_many(:memberships) }
+  it { should have_many(:projects).through(:memberships) }
+
   let(:user) { create(:user) }
 
   describe '#has_any_role_scoped_to?' do
