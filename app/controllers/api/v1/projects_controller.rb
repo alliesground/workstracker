@@ -4,8 +4,9 @@ class Api::V1::ProjectsController < ApiController
   end
 
   def create
-    @project = current_api_user.projects.build(project_params)
-    if @project.save
+    @project = current_api_user.projects.create(project_params)
+
+    if @project.persisted?
       render json: @project, status: :created
     else
       render_error resource: @project, status: 422

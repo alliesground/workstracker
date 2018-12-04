@@ -45,6 +45,20 @@ describe 'Api::V1::ProjectsController', type: :request do
       it 'creates a new project in the database' do
         expect(Project.count).to eq 1
       end
+      
+      it 'makes the current user a member of the newly created project' do
+        expect(Membership.count).to eq 1
+        expect(Membership.last.user).to eq user
+        expect(Membership.last.project).to eq Project.last
+      end
+
+      it 'assigns an admin membership role to the current_user for the newly created project' do
+        membership_role = MembershipRole.last
+
+        expect(MembershipRole.count).to eq 1
+        expect(membership_role.membership).to eq Membership.last
+        expect(membership_role.name).to eq 'admin'
+      end
 
       it 'renders the json representation for the project just created' do
         project_response =  json_response

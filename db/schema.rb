@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181129113327) do
+ActiveRecord::Schema.define(version: 20181204123745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,10 +32,17 @@ ActiveRecord::Schema.define(version: 20181129113327) do
     t.index ["token"], name: "index_invitations_on_token"
   end
 
+  create_table "membership_roles", force: :cascade do |t|
+    t.integer "name", default: 0, null: false
+    t.bigint "membership_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["membership_id"], name: "index_membership_roles_on_membership_id"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "project_id"
-    t.integer "name", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_memberships_on_project_id"
@@ -76,6 +83,7 @@ ActiveRecord::Schema.define(version: 20181129113327) do
   end
 
   add_foreign_key "invitations", "users", column: "inviter_id"
+  add_foreign_key "membership_roles", "memberships"
   add_foreign_key "memberships", "projects"
   add_foreign_key "memberships", "users"
 end
