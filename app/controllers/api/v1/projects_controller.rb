@@ -1,6 +1,6 @@
 class Api::V1::ProjectsController < ApiController
   def index
-    render json: current_api_user.projects, include: 'users', fields: { users: ['id', 'email'] }
+     render json: current_api_user.projects, include: 'members'
   end
 
   def create
