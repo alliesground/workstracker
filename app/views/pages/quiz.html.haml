@@ -1,0 +1,28 @@
+%section.container
+  .row.justify-content-center
+    .col-4
+      = form_tag quiz_path, {id: 'quiz-form', name: 'quiz'} do
+        %header
+          %h2.text-center Simple Javascript Quiz
+
+        #question-container
+          .field
+            %h3 Question1
+
+          .field
+            .ui.radio.checkbox
+              = radio_button_tag :option, 'male'
+              = label_tag(:option_male, "Option one")
+
+        .field
+          .ui.buttons
+            %button{:class =>'ui labeled icon button', :id => 'left'}
+              %i.left.chevron.icon
+              Back
+
+            %button{:class => 'ui right labeled icon button', :id => 'right'}
+              %i.right.chevron.icon
+              Next
+
+        .field
+          = submit_tag 'Submit', class: 'btn btn-light'
