@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users, :controllers => {
+    :sessions => "users/sessions",
+    :registrations => "users/registrations"
+  }
+
   namespace :api do
     mount_devise_token_auth_for 'User', at: 'auth'
     scope module: :v1 do
@@ -7,13 +12,8 @@ Rails.application.routes.draw do
       end
       resources :profiles, only: [:index]
     end
-  end 
+  end
 
-#  devise_for :users, :controllers => {
-#    :sessions => "users/sessions",
-#    :registrations => "users/registrations"
-#  }
-#
 #  devise_scope :user do
 #    get '/users/sign_up_with_token/:token', to: 'users/registrations#new_with_invitation_token', as: :new_user_registration_with_token
 #  end
