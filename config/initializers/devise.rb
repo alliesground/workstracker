@@ -6,7 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '98ff50e82a6290a6b4e2639ea735264c58439041025b51437bb179bf9dd653c44ac9568108c8bbfaa4bb1f340e8e69cb9835055f3d1cadfeb6ba3be04e26cd02'
+  # config.secret_key = '5e804bf6f4362db9df464ca2823e5963d792208c99d373b9dee7b317026927ce0af43813f98189be964782d1d87f8b9606da81b7ca7ab402fe367deff3ac26f1'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -82,7 +82,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth, :params_auth]
+  config.skip_session_storage = [:http_auth]
 
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
@@ -108,7 +108,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '6b9c5ed6a6f4ffc1af8757d5613da7d10c5af5c7b4c023e154c0907244b3d134275abbf2d6fdfb3b38b1726f5a55eb1e2520683ee4aef9b3ad86c07d9301f328'
+  # config.pepper = '6a4aa5f11d7661a3c900e975ee924fd0afe783462fcffe1f4b7df2ed11b2eefcdfbe6c634583120d05bdfdd5d12f7e651427bf6cb3d2d7faea1a80788aa67d87'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -250,7 +250,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  #config.omniauth :github, ENV['GITHUB_OAUTH_CLIENT_ID'], ENV['GITHUB_OAUTH_CLIENT_SECRET'], scope: 'user,public_repo'
+  # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

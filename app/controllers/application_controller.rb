@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
-  include SessionsHelper
+  #include SessionsHelper
 
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  #before_action :configure_permitted_parameters, if: :devise_controller?
   protect_from_forgery prepend: true
 
-  before_action :delete_project_session, if: :project_session_active?
+  #before_action :delete_project_session, if: :project_session_active?
 
   protected 
 

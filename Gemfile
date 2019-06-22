@@ -27,7 +27,6 @@ gem 'draper'
 gem 'gravtastic'
 gem 'jwt'
 gem 'rack-cors', :require => 'rack/cors'
-gem 'devise_token_auth'
 
 
 group :development, :test do

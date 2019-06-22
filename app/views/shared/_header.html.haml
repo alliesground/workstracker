@@ -1,0 +1,19 @@
+.row
+  .column
+    .ui.secondary.pointing.menu
+      .item
+        %h3 WorksTracker
+      .right.menu
+        .ui.item
+          = link_to "Home", root_path
+        - if user_signed_in?
+          .ui.item
+            = link_to "Logout", destroy_user_session_path, method: :delete
+          .ui.item
+            = link_to "My profile", users_profile_path(current_user)
+        - else
+          .ui.item
+            = link_to "Sign in", new_user_session_path
+
+
+
