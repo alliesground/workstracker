@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190102041724) do
+ActiveRecord::Schema.define(version: 20190623061101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,14 +32,29 @@ ActiveRecord::Schema.define(version: 20190102041724) do
     t.index ["token"], name: "index_invitations_on_token"
   end
 
+  create_table "invites", force: :cascade do |t|
+    t.string "email"
+    t.bigint "recipient_id"
+    t.bigint "sender_id"
+    t.string "invitable_type"
+    t.bigint "invitable_id"
+    t.string "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invitable_type", "invitable_id"], name: "index_invites_on_invitable_type_and_invitable_id"
+    t.index ["recipient_id"], name: "index_invites_on_recipient_id"
+    t.index ["sender_id"], name: "index_invites_on_sender_id"
+    t.index ["token"], name: "index_invites_on_token"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role", default: 0
-    t.index ["project_id"], name: "index_memberships_on_project_id"
-    t.index ["user_id", "project_id"], name: "index_memberships_on_user_id_and_project_id", unique: true
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_memberships_on_resource_type_and_resource_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
@@ -48,6 +63,10 @@ ActiveRecord::Schema.define(version: 20190102041724) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "description"
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.string "title"
   end
 
   create_table "users", force: :cascade do |t|
@@ -76,6 +95,7 @@ ActiveRecord::Schema.define(version: 20190102041724) do
   end
 
   add_foreign_key "invitations", "users", column: "inviter_id"
-  add_foreign_key "memberships", "projects"
+  add_foreign_key "invites", "users", column: "recipient_id"
+  add_foreign_key "invites", "users", column: "sender_id"
   add_foreign_key "memberships", "users"
 end
