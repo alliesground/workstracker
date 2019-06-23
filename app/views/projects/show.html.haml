@@ -6,8 +6,11 @@
     %h3.ui.header
       Members
     .ui.small.list
-      - @project.stakeholders.each do |stakeholder|
-        = render partial: 'stakeholder', object: stakeholder
+      - @project.members.each do |member|
+        %li
+          = member.email 
+          - if member == @project.owner
+            %span (Owner)
 
     = link_to "Invite people to join this project", new_invitation_path, class: 'ui primary button'
 

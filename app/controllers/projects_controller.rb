@@ -12,22 +12,21 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find_by(id: params[:id])
 
-    if @project
-      if current_user.has_any_role_scoped_to?(resource: @project)
-        set_project_session(id: @project.id)
-        @project
-      else
-        redirect_to root_url, notice: "You are not authorized to access this page"
-      end
-    else
-      redirect_to root_url, notice: "This project does not exist"
+    unless @project.present?
+      redirect_to root_url, notice: "This project does not exist" and return
     end
+
+    unless @project.members.include? current_user
+      redirect_to root_url, notice: "You are not authorized to access this page" and return
+    end
+
+    @project
   end
 
   def create
-    @project = current_user.projects.build(project_params)
-    
-    if @project.save
+    @project = current_user.projects.create(project_params)
+
+    if @project.persisted?
       flash[:success] = "New project created successfully"
       redirect_to project_path @project
     else

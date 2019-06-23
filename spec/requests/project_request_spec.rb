@@ -20,8 +20,13 @@ describe 'ProjectsController', type: :request do
         expect(Project.count).to eq 1
       end
 
-      it 'assigns current user ownership to the created project' do
+      it 'assigns current user `ownership` to the created project' do
         expect(Project.last.owner_id).to eq user.id
+      end
+
+      it 'assigns current user `membership` to the created project' do
+        expect(Membership.last.user_id).to eq user.id
+        expect(Membership.last.resource_id).to eq Project.last.id
       end
 
 #      it 'assigns the role of owner to the current_user, scoped to a project' do
