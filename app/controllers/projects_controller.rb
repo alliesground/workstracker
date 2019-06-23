@@ -2,11 +2,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @projects = Project.all
-    respond_to do |format|
-      format.json { render( status: 200,
-                            json: @projects) }
-    end
+    @projects = current_user.projects
   end
 
   def new
