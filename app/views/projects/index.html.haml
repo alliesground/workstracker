@@ -1,5 +1,14 @@
-%section.container
-  .row
-    .col-sm-6
+%section.row
+  .column
+    .ui.four.cards
+      =link_to new_project_path, class: "card" do
+        .content
+          .center.aligned
+            %i.plus.circle.icon
+            Create New Project
+
       - @projects.each do |project|
-        %h2= project.title
+        =link_to project_path(project), class: "card" do
+          .content
+            .header= project.title
+            .description= project.description
