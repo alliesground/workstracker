@@ -1,3 +1,14 @@
+:javascript
+  $(document).ready(function() {
+    var $inviteForm = $('#invite_form');
+    $inviteForm.hide();
+
+    $('#invite_button').on('click', function(e) {
+      e.preventDefault();
+      $inviteForm.toggle();
+    });
+  });
+
 %section.eleven.wide.column
   %h2= @project.title
  
@@ -12,5 +23,12 @@
           - if member == @project.owner
             %span (Owner)
 
-    = link_to "Invite people to join this project", new_invitation_path, class: 'ui primary button'
+    -#
+      = link_to "Invite people to join this project", new_invitation_path, class: 'ui primary button'
+    = link_to "Invite people to join this project", '', class: 'ui primary button', id: 'invite_button'
+    .ui.card#invite_form
+      .content
+        = simple_form_for :invite do |f|
+          = f.input :email, as: :string, placeholder: 'email', label: false
+      .ui.bottom.attached.button invite
 
