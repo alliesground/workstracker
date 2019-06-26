@@ -6,4 +6,6 @@ class Project < ApplicationRecord
   has_many :memberships, as: :resource, dependent: :destroy
   has_many :members, through: :memberships, :source => :user
 
+  has_many :invites, as: :invitable, dependent: :destroy
+
 end

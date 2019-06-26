@@ -10,17 +10,20 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find_by(id: params[:id])
+    project = Project.find_by(id: params[:id])
 
-    unless @project.present?
+    unless project.present?
       redirect_to root_url, notice: "This project does not exist" and return
     end
 
-    unless @project.members.include? current_user
+    unless project.members.include? current_user
       redirect_to root_url, notice: "You are not authorized to access this page" and return
     end
 
-    @project
+    render locals: { 
+      project: project, 
+      invite: project.invites.new 
+    }
   end
 
   def create

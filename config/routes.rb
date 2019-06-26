@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   post 'roles' => 'roles#create'
 
   resources :invitations, only: [:new, :create]
+  resources :invites, only: [:create]
 
   get 'pages/*page' => 'pages#show'
   post 'quiz' => 'pages#create'

@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
   has_many :invitations, dependent: :destroy, foreign_key: :inviter_id
 
+  has_many :invites, dependent: :destroy, foreign_key: :sender_id
+
   private
 
   def add_owner(project)

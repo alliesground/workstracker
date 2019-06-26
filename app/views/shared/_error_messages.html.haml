@@ -1,7 +1,10 @@
-- if object.errors[:base].any?
-  #error_explanation
-    .alert.alert-error
-      = "The form contains #{pluralize(object.errors.count, 'error')}"
-    %ul
-      - object.errors.full_messages.each do |msg|
-        %li= msg
+- if object.errors.any?
+  - content_for :shared_error_messages do
+    .row
+      .column
+        .ui.error.message
+          %i.close.icon
+          .header= "The form contains #{pluralize(object.errors.count, 'error')}"
+          %ul.list
+            - object.errors.full_messages.each do |msg|
+              %li= msg

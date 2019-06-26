@@ -1,0 +1,18 @@
+:javascript
+  $(document).ready(function() {
+    var $inviteForm = $('#invite_form');
+    $inviteForm.hide();
+
+    $('#invite_button').on('click', function(e) {
+      e.preventDefault();
+      $inviteForm.toggle();
+    });
+  });
+
+= render 'shared/error_messages', { object: f.object }
+= f.hidden_field :invitable_type
+= f.hidden_field :invitable_id
+.content
+  = f.input :email, placeholder: 'email', label: false
+%button{type:"submit", class: "fluid ui bottom attached button"}
+  Invite
