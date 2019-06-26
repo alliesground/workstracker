@@ -3,7 +3,7 @@ class InvitationsController < ApplicationController
   before_action :check_pending_invitation, only: :create
   before_action :check_invitation_to_owner, only: :create
 
-  skip_before_action :delete_project_session, only: [:new, :create]
+  #skip_before_action :delete_project_session, only: [:new, :create]
 
   def new
     @invitation = Invitation.new
