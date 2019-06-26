@@ -5,6 +5,7 @@ class InvitesController < ApplicationController
     build_invite
 
     if @invite.save
+      @invite.deliver
       flash[:success] = "Invitation sent"
       redirect_to project_path @invite.invitable
     else
