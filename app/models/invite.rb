@@ -5,6 +5,6 @@ class Invite < ApplicationRecord
   validates_presence_of :email
 
   def deliver
-    InviteMailer.notification(self).deliver
+    InviteMailWorker.perform_async(self.id)
   end
 end
