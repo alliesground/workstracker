@@ -27,6 +27,7 @@ gem 'draper'
 gem 'gravtastic'
 gem 'jwt'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'sidekiq'
 
 
 group :development, :test do
