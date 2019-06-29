@@ -1,4 +1,6 @@
 class Invite < ApplicationRecord
+  include Tokenable
+
   belongs_to :invitable, polymorphic: true
   belongs_to :sender, class_name: 'User'
 
