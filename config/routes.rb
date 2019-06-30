@@ -10,9 +10,9 @@ Rails.application.routes.draw do
     :registrations => "users/registrations"
   }
 
-#  devise_scope :user do
-#    get '/users/sign_up_with_token/:token', to: 'users/registrations#new_with_invitation_token', as: :new_user_registration_with_token
-#  end
+  devise_scope :user do
+    get '/users/sign_up_with_token/:token', to: 'users/registrations#new_with_invite_token', as: :new_user_registration_with_token
+  end
 
   get 'ui(/:action)', controller: 'ui'
 

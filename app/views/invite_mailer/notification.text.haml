@@ -1,4 +1,4 @@
 Hi #{@invite.email}
 You have been invited to join #{@invite.invitable_type} #{@invite.invitable.title}
--#
-  = link_to 'Join', new_user_registration_with_token_url(@invite.token)
+
+= link_to 'Join', new_user_registration_with_token_url(@invite.token)

@@ -1,13 +1,12 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   #respond_to :json
 
-  after_action :handle_invitation, only: [:create], if: :invitation
+  def new_with_invite_token
+    if invite.present?
+      session[:invite_id] = invite.id
+      store_redirect_location_to_invitable
 
-  def new_with_invitation_token
-    if invitation
-      session[:return_to_after_invitation_acceptance] = url_for(scope(invitation))
-
-      @user = User.new(email: invitation.recipient_email)
+      @user = User.new(email: invite.email)
       render :new
     else
       flash[:alert] = 'token expired'
@@ -21,20 +20,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
 
-  def handle_invitation
-    if invitation
-      current_user.add_role(invitation.recipient_role, scope(invitation))
-      invitation.update_columns(token: nil, recipient_id: current_user.id)
-    end
+  def store_redirect_location_to_invitable
+    store_location_for(:user, url_for(invite.invitable))
   end
 
-  def invitation
+  def invite
     unless params[:token].nil?
-      @invitation ||= Invitation.find_by(token: params[:token])
+      @invite ||= Invite.find_by(token: params[:token])
     end
-  end
-
-  def scope(invitation)
-    Project.find_by(id: invitation.resource_id)
   end
 end
