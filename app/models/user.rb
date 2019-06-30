@@ -13,6 +13,11 @@ class User < ApplicationRecord
 
   has_many :invites, dependent: :destroy, foreign_key: :sender_id
 
+  def accept_invite(invite_id)
+    invite = Invite.find_by_id(invite_id)
+    invite.resolve_for(self) if invite.present?
+  end
+
   private
 
   def add_owner(project)

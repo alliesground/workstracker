@@ -1,11 +1,10 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   #respond_to :json
 
-  after_action :update_invite, only: [:create], if: :invite
-
   def new_with_invite_token
-    if invite
-      session[:return_to_after_invite_acceptance] = url_for(invite.invitable)
+    if invite.present?
+      session[:invite_id] = invite.id
+      store_redirect_location_to_invitable
 
       @user = User.new(email: invite.email)
       render :new
@@ -21,8 +20,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
 
-  def update_invite
-    invite.update_columns(token: nil, recipient_id: current_user.id)
+  def store_redirect_location_to_invitable
+    store_location_for(:user, url_for(invite.invitable))
   end
 
   def invite
