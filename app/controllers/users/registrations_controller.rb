@@ -6,6 +6,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       session[:invite_id] = invite.id
       store_redirect_location_to_invitable
 
+      redirect_to new_user_session_path(email: invite.email) and return if registered_invitee?
+
       @user = User.new(email: invite.email)
       render :new
     else
@@ -19,6 +21,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   private
+
+  def registered_invitee?
+    user = User.find_by(email: invite.email)
+    user.present?
+  end
 
   def store_redirect_location_to_invitable
     store_location_for(:user, url_for(invite.invitable))
