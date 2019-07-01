@@ -5,6 +5,7 @@ class Invite < ApplicationRecord
   belongs_to :sender, class_name: 'User'
 
   validates_presence_of :email
+  validates :email, uniqueness: { scope: :invitable }
 
   def deliver
     InviteMailWorker.perform_async(self.id)
