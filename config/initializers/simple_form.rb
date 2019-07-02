@@ -58,7 +58,7 @@ SimpleForm.setup do |config|
     b.optional :min_max
     b.use :label_input
     b.use :hint,  wrap_with: { tag: 'div', class: 'hint' }
-    b.use :error, wrap_with: { tag: 'div', class: 'ui red pointing above label error' }
+    b.use :error, wrap_with: { tag: 'div', class: 'ui basic red pointing prompt label transition visible' }
   end
 
   config.wrappers :ui_checkbox, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|

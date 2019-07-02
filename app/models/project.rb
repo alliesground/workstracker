@@ -1,4 +1,6 @@
 class Project < ApplicationRecord
+  include Invitable
+
   validates_presence_of :title
 
   belongs_to :owner, class_name: 'User'

@@ -1,7 +1,13 @@
 :javascript
   $(document).ready(function() {
-    var $inviteForm = $('#invite_form');
+    var $inviteForm = $('#new_invite');
+    var $fieldsWithError = $inviteForm.find('.field.error');
+
     $inviteForm.hide();
+
+    if($fieldsWithError.length > 0) {
+      $inviteForm.show();
+    }
 
     $('#invite_button').on('click', function(e) {
       e.preventDefault();

@@ -14,6 +14,6 @@
             %span (Owner)
 
     = link_to "Invite people to join this project", '', class: 'ui primary button', id: 'invite_button'
-    .ui.card#invite_form
-      = simple_form_for invite, class: 'ui form' do |f|
+    = simple_form_for invite, class: 'ui form' do |f|
+      .ui.card
         = render "#{invite.to_partial_path}_form", f: f
