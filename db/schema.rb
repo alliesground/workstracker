@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190701031229) do
+ActiveRecord::Schema.define(version: 20190710064147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(version: 20190701031229) do
     t.index ["token"], name: "index_invites_on_token"
   end
 
+  create_table "lists", force: :cascade do |t|
+    t.string "title"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_lists_on_project_id"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -69,6 +77,16 @@ ActiveRecord::Schema.define(version: 20190701031229) do
 
   create_table "surveys", force: :cascade do |t|
     t.string "title"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "list_id"
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "member_ids", default: [], array: true
+    t.index ["list_id"], name: "index_tasks_on_list_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,5 +116,7 @@ ActiveRecord::Schema.define(version: 20190701031229) do
   add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "invites", "users", column: "recipient_id"
   add_foreign_key "invites", "users", column: "sender_id"
+  add_foreign_key "lists", "projects"
   add_foreign_key "memberships", "users"
+  add_foreign_key "tasks", "lists"
 end
