@@ -1,8 +1,30 @@
+:javascript
+  $(function() {
+    $('#btn_add_list').on('click', function() {
+      $('.modal').modal('show');
+    });
+  });
 
 %section.eleven.wide.column
   %h2= project.title
+  .ui.button#btn_add_list
+    Add list
+
+  .ui.mini.modal
+    .header
+      Add List
+    .content
+      = simple_form_for [project, list ||= project.lists.new], class: 'ui form' do |f|
+        .field
+          = f.input :title
+        %button{type:"submit", class: "ui green ok inverted button"}
+          Submit
+  .row
+    .column
+      - project.lists.each do |list|
+        = list.title
  
-.five.wide.column
+%section.five.wide.column
   %section.ui.segment
     %h3.ui.header
       Members
@@ -14,6 +36,6 @@
             %span (Owner)
 
     = link_to "Invite people to join this project", '', class: 'ui primary button', id: 'invite_button'
-    = simple_form_for invite, class: 'ui form' do |f|
+    = simple_form_for (invite ||= project.invites.new), class: 'ui form' do |f|
       .ui.card
         = render "#{invite.to_partial_path}_form", f: f

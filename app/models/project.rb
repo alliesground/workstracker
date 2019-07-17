@@ -11,5 +11,4 @@ class Project < ApplicationRecord
   has_many :invites, as: :invitable, dependent: :destroy
 
   has_many :lists
-
 end

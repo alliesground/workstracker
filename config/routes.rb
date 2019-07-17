@@ -17,7 +17,9 @@ Rails.application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
 
 
-  resources :projects, only: [:index, :show, :new, :create] 
+  resources :projects, only: [:index, :show, :new, :create] do
+    resources :lists, only: :create
+  end
 
   resources :project_forms, only: [:new, :create]
 

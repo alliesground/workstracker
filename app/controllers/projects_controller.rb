@@ -21,8 +21,7 @@ class ProjectsController < ApplicationController
     end
 
     render locals: { 
-      project: project, 
-      invite: project.invites.new 
+      project: project
     }
   end
 
