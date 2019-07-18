@@ -1,24 +1,12 @@
-:javascript
-  $(document).ready(function() {
-    var $inviteForm = $('#new_invite');
-    var $fieldsWithError = $inviteForm.find('.field.error');
 
-    $inviteForm.hide();
-
-    if($fieldsWithError.length > 0) {
-      $inviteForm.show();
-    }
-
-    $('#invite_button').on('click', function(e) {
-      e.preventDefault();
-      $inviteForm.toggle();
-    });
-  });
-
-= render 'shared/error_messages', { object: f.object }
-= f.hidden_field :invitable_type
-= f.hidden_field :invitable_id
-.content
-  = f.input :email, placeholder: 'email', label: false
-%button{type:"submit", class: "fluid ui bottom attached button"}
-  Invite
+.ui.mini.modal#invite-form
+  .header
+    Send Invitation
+  .content
+    = simple_form_for invite, class: 'ui form' do |f| 
+      = f.hidden_field :invitable_type
+      = f.hidden_field :invitable_id
+      .field
+        = f.input :email, placeholder: 'email', label: false
+      %button{type:"submit", class: "ui green ok inverted button"}
+        Invite

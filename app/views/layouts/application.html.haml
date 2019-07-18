@@ -7,8 +7,8 @@
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    %section.ui.grid.container
-      = yield :shared_error_messages
-      = render 'shared/messages'
-      = render 'shared/header'
+    = yield :shared_error_messages
+    = render 'shared/messages'
+    = render 'shared/header'
+    .ui.grid
       = yield

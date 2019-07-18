@@ -1,41 +1,49 @@
 :javascript
   $(function() {
+    /* Add list form */
     $('#btn_add_list').on('click', function() {
-      $('.modal').modal('show');
+      $('.modal#add-list-form').modal('show');
     });
+
+    /* Invite form */
+    $('#btn-invite').on('click', function() {
+      $('.modal#invite-form').modal('show');
+    });
+
+    var $formFieldWithError = $('form').find('.field.error');
+    if( $formFieldWithError.length > 0 ) {
+      $formFieldWithError.closest('.modal').modal('show');
+    }
   });
 
-%section.eleven.wide.column
-  %h2= project.title
+.sixteen.wide.column 
+  .ui.horizontal.divided.list
+    .item
+      %h3= project.title
+    .item
+      .ui.horizontal.list
+        = render partial: 'projects/member', collection: project.members
+        .item
+          .tiny.ui.button#btn-invite Invite
+
+.sixteen.wide.column
   .ui.button#btn_add_list
     Add list
 
-  .ui.mini.modal
-    .header
-      Add List
-    .content
-      = simple_form_for [project, list ||= project.lists.new], class: 'ui form' do |f|
-        .field
-          = f.input :title
-        %button{type:"submit", class: "ui green ok inverted button"}
-          Submit
+.sixteen.wide.column
+  .ui.four.cards
+    = render project.lists.persisted
 
-  .ui.cards
-    = render project.lists
+-# Modal for invite form
+= render "#{(invite ||= project.invites.new).to_partial_path}_form", invite: invite
 
- 
-%section.five.wide.column
-  %section.ui.segment
-    %h3.ui.header
-      Members
-    .ui.small.list
-      - project.members.each do |member|
-        %li
-          = member.email
-          - if member == project.owner
-            %span (Owner)
-
-    = link_to "Invite people to join this project", '', class: 'ui primary button', id: 'invite_button'
-    = simple_form_for (invite ||= project.invites.new), class: 'ui form' do |f|
-      .ui.card
-        = render "#{invite.to_partial_path}_form", f: f
+-# Modal for list form
+.ui.mini.modal#add-list-form
+  .header
+    Add List
+  .content
+    = simple_form_for [project, list ||= project.lists.new], class: 'ui form' do |f|
+      .field
+        = f.input :title
+      %button{type:"submit", class: "ui green ok inverted button"}
+        Submit
