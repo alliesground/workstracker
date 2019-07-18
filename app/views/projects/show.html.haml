@@ -19,10 +19,10 @@
           = f.input :title
         %button{type:"submit", class: "ui green ok inverted button"}
           Submit
-  .row
-    .column
-      - project.lists.each do |list|
-        = list.title
+
+  .ui.cards
+    = render project.lists
+
  
 %section.five.wide.column
   %section.ui.segment
