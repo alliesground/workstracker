@@ -28,7 +28,7 @@ gem 'gravtastic'
 gem 'jwt'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'sidekiq'
-
+gem 'webpacker', '~> 4.x'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
