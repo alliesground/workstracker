@@ -16,7 +16,7 @@
     }
   });
 
-= javascript_pack_tag 'project'
+= javascript_pack_tag 'tasks'
 
 .sixteen.wide.column 
   .ui.horizontal.divided.list
@@ -36,8 +36,7 @@
   .ui.four.cards
     = render project.lists.persisted
 
-.sixteen.wide.column
-  #project
+.sixteen.wide.column#task-list
 
 -# Modal for invite form
 = render "#{(invite ||= project.invites.new).to_partial_path}_form", invite: invite
