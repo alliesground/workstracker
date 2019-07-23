@@ -14,9 +14,81 @@
     if( $formFieldWithError.length > 0 ) {
       $formFieldWithError.closest('.modal').modal('show');
     }
+
+    /* Masonry */
+    function resizeGridItem(item){
+      grid = document.getElementById("masonry-grid");
+      rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+      rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+      rowSpan = Math.ceil((item.querySelector('.content').getBoundingClientRect().height+rowGap)/(rowHeight+rowGap));
+      item.style.gridRowEnd = "span "+rowSpan;
+    }
+
+    function resizeAllGridItems(){
+      allItems = $('#masonry-grid .item');
+      for(x=0;x<allItems.length;x++){
+        resizeGridItem(allItems[x]);
+      }
+    }
+
+    function resizeInstance(instance){
+      item = instance.elements[0];
+      resizeGridItem(item);
+    }
+
+    window.onload = resizeAllGridItems();
+    window.addEventListener("resize", resizeAllGridItems);
+
+    /*
+    allItems = document.getElementsByClassName("item");
+    for(x=0;x<allItems.length;x++){
+      imagesLoaded( allItems[x], resizeInstance);
+    }*/
+
   });
 
+
 = javascript_pack_tag 'tasks'
+
+.sixteen.wide.column
+  #masonry-grid
+    .item
+      .ui.card
+        .content
+          .header
+            card1
+    .item
+      .ui.card
+        .content
+          .header
+            card2
+            %br
+            card2
+            %br
+            card2
+            %br
+            card2
+    .item
+      .ui.card
+        .content
+          .header
+            card3
+    .item
+      .ui.card
+        .content
+          .header
+            card4
+    .item
+      .ui.card
+        .content
+          .header
+            card5
+    .item
+      .ui.card
+        .content
+          .header
+            card6
+
 
 .sixteen.wide.column 
   .ui.horizontal.divided.list
