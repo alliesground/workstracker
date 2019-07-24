@@ -33,16 +33,12 @@ class ToggleableListForm extends Component {
       );
     } else {
       return(
-        <div className='column'>
-          <div className='ui card'>
-            <button 
-              className="ui button primary"
-              onClick={this.handleFormOpen}
-            >
-              Add List
-            </button>
-          </div>
-        </div>
+        <button 
+          className="circular ui icon button blue"
+          onClick={this.handleFormOpen}
+        >
+          <i className='large icon plus'></i>
+        </button>
       );
     }
   }

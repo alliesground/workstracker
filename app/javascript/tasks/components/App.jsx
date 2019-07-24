@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import TaskListList from './TaskListList';
 
 const App = (props) => (
-  <div>
+  <div className='column'>
     <TaskListList />
   </div>
 )

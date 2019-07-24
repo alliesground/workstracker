@@ -1,5 +1,25 @@
 import React, { Component } from 'react'
 import ToggleableListForm from './ToggleableListForm';
+import styled from 'styled-components';
+
+const HorizontalScrollGrid = styled.div`
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  height: calc(100vh - 144px);
+`;
+
+const List = styled.div`
+  height: 100%;
+`;
+
+const Card = styled.div`
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: normal;
+`;
+
 
 class TaskListList extends Component {
   constructor(props) {
@@ -7,10 +27,9 @@ class TaskListList extends Component {
 
     this.state = {
       lists: [
-        { title: 'Backlog' },
-        { title: 'Doing' },
-        { title: 'Done' },
-        { title: 'Raw Ideas' },
+        { 
+          title: 'Backlog'
+        }
       ]
     }
   }
@@ -23,24 +42,33 @@ class TaskListList extends Component {
 
   render() {
     const lists = this.state.lists.map((list) => (
-      <div className='column'>
-        <div className='ui card'>
+      <List className='column'>
+        <Card className='ui card'>
           <div className='content'>
             <div className='header'>
               { list.title }
             </div>
+            <div className='description'>
+              <p>{ list.description }</p>
+            </div>
           </div>
-        </div>
-      </div>
+        </Card>
+      </List>
     ));
 
     return(
-      <div className='ui five column grid'>
-        <ToggleableListForm 
-          onFormSubmit={this.handleCreateFormSubmit}
-        />
+      <HorizontalScrollGrid
+        className='ui five column grid'
+        style={{display: 'block'}}
+      >
         {lists}
-      </div>
+
+        <List className="column">
+          <ToggleableListForm 
+            onFormSubmit={this.handleCreateFormSubmit}
+          />
+        </List>
+      </HorizontalScrollGrid>
     );
   }
 }

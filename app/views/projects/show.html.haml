@@ -19,65 +19,26 @@
 
 = javascript_pack_tag 'tasks'
 
-.sixteen.wide.column
-  .ui.five.column.grid.scrolling
-    .item.column
-      .ui.card
-        .content
-          .header
-            card1
-    .item.column
-      .ui.card
-        .content
-          .header
-            card2
-            %br
-            card2
-            %br
-            card2
-            %br
-            card2
-    .item.column
-      .ui.card
-        .content
-          .header
-            card3
-    .item.column
-      .ui.card
-        .content
-          .header
-            card4
-    .item.column
-      .ui.card
-        .content
-          .header
-            card5
-    .item.column
-      .ui.card
-        .content
-          .header
-            card6
-
-
 .sixteen.wide.column 
   .ui.horizontal.divided.list
     .item
       %h3= project.title
+    .item
+      .tiny.ui.blue.button#btn_add_list
+        Add list
     .item
       .ui.horizontal.list
         = render partial: 'projects/member', collection: project.members
         .item
           .tiny.ui.button#btn-invite Invite
 
-.sixteen.wide.column
-  .ui.button#btn_add_list
-    Add list
+-#
+  .sixteen.wide.column
+    .ui.four.cards
+      = render project.lists.persisted
 
-.sixteen.wide.column
-  .ui.four.cards
-    = render project.lists.persisted
-
-.sixteen.wide.column#task-list
+// React TaskList App holder
+.row#task-list
 
 -# Modal for invite form
 = render "#{(invite ||= project.invites.new).to_partial_path}_form", invite: invite
