@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import TaskListList from './TaskListList';
+import { TaskListContainer } from './TaskListContainer';
 
 const App = (props) => (
   <div className='column'>
-    <TaskListList />
+    <TaskListContainer />
   </div>
 )
 

@@ -1,17 +1,5 @@
-import React, { Component } from 'react'
-import ToggleableListForm from './ToggleableListForm';
+import React from 'react';
 import styled from 'styled-components';
-
-const HorizontalScrollGrid = styled.div`
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  height: calc(100vh - 144px);
-`;
-
-const List = styled.div`
-  height: 100%;
-`;
 
 const Card = styled.div`
   max-height: 100%;
@@ -20,57 +8,25 @@ const Card = styled.div`
   white-space: normal;
 `;
 
+const TaskListList = React.memo(({ lists }) => {
+  if(!lists) return true;
 
-class TaskListList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      lists: [
-        { 
-          title: 'Backlog'
-        }
-      ]
-    }
-  }
-
-  handleCreateFormSubmit = (list) => {
-    this.setState({
-      lists: this.state.lists.concat(list)
-    })
-  }
-
-  render() {
-    const lists = this.state.lists.map((list) => (
-      <List className='column'>
+  return(
+    lists.map(list => (
+      <div className='column' style={{height: '100%'}}>
         <Card className='ui card'>
           <div className='content'>
             <div className='header'>
-              { list.title }
+              { list.name }
             </div>
             <div className='description'>
               <p>{ list.description }</p>
             </div>
           </div>
         </Card>
-      </List>
-    ));
-
-    return(
-      <HorizontalScrollGrid
-        className='ui five column grid'
-        style={{display: 'block'}}
-      >
-        {lists}
-
-        <List className="column">
-          <ToggleableListForm 
-            onFormSubmit={this.handleCreateFormSubmit}
-          />
-        </List>
-      </HorizontalScrollGrid>
-    );
-  }
-}
+      </div>
+    ))
+  );
+});
 
 export default TaskListList

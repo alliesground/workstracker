@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 
 class ListForm extends Component {
   state = {
-    title: ''
+    name: ''
   }
 
   handleSubmit = () => {
     this.props.onFormSubmit({
-      title: this.state.title
+      name: this.state.name
     })
   }
 
   handleTitleChange = (e) => {
-    this.setState({ title: e.target.value });
+    this.setState({ name: e.target.value });
   }
 
   render() {
@@ -24,7 +24,7 @@ class ListForm extends Component {
               <label>Title</label>
               <input 
                 type='text'
-                value={this.state.title}
+                value={this.state.name}
                 onChange={this.handleTitleChange}
               />
             </div>
