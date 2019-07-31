@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   resources :projects, only: [:index, :show, :new, :create] do
     resources :lists, only: :create
   end
-
-  resources :tasks, only: [:new, :create]
+  get 'lists/:list_id/tasks/new', to: 'tasks#new', as: 'new_task'
+  post 'lists/:list_id/tasks', to: 'tasks#create', as: 'list_tasks'
 
   resources :project_forms, only: [:new, :create]
 

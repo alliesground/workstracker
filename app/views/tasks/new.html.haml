@@ -1,8 +1,6 @@
 .row
   .six.wide.column.centered
-    = simple_form_for @task, class: 'ui form' do |f|
-      = hidden_field_tag :list_id, @task.list.id
-
+    = simple_form_for [@task.list, @task], class: 'ui form' do |f|
       .field
         = f.input :title
       .field
