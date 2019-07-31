@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
   get 'lists/:list_id/tasks/new', to: 'tasks#new', as: 'new_task'
   post 'lists/:list_id/tasks', to: 'tasks#create', as: 'list_tasks'
+  resources :tasks, only: :show
 
   resources :project_forms, only: [:new, :create]
 
