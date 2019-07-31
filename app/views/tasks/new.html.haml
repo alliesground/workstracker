@@ -1,0 +1,10 @@
+.row
+  .six.wide.column.centered
+    = simple_form_for @task, class: 'ui form' do |f|
+      = hidden_field_tag :list_id, @task.list.id
+
+      .field
+        = f.input :title
+      .field
+        = f.input :description
+      = f.button :submit, class: 'ui green ok inverted button'

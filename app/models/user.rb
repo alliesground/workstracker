@@ -13,6 +13,9 @@ class User < ApplicationRecord
 
   has_many :invites, dependent: :destroy, foreign_key: :sender_id
 
+  has_many :assignments, dependent: :destroy
+  has_many :tasks, through: :assignments
+
   def accept_invite(invite_id)
     invite = Invite.find_by_id(invite_id)
     invite.resolve_for(self) if invite.present?

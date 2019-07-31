@@ -2,6 +2,10 @@
   .content
     .header
       = list.title
-    .description
-      Friends of Veronika ksadlfalskd slkdjf asl;dkf alskdf laksdf l;aksd flkasd lfkas ldkf alskdf laksd flaj dflkasd flkajsdflk jasdlfk alskd flkajsd f
-    .extra-content
+    = render list.tasks
+
+  .extra.content
+    = link_to new_task_path(list_id: list.id) do
+      %i{:class => 'add icon'}
+      Add Task
+

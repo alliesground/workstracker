@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190710064147) do
+ActiveRecord::Schema.define(version: 20190731070226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assignments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "task_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_assignments_on_task_id"
+    t.index ["user_id"], name: "index_assignments_on_user_id"
+  end
 
   create_table "invitations", force: :cascade do |t|
     t.string "recipient_name"
@@ -113,6 +122,8 @@ ActiveRecord::Schema.define(version: 20190710064147) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "assignments", "tasks"
+  add_foreign_key "assignments", "users"
   add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "invites", "users", column: "recipient_id"
   add_foreign_key "invites", "users", column: "sender_id"
