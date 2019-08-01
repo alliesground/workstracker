@@ -14,9 +14,7 @@ const HorizontalScrollGrid = styled.div`
 
 export const TaskListContainer = () => {
 
-  const [lists, setLists] = useState();
-
-  const [listsResponse, fetchLists] = useEndpoint(() => ({
+  const [lists, fetchLists, setLists] = useEndpoint(() => ({
     url: 'users',
     method: 'GET'
   }));
@@ -30,20 +28,14 @@ export const TaskListContainer = () => {
   useEffect(() => {
 
     const fetchData = async () => {
-      if (!listsResponse.pending && !listsResponse.completed) {
-        fetchLists();
-      }
-
-      if (listsResponse.completed && !listsResponse.error) {
-        setLists(listsResponse.data)
-      }
+      fetchLists(); 
     };
 
     fetchData();
-  }, [listsResponse]);
+  }, []);
 
   const handleCreateFormSubmit = (list) => {
-    setLists(lists.concat(list));
+    setLists(lists.data.concat(list));
     postNewUser({name: 'DDP'})
   }
 
@@ -56,8 +48,8 @@ export const TaskListContainer = () => {
         style={{display: 'block'}}
       >
         {
-          (listsResponse.pending && 'Loading...') ||
-          (listsResponse.completed && <TaskListList lists={lists} />)
+          (lists.pending && 'Loading...') ||
+          (lists.completed && <TaskListList lists={lists.data} />)
         }
 
         <div className="column" style={{height: '100%'}}>

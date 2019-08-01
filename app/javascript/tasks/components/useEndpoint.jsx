@@ -61,5 +61,5 @@ export const useEndpoint = (fn) => {
   }, [req]);
 
 
-  return [res, (...args) => setReq(fn(...args))];
+  return [res, (...args) => setReq(fn(...args)), (data) => setRes({...res, data})];
 }

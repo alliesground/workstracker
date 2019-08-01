@@ -8,25 +8,21 @@ const Card = styled.div`
   white-space: normal;
 `;
 
-const TaskListList = React.memo(({ lists }) => {
-  if(!lists) return true;
-
-  return(
-    lists.map(list => (
-      <div className='column' style={{height: '100%'}}>
-        <Card className='ui card'>
-          <div className='content'>
-            <div className='header'>
-              { list.name }
-            </div>
-            <div className='description'>
-              <p>{ list.description }</p>
-            </div>
+const TaskListList = ({ lists }) => (
+  lists.map(list => (
+    <div className='column' style={{height: '100%'}}>
+      <Card className='ui card'>
+        <div className='content'>
+          <div className='header'>
+            { list.name }
           </div>
-        </Card>
-      </div>
-    ))
-  );
-});
+          <div className='description'>
+            <p>{ list.description }</p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  ))
+);
 
 export default TaskListList

@@ -17,8 +17,8 @@
   });
 
 
--#
-  = javascript_pack_tag 'tasks'
+
+= javascript_pack_tag 'tasks'
 
 .sixteen.wide.column 
   .ui.horizontal.divided.list
@@ -39,7 +39,7 @@
     = render project.lists.persisted
 
 // React TaskList App holder
--# .row#task-list
+.row#task-list
 
 -# Modal for invite form
 = render "#{(invite ||= project.invites.new).to_partial_path}_form", invite: invite
