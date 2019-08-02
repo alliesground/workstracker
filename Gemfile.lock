@@ -135,6 +135,10 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     jsonapi-renderer (0.2.0)
+    jsonapi-resources (0.9.10)
+      activerecord (>= 4.1)
+      concurrent-ruby
+      railties (>= 4.1)
     jwt (2.1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -322,6 +326,7 @@ DEPENDENCIES
   haml-rails (~> 1.0)
   jbuilder (~> 2.5)
   jquery-rails
+  jsonapi-resources
   jwt
   launchy (~> 2.4, >= 2.4.3)
   letter_opener (~> 1.4, >= 1.4.1)

@@ -1,27 +1,17 @@
-module Api::V1
-  class ApiController < ApplicationController
-    skip_before_action :verify_authenticity_token
-    #include DeviseTokenAuth::Concerns::SetUserByToken
-    
-    protect_from_forgery with: :exception
+module Api
+  module V1
+    class ApiController < ApplicationController
 
-    include Concerns::NestedResourcesParentFinder
+      include JSONAPI::ActsAsResourceController
 
-    before_action :set_default_format
-    before_action :authenticate_api_user!
-    
-    private
+      skip_before_action :verify_authenticity_token
+      #include DeviseTokenAuth::Concerns::SetUserByToken
+      
+      protect_from_forgery with: :exception
 
-    def set_default_format
-      request.format = :json
+      include Concerns::NestedResourcesParentFinder
+
+      #before_action :authenticate_api_user! 
     end
-
-    def render_error(resource:, status:)
-      render json: resource, 
-             status: status, 
-             adapter: :json_api,
-             serializer: ActiveModel::Serializer::ErrorSerializer
-    end
-    
   end
 end

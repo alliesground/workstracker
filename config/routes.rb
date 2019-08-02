@@ -41,6 +41,8 @@ Rails.application.routes.draw do
         resources :members, only: :index
       end
       resources :profiles, only: [:index]
+
+      jsonapi_resources :lists, only: :index
     end
   end
 end
