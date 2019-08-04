@@ -8,21 +8,24 @@ const Card = styled.div`
   white-space: normal;
 `;
 
-const TaskListList = ({ lists }) => (
-  lists.map(list => (
-    <div key={list.id} className='column' style={{height: '100%'}}>
-      <Card className='ui card'>
-        <div className='content'>
-          <div className='header'>
-            { list.attributes.title }
+const TaskListList = ({ lists }) => {
+  console.log(lists);
+  return(
+    lists.map(list => (
+      <div key={list.id} className='column' style={{height: '100%'}}>
+        <Card className='ui card'>
+          <div className='content'>
+            <div className='header'>
+              { list.attributes.title }
+            </div>
+            <div className='description'>
+              <p>{ list.description }</p>
+            </div>
           </div>
-          <div className='description'>
-            <p>{ list.description }</p>
-          </div>
-        </div>
-      </Card>
-    </div>
-  ))
-);
+        </Card>
+      </div>
+    ))
+  )
+};
 
 export default TaskListList

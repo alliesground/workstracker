@@ -6,9 +6,18 @@ class ListForm extends Component {
   }
 
   handleSubmit = () => {
-    this.props.onFormSubmit({
-      title: this.state.title
-    })
+    const list_payload = Object.assign({}, {
+      data: {
+        type: 'lists',
+        attributes: {
+          title: this.state.title
+        },
+        relationships: {}
+        
+      }
+    });
+
+    this.props.onFormSubmit(list_payload)
   }
 
   handleTitleChange = (e) => {

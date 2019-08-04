@@ -1,13 +1,13 @@
 module Api
   module V1
-    class ApiController < ApplicationController
+    class ApiController < ActionController::API
 
       include JSONAPI::ActsAsResourceController
 
-      skip_before_action :verify_authenticity_token
+      #skip_before_action :verify_authenticity_token
       #include DeviseTokenAuth::Concerns::SetUserByToken
       
-      protect_from_forgery with: :exception
+      #protect_from_forgery with: :exception
 
       include Concerns::NestedResourcesParentFinder
 

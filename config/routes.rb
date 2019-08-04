@@ -37,12 +37,13 @@ Rails.application.routes.draw do
   namespace :api do
     #mount_devise_token_auth_for 'User', at: 'auth'
     scope module: :v1 do
-      resources :projects, only: [:index, :create, :show] do
-        resources :members, only: :index
-      end
-      resources :profiles, only: [:index]
+#      resources :projects, only: [:index, :create, :show] do
+#        resources :members, only: :index
+#      end
+#      resources :profiles, only: [:index]
 
-      jsonapi_resources :lists, only: :index
+      jsonapi_resources :lists, only: [:index, :create]
+      jsonapi_resources :projects, only: :show
     end
   end
 end

@@ -19,10 +19,14 @@ export const TaskListContainer = () => {
     method: 'GET'
   }));
   
-  const [user, postNewUser] = useEndpoint(data => ({
-    url: 'users',
+  const [user, postNewList] = useEndpoint(data => ({
+    url: 'lists',
     method: 'POST',
-    data
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+    }
   }));
 
   useEffect(() => {
@@ -34,9 +38,9 @@ export const TaskListContainer = () => {
     fetchData();
   }, []);
 
-  const handleCreateFormSubmit = (list) => {
-    setData(list);
-    //postNewUser({name: 'DDP'})
+  const handleCreateFormSubmit = (payload) => {
+    setData(payload.data);
+    postNewList(payload);
   }
 
   return(
@@ -51,6 +55,7 @@ export const TaskListContainer = () => {
       >
         {
           (lists.pending && 'Loading...') ||
+    
           (lists.completed && <TaskListList lists={lists.data} />)
         }
 
