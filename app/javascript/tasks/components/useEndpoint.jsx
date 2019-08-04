@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useReducer } from 'react';
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
+//const BASE_URL = 'https://jsonplaceholder.typicode.com';
+const BASE_URL = process.env.REACT_APP_API_HOST
+
 
 const types = {
   REQUEST: 'REQUEST',
@@ -35,7 +37,7 @@ const resReducer = (state, action) => {
       }
     case 'SUCCESS':
       return { 
-        data: action.res,
+        data: action.res.data,
         pending: false,
         completed: true,
         error: false
@@ -69,7 +71,7 @@ export const useEndpoint = (fn) => {
     dispatch({
       type: types.SET_DATA,
       data
-    })
+    });
   }
 
   function checkStatus(res) {
@@ -84,35 +86,15 @@ export const useEndpoint = (fn) => {
 
     dispatch(actions.request());
 
-    /*
-    setRes({
-      data: null,
-      pending: true,
-      completed: false,
-      error: false
-    });*/
-
     fetch(request)
       .then(res => checkStatus(res))
       .then(res => res.json())
       .then(
         (res) => {
           dispatch(actions.success(res))
-          /*setRes({
-            data: res,
-            pending: false,
-            error: false,
-            completed: true
-          })*/
         },
         (error) => {
           dispatch(actions.error())
-          /*setRes({
-            data: null,
-            pending: false,
-            error: true,
-            completed: true
-          })*/
         }
       )
   }

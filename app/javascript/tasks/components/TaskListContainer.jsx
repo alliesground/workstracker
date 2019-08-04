@@ -15,7 +15,7 @@ const HorizontalScrollGrid = styled.div`
 export const TaskListContainer = () => {
 
   const [lists, fetchLists, setData] = useEndpoint(() => ({
-    url: 'users',
+    url: 'lists',
     method: 'GET'
   }));
   
@@ -36,7 +36,7 @@ export const TaskListContainer = () => {
 
   const handleCreateFormSubmit = (list) => {
     setData(list);
-    postNewUser({name: 'DDP'})
+    //postNewUser({name: 'DDP'})
   }
 
   return(

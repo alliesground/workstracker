@@ -10,11 +10,11 @@ const Card = styled.div`
 
 const TaskListList = ({ lists }) => (
   lists.map(list => (
-    <div className='column' style={{height: '100%'}}>
+    <div key={list.id} className='column' style={{height: '100%'}}>
       <Card className='ui card'>
         <div className='content'>
           <div className='header'>
-            { list.name }
+            { list.attributes.title }
           </div>
           <div className='description'>
             <p>{ list.description }</p>
