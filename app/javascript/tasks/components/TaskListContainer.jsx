@@ -14,12 +14,12 @@ const HorizontalScrollGrid = styled.div`
 
 export const TaskListContainer = () => {
 
-  const [lists, fetchLists, setLists] = useEndpoint(() => ({
+  const [lists, fetchLists, setData] = useEndpoint(() => ({
     url: 'users',
     method: 'GET'
   }));
   
-  const [createUserRes, postNewUser] = useEndpoint(data => ({
+  const [user, postNewUser] = useEndpoint(data => ({
     url: 'users',
     method: 'POST',
     data
@@ -35,13 +35,15 @@ export const TaskListContainer = () => {
   }, []);
 
   const handleCreateFormSubmit = (list) => {
-    setLists(lists.data.concat(list));
+    setData(list);
     postNewUser({name: 'DDP'})
   }
 
   return(
     <>
-      { createUserRes.completed && console.log(createUserRes.data)  }
+      {
+        (user.completed && console.log(user.data))
+      }
 
       <HorizontalScrollGrid
         className='ui five column grid'
