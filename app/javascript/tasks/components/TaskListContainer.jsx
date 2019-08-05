@@ -50,10 +50,26 @@ export const TaskListContainer = (props) => {
     fetchData();
   }, [projectLists]);
 
-  const handleCreateFormSubmit = (payload) => {
-    setLists(payload.data);
-    //postNewList(payload);
+  const handleCreateFormSubmit = (list) => {
+    setLists(list);
+    postNewList(payload(list));
   }
+
+  const payload = (list) => (
+    {
+      data: {
+        ...list,
+        relationships: {
+          project: {
+            data: {
+              type: 'projects',
+              id: props.projectId
+            }
+          }
+        }
+      }
+    }
+  );
 
   return(
     <>

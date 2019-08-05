@@ -3,7 +3,7 @@ module Api
     class ProjectResource < JSONAPI::Resource
       attributes :title
 
-      has_many:lists
+      has_many :lists
     end
   end
 end
