@@ -2,7 +2,6 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import TaskListList from './TaskListList';
 import ToggleableListForm from './ToggleableListForm';
 import styled from 'styled-components';
-import { client } from '../../Client';
 import { useEndpoint } from './useEndpoint';
 
 const HorizontalScrollGrid = styled.div`
@@ -37,21 +36,23 @@ export const TaskListContainer = (props) => {
   useEffect(() => {
 
     const fetchData = async () => {
-      console.log(projectLists);
       if(!projectLists.pending && !projectLists.completed) {
         fetchProjectLists(); 
       }
 
       if(projectLists.completed && !projectLists.error) {
-        fetchLists();
+        if(!lists.response) fetchLists();
+      }
+
+      if(list.completed && !list.error) {
+        setLists(list.response.data);
       }
     };
 
     fetchData();
-  }, [projectLists]);
+  }, [projectLists, list]);
 
   const handleCreateFormSubmit = (list) => {
-    setLists(list);
     postNewList(payload(list));
   }
 
@@ -85,6 +86,7 @@ export const TaskListContainer = (props) => {
         <div className="column" style={{height: '100%'}}>
           <ToggleableListForm
             onFormSubmit={handleCreateFormSubmit}
+            list={list}
           />
         </div>
       </HorizontalScrollGrid>

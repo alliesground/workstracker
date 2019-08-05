@@ -2,10 +2,14 @@ import React, { Component } from 'react'
 
 class ListForm extends Component {
   state = {
-    title: ''
+    title: '',
+    error: false,
+    err_msg: '',
   }
 
   handleSubmit = () => {
+    if(!this.isValid()) return
+
     const list = {
       type: 'lists',
       attributes: {
@@ -14,6 +18,18 @@ class ListForm extends Component {
     }
 
     this.props.onFormSubmit(list)
+  }
+
+  isValid = () => {
+    if(this.state.title.length == 0) {
+      this.setState({
+        ...this.state,
+        error: true,
+        err_msg: 'Title must be present'
+      })
+      return false;
+    }
+    return true;
   }
 
   handleTitleChange = (e) => {

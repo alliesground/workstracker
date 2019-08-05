@@ -37,7 +37,7 @@
   .ui.four.cards
     = render project.lists.persisted
 
-= react_component('Task',{project_id: project.id}, class: 'row')
+= react_component('TaskLists',{project_id: project.id}, class: 'row')
 
 -# Modal for invite form
 = render "#{(invite ||= project.invites.new).to_partial_path}_form", invite: invite

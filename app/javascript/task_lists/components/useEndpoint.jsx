@@ -28,7 +28,7 @@ const resReducer = (state, action) => {
     case 'SET_DATA':
       return Object.assign({}, state, {
         response: Object.assign({}, state.response, {
-          data: state.response.data.concat(newDataWithId(state, action))
+          data: state.response.data.concat(action.data)
         })
       });
     case 'REQUEST':
@@ -54,16 +54,6 @@ const resReducer = (state, action) => {
       }
     default:
       throw new Error();
-  }
-}
-
-const newDataWithId = (state, action) => {
-  let id = state.response.data[state.response.data.length - 1].id;
-  id = parseInt(id, 10) + 1;
-
-  return {
-    ...action.data,
-    id: id.toString()
   }
 }
 
