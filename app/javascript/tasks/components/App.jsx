@@ -4,7 +4,7 @@ import { TaskListContainer } from './TaskListContainer';
 
 const App = (props) => (
   <div className='column'>
-    <TaskListContainer />
+    <TaskListContainer projectId={props.project_id} />
   </div>
 )
 

@@ -12,8 +12,6 @@ class ListForm extends Component {
         attributes: {
           title: this.state.title
         },
-        relationships: {}
-        
       }
     });
 

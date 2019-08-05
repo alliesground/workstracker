@@ -12,14 +12,19 @@ const HorizontalScrollGrid = styled.div`
   height: calc(100vh - 144px);
 `;
 
-export const TaskListContainer = () => {
+export const TaskListContainer = (props) => {
 
-  const [lists, fetchLists, setData] = useEndpoint(() => ({
-    url: 'lists',
+  const [projectLists, fetchProjectLists] = useEndpoint(() => ({
+    url: `projects/${props.projectId}/relationships/lists`,
+    method: 'GET'
+  }));
+
+  const [lists, fetchLists, setLists] = useEndpoint(() => ({
+    url: `${projectLists.response.links.related}`,
     method: 'GET'
   }));
   
-  const [user, postNewList] = useEndpoint(data => ({
+  const [list, postNewList] = useEndpoint(data => ({
     url: 'lists',
     method: 'POST',
     body: JSON.stringify(data),
@@ -32,31 +37,33 @@ export const TaskListContainer = () => {
   useEffect(() => {
 
     const fetchData = async () => {
-      fetchLists(); 
+      console.log(projectLists);
+      if(!projectLists.pending && !projectLists.completed) {
+        fetchProjectLists(); 
+      }
+
+      if(projectLists.completed && !projectLists.error) {
+        fetchLists();
+      }
     };
 
     fetchData();
-  }, []);
+  }, [projectLists]);
 
   const handleCreateFormSubmit = (payload) => {
-    setData(payload.data);
-    postNewList(payload);
+    setLists(payload.data);
+    //postNewList(payload);
   }
 
   return(
     <>
-      {
-        (user.completed && console.log(user.data))
-      }
-
       <HorizontalScrollGrid
         className='ui five column grid'
         style={{display: 'block'}}
       >
         {
           (lists.pending && 'Loading...') ||
-    
-          (lists.completed && <TaskListList lists={lists.data} />)
+          (lists.completed && <TaskListList lists={lists.response.data} />)
         }
 
         <div className="column" style={{height: '100%'}}>

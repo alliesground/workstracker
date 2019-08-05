@@ -30,6 +30,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'sidekiq'
 gem 'webpacker', '~> 4.x'
 gem 'jsonapi-resources'
+gem 'webpacker-react', "~> 1.0.0.beta.1"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

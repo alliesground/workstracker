@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
 
-//const BASE_URL = 'https://jsonplaceholder.typicode.com';
 const BASE_URL = process.env.REACT_APP_API_HOST
 
 
@@ -28,25 +27,27 @@ const resReducer = (state, action) => {
   switch (action.type) {
     case 'SET_DATA':
       return Object.assign({}, state, {
-        data: state.data.concat(newDataWithId(state, action))
+        response: Object.assign({}, state.response, {
+          data: state.response.data.concat(newDataWithId(state, action))
+        })
       });
     case 'REQUEST':
       return { 
-        data: null,
+        response: null,
         pending: true,
         completed: false,
         error: false
       }
     case 'SUCCESS':
       return { 
-        data: action.res.data,
+        response: action.res,
         pending: false,
         completed: true,
         error: false
       }
     case 'ERROR':
       return {
-        data: null,
+        response: null,
         pending: false,
         error: true,
         completed: true
@@ -57,7 +58,7 @@ const resReducer = (state, action) => {
 }
 
 const newDataWithId = (state, action) => {
-  let id = state.data[state.data.length - 1].id;
+  let id = state.response.data[state.response.data.length - 1].id;
   id = parseInt(id, 10) + 1;
 
   return {
@@ -69,7 +70,7 @@ const newDataWithId = (state, action) => {
 export const useEndpoint = (fn) => {
 
   const initialState = {
-    data: null,
+    response: null,
     pending: false,
     completed: false,
     error: false
@@ -111,16 +112,19 @@ export const useEndpoint = (fn) => {
       )
   }
 
+  const fullUrl = (url) => {
+    const parsedUrl = url.replace(BASE_URL, '');
+    return `${BASE_URL}/${parsedUrl}`;
+  }
+
   useEffect(() => {
     if(!req) return;
 
     const {url, ...options} = req
-    const request = new Request(`${BASE_URL}/${url}`, options);
+    const request = new Request(fullUrl(url), options);
 
     execute(request);
   }, [req]);
 
-
-  //return [res, (...args) => setReq(fn(...args)), (data) => setRes({...res, data})];
   return [res, (...args) => setReq(fn(...args)), setData];
 }
