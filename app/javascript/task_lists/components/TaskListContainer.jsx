@@ -9,6 +9,10 @@ const HorizontalScrollGrid = styled.div`
   overflow-y: hidden;
   white-space: nowrap;
   height: calc(100vh - 144px);
+
+  .column:first-child {
+    margin-left: -12px;
+  }
 `;
 
 export const TaskListContainer = (props) => {
