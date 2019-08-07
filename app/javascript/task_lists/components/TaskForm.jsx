@@ -6,8 +6,18 @@ const TaskForm = (props) => {
   const [error, setError] = useState(false);
   const [err_msg, setErrMsg] = useState('');
 
-  const handleTitleChange = () => {}
-  const handleSubmit = () => {}
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  }
+  const handleSubmit = () => {
+    const task = {
+      id: 10,
+      type: 'tasks',
+      attributes: { title }
+    }
+
+    props.onFormSubmit(task);
+  }
 
   return (
     <div className="ui card">

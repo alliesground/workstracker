@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import TaskForm from './TaskForm';
 import { useToggle } from './useToggle';
 
-const ToggleableTaskForm = () => {
+const ToggleableTaskForm = (props) => {
 
   const [isOpen, handleOpen, handleClose] = useToggle();
+
+  const handleFormSubmit = (task) => {
+    handleClose();
+    props.onFormSubmit(task);
+  }
 
   return(
     <>
@@ -12,6 +17,7 @@ const ToggleableTaskForm = () => {
         isOpen ? 
         <TaskForm 
           onFormCancel={handleClose}
+          onFormSubmit={handleFormSubmit}
         /> :
         <a
           onClick={handleOpen}
