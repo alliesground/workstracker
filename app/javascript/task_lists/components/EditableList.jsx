@@ -8,21 +8,24 @@ const Card = styled.div`
   white-space: normal;
 `;
 
-const TaskListList = ({ lists }) => (
-  lists.map(list => (
+const EditableList = ({ list }) => {
+  return(
     <div key={list.id} className='column' style={{height: '100%'}}>
       <Card className='ui card'>
         <div className='content'>
           <div className='header'>
             { list.attributes.title }
-          </div>
-          <div className='description'>
-            <p>{ list.description }</p>
-          </div>
+          </div> 
+        </div>
+        <div className='extra content'>
+          <a>
+            <i className='add icon'></i>
+            Add Task
+          </a>
         </div>
       </Card>
     </div>
-  ))
-);
+  );
+}
 
-export default TaskListList
+export default EditableList;

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import TaskListList from './TaskListList';
-import { TaskListContainer } from './TaskListContainer';
+import { ListsContainer } from './ListsContainer';
 
 const App = (props) => (
   <div className='column'>
-    <TaskListContainer projectId={props.project_id} />
+    <ListsContainer projectId={props.project_id} />
   </div>
 )
 
