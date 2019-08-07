@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ToggleableTaskForm from './ToggleableTaskForm'
 
 const Card = styled.div`
   max-height: 100%;
@@ -9,7 +10,6 @@ const Card = styled.div`
 `;
 
 const ListContainer = ({ list }) => {
-  console.log(list);
   return(
     <div className='column' style={{height: '100%'}}>
       <Card className='ui card'>
@@ -19,10 +19,7 @@ const ListContainer = ({ list }) => {
           </div>
         </div>
         <div className='extra content'>
-          <a>
-            <i className='add icon'></i>
-            Add Task
-          </a>
+          <ToggleableTaskForm />
         </div>
       </Card>
     </div>

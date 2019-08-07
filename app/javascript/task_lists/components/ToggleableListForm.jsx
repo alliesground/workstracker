@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import ListForm from './ListForm'
+import ListForm from './ListForm';
+import { useToggle } from './useToggle';
 
 const ToggleableListForm = (props) => {
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleFormOpen = () => {
-    setIsOpen(true);
-  }
+  const [isOpen, handleOpen, handleClose] = useToggle();
 
   const handleFormSubmit = (list) => {
     props.onFormSubmit(list);
   }
 
-  const handleFormCancel = () => {
-    setIsOpen(false);
-  }
-
   useEffect(() => {
     const execute = async () => {
       if(props.list.completed && !props.list.error) {
-        if(isOpen) setIsOpen(false);
+        if(isOpen) handleClose();
       }
     };
 
@@ -33,13 +26,13 @@ const ToggleableListForm = (props) => {
         isOpen ? 
         (props.list.pending ? 'Loading...' : <ListForm 
           onFormSubmit={handleFormSubmit}
-          onFormCancel={handleFormCancel}
+          onFormCancel={handleClose}
           list={props.list}
          />)
         :
         <button 
           className="circular ui icon button blue"
-          onClick={handleFormOpen}
+          onClick={handleOpen}
         >
           <i className='large icon plus'></i>
         </button>
