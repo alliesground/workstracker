@@ -8,14 +8,15 @@ const Card = styled.div`
   white-space: normal;
 `;
 
-const EditableList = ({ list }) => {
+const ListContainer = ({ list }) => {
+  console.log(list);
   return(
-    <div key={list.id} className='column' style={{height: '100%'}}>
+    <div className='column' style={{height: '100%'}}>
       <Card className='ui card'>
         <div className='content'>
           <div className='header'>
             { list.attributes.title }
-          </div> 
+          </div>
         </div>
         <div className='extra content'>
           <a>
@@ -28,4 +29,4 @@ const EditableList = ({ list }) => {
   );
 }
 
-export default EditableList;
+export default ListContainer;

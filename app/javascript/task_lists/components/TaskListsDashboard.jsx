@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import EditableLists from './EditableLists';
+import ListContainers from './ListContainers';
 import ToggleableListForm from './ToggleableListForm';
 import styled from 'styled-components';
 import { useEndpoint } from './useEndpoint';
@@ -15,7 +15,7 @@ const HorizontalScrollGrid = styled.div`
   }
 `;
 
-export const ListsContainer = (props) => {
+export const TaskListsDashboard = (props) => {
 
   const [projectLists, fetchProjectLists] = useEndpoint(() => ({
     url: `projects/${props.projectId}/relationships/lists`,
@@ -84,7 +84,7 @@ export const ListsContainer = (props) => {
       >
         {
           (lists.pending && 'Loading...') ||
-          (lists.completed && <EditableLists lists={lists.response.data} />)
+          (lists.completed && <ListContainers lists={lists.response.data} />)
         }
 
         <div className="column" style={{height: '100%'}}>
