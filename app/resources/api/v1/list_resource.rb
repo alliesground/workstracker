@@ -4,6 +4,7 @@ module Api
       attributes :title
 
       belongs_to :project
+      has_many :tasks
     end
   end
 end

@@ -111,7 +111,7 @@ export const useEndpoint = (fn) => {
     if(!req) return;
 
     const {url, ...options} = req
-    const request = new Request(fullUrl(url), options);
+    const request = new Request(fullUrl(url), options); 
 
     execute(request);
   }, [req]);

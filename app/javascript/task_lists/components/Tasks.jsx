@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 
-const Tasks = (props) => (
-  props.tasks.map((task) => (
-    <a key={task.id} className='ui card'>
-      <div className='content'>
-        <div className='description'>
-          <p>{task.attributes.title}</p>
+const Tasks = (props) => {
+  return(
+    props.tasks.map((task) => (
+      <a key={task.id} className='ui card'>
+        <div className='content'>
+          <div className='description'>
+            <p>{task.attributes.title}</p>
+          </div>
         </div>
-      </div>
-    </a>
-  ))
-);
+      </a>
+    ))
+  );
+};
 
 export default Tasks;

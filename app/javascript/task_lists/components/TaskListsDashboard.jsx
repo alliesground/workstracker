@@ -39,7 +39,7 @@ export const TaskListsDashboard = (props) => {
 
   useEffect(() => {
 
-    const fetchData = async () => {
+    const execute = async () => {
       if(!projectLists.pending && !projectLists.completed) {
         fetchProjectLists(); 
       }
@@ -53,7 +53,7 @@ export const TaskListsDashboard = (props) => {
       }
     };
 
-    fetchData();
+    execute();
   }, [projectLists, list]);
 
   const handleCreateFormSubmit = (list) => {

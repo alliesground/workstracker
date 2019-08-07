@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ToggleableTaskForm from './ToggleableTaskForm'
 import Tasks from './Tasks';
+import { useEndpoint } from './useEndpoint';
 
 const Card = styled.div`
   max-height: 100%;
@@ -11,22 +12,64 @@ const Card = styled.div`
 `;
 
 const ListContainer = ({ list }) => {
-  const initialState = [
-    {
-      id: 1,
-      attributes: {title: 'First Task'}
-    },
-    {
-      id: 2,
-      attributes: {title: 'Second Task'}
-    }
-  ];
 
-  const [tasks, setTask] = useState(initialState);
+  const [listTasks, fetchListTasks] = useEndpoint(() => ({
+    url: `lists/${list.id}/relationships/tasks`,
+    method: 'GET'
+  }));
+
+  const [tasks, fetchTasks, setTasks] = useEndpoint(() => ({
+    url: `${listTasks.response.links.related}`,
+    method: 'GET'
+  }));
+
+  const [task, postNewTask] = useEndpoint(data => ({
+    url: 'tasks',
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+    }
+  }));
 
   const handleCreateFormSubmit = (task) => {
-    setTask(tasks.concat(task));
+    postNewTask(payload(task))
   }
+
+  const payload = (task) => (
+    {
+      data: {
+        ...task,
+        relationships: {
+          list: {
+            data: {
+              type: 'lists',
+              id: list.id
+            }
+          }
+        }
+      }
+    }
+  );
+
+  useEffect(() => {
+    const execute = async () => {
+      if(!listTasks.pending && !listTasks.completed) {
+        fetchListTasks(); 
+      }
+
+      if(listTasks.completed && !listTasks.error) {
+        if(!tasks.response) fetchTasks();
+      }
+
+      if(task.completed && !task.error) {
+        setTasks(task.response.data);
+      }
+    };
+
+    execute();
+  }, [listTasks, task]);
 
   return(
     <div className='column' style={{height: '100%'}}>
@@ -35,7 +78,10 @@ const ListContainer = ({ list }) => {
           <div className='header'>
             { list.attributes.title }
           </div>
-          { tasks && <Tasks tasks={tasks} /> }
+          {
+            (tasks.pending && 'Loading...') ||
+            (tasks.completed && <Tasks tasks={tasks.response.data} />)
+          }
         </div>
         <div className='extra content'>
           <ToggleableTaskForm

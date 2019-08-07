@@ -11,7 +11,6 @@ const TaskForm = (props) => {
   }
   const handleSubmit = () => {
     const task = {
-      id: 10,
       type: 'tasks',
       attributes: { title }
     }
