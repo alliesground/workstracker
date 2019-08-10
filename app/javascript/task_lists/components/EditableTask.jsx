@@ -1,25 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { 
+  Button, Header, Image, Modal, Menu
+} from 'semantic-ui-react';
 import Task from './Task';
 import { useToggle } from './useToggle';
+import TodoList from './TodoList';
+import Todo from './Todo';
 
 const EditableTask = ({ task }) => {
-  const [modalOpen, setModalOpen, setModalClose] = useToggle(); 
+  const [modalOpen, toggleModalOpen] = useToggle();
+  const todos = [
+    {
+      id: 1,
+      attributes: {
+        title: 'First Task'
+      }
+    },
+    {
+      id: 2,
+      attributes: {
+        title: 'Second Task'
+      }
+    },
+    {
+      id: 3,
+      attributes: {
+        title: 'Third Task'
+      }
+    }
+  ];
   
   return(
     <Modal 
       trigger={
         <Task 
-          onClick={setModalOpen}
+          onClick={toggleModalOpen}
           task={task}
         />
       } 
       open={modalOpen}
-      onClose={setModalClose}
+      onClose={toggleModalOpen}
       centered={false}
+      size='tiny'
     >
+      <Modal.Header>{task.attributes.title}</Modal.Header>
       <Modal.Content>
-        Content coming soon...
+        <Menu secondary>
+          <Menu.Item>
+            <Button>Add Member</Button>
+          </Menu.Item>
+        </Menu>
+
+        <Header>CheckList</Header>
+        <TodoList 
+          todos={todos}
+        />
       </Modal.Content>
     </Modal>
   );

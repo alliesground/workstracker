@@ -4,10 +4,10 @@ import { useToggle } from './useToggle';
 
 const ToggleableTaskForm = (props) => {
 
-  const [isOpen, handleOpen, handleClose] = useToggle();
+  const [isOpen, toggleIsOpen] = useToggle();
 
   const handleFormSubmit = (task) => {
-    handleClose();
+    toggleIsOpen();
     props.onFormSubmit(task);
   }
 
@@ -16,11 +16,11 @@ const ToggleableTaskForm = (props) => {
       {
         isOpen ? 
         <TaskForm 
-          onFormCancel={handleClose}
+          onFormCancel={toggleIsOpen}
           onFormSubmit={handleFormSubmit}
         /> :
         <a
-          onClick={handleOpen}
+          onClick={toggleIsOpen}
         >
           <i className='add icon'></i>
           Add Task

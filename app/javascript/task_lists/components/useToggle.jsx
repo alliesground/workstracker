@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 
 export const useToggle = (init=false) => {
 
-  const [isOpen, setIsOpen] = useState(init);
+  const [val, toggleVal] = useState(init);
 
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
+  const toggle = () => toggleVal(!val);
 
-  return [isOpen, handleOpen, handleClose];
+  return [val, toggle];
 }

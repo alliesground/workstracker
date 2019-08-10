@@ -4,7 +4,7 @@ import { useToggle } from './useToggle';
 
 const ToggleableListForm = (props) => {
 
-  const [isOpen, handleOpen, handleClose] = useToggle();
+  const [isOpen, toggleIsOpen] = useToggle();
 
   const handleFormSubmit = (list) => {
     props.onFormSubmit(list);
@@ -13,7 +13,7 @@ const ToggleableListForm = (props) => {
   useEffect(() => {
     const execute = async () => {
       if(props.list.completed && !props.list.error) {
-        if(isOpen) handleClose();
+        if(isOpen) toggleIsOpen();
       }
     };
 
@@ -26,13 +26,13 @@ const ToggleableListForm = (props) => {
         isOpen ? 
         (props.list.pending ? 'Loading...' : <ListForm 
           onFormSubmit={handleFormSubmit}
-          onFormCancel={handleClose}
+          onFormCancel={toggleIsOpen}
           list={props.list}
          />)
         :
         <button 
           className="circular ui icon button blue"
-          onClick={handleOpen}
+          onClick={toggleIsOpen}
         >
           <i className='large icon plus'></i>
         </button>
