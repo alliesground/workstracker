@@ -6,7 +6,6 @@ import { useToggle } from './useToggle';
 const EditableTask = ({ task }) => {
   const [modalOpen, setModalOpen, setModalClose] = useToggle(); 
   
-  console.log(modalOpen);
   return(
     <Modal 
       trigger={
