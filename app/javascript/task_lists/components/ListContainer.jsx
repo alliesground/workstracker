@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ToggleableTaskForm from './ToggleableTaskForm'
-import Tasks from './Tasks';
+import EditableTasks from './EditableTasks';
 import { useEndpoint } from './useEndpoint';
 
 const Card = styled.div`
@@ -80,7 +80,7 @@ const ListContainer = ({ list }) => {
           </div>
           {
             (tasks.pending && 'Loading...') ||
-            (tasks.completed && <Tasks tasks={tasks.response.data} />)
+            (tasks.completed && <EditableTasks tasks={tasks.response.data} />)
           }
         </div>
         <div className='extra content'>

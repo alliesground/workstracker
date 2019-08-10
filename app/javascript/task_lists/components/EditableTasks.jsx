@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EditableTask from './EditableTask';
 
-const Tasks = (props) => {
+const EditableTasks = (props) => {
   return(
     props.tasks.map((task) => (
       <>
@@ -11,4 +11,4 @@ const Tasks = (props) => {
   );
 };
 
-export default Tasks;
+export default EditableTasks;
