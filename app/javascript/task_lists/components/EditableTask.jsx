@@ -17,7 +17,7 @@ const EditableTask = ({ task }) => {
       } 
       open={modalOpen}
       onClose={setModalClose}
-      size='mini'
+      centered={false}
     >
       <Modal.Content>
         Content coming soon...

@@ -3,7 +3,6 @@ import React from 'react';
 const Task = ({ task, ...props }) => {
   return(
     <a 
-      key={task.id} 
       className='ui card'
       onClick={props.onClick}
     >

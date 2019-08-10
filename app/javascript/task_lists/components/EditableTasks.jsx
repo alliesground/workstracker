@@ -4,9 +4,7 @@ import EditableTask from './EditableTask';
 const EditableTasks = (props) => {
   return(
     props.tasks.map((task) => (
-      <>
-        <EditableTask task={task}/>
-      </>
+      <EditableTask key={task.id} task={task}/>
     ))
   );
 };
