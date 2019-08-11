@@ -40,8 +40,8 @@ const EditableTask = ({ task }) => {
       } 
       open={modalOpen}
       onClose={toggleModalOpen}
-      centered={false}
       size='tiny'
+      style={{top:'10%'}}
     >
       <Modal.Header>{task.attributes.title}</Modal.Header>
       <Modal.Content>
