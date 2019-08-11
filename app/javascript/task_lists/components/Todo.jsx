@@ -14,7 +14,7 @@ const Todo = ({ todo }) => {
   return(
     <List.Item>
       <Checkbox
-        label= 'Please do this task first' 
+        label= {todo.attributes.title} 
         onChange={handleTaskComplete}
         style={checked ? {textDecoration:"line-through"} : null}
       />

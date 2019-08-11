@@ -1,35 +1,13 @@
 import React, { useState } from 'react';
 import { 
-  Button, Header, Image, Modal, Menu,
-  List
+  Button, Header, Image, Modal, Menu 
 } from 'semantic-ui-react';
 import Task from './Task';
 import { useToggle } from './useToggle';
-import TodoList from './TodoList';
-import Todo from './Todo';
+import Checklist from './Checklist';
 
 const EditableTask = ({ task }) => {
   const [modalOpen, toggleModalOpen] = useToggle();
-  const todos = [
-    {
-      id: 1,
-      attributes: {
-        title: 'First Task'
-      }
-    },
-    {
-      id: 2,
-      attributes: {
-        title: 'Second Task'
-      }
-    },
-    {
-      id: 3,
-      attributes: {
-        title: 'Third Task'
-      }
-    }
-  ];
   
   return(
     <Modal 
@@ -52,12 +30,7 @@ const EditableTask = ({ task }) => {
           </Menu.Item>
         </Menu>
 
-        <Header>CheckList</Header>
-        <List relaxed>
-          <TodoList 
-            todos={todos}
-          />
-        </List>
+        <Checklist />
       </Modal.Content>
     </Modal>
   );
