@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Button, Header, Image, Modal, Menu
+  Button, Header, Image, Modal, Menu,
+  List
 } from 'semantic-ui-react';
 import Task from './Task';
 import { useToggle } from './useToggle';
@@ -52,9 +53,11 @@ const EditableTask = ({ task }) => {
         </Menu>
 
         <Header>CheckList</Header>
-        <TodoList 
-          todos={todos}
-        />
+        <List relaxed>
+          <TodoList 
+            todos={todos}
+          />
+        </List>
       </Modal.Content>
     </Modal>
   );
