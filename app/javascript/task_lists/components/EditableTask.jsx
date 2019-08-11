@@ -30,7 +30,10 @@ const EditableTask = ({ task }) => {
           </Menu.Item>
         </Menu>
 
-        <Checklist />
+        <Checklist 
+          taskId={task.id} 
+          todosLink={task.relationships.todos.links.related}
+        />
       </Modal.Content>
     </Modal>
   );

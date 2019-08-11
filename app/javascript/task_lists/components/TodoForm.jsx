@@ -10,7 +10,7 @@ const TodoForm = (props) => {
       attributes: { title }
     }
     props.onFormSubmit(todo);
-    props.closeForm();
+    props.closeForm;
   }
 
   const handleChange = (e) => {

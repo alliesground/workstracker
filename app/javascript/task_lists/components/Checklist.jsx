@@ -1,48 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Header, List } from 'semantic-ui-react';
 import TodoList from './TodoList';
 import ToggleableTodoForm from './ToggleableTodoForm'
+import { useEndpoint } from './useEndpoint';
 
-const Checklist = () => {
+const Checklist = (props) => {
 
-  const initialTodos = [
+  const [todos, fetchTodos, setTodos] = useEndpoint(() => ({
+    url: props.todosLink,
+    method: 'GET'
+  }))
+
+  const [todo, postNewTodo] = useEndpoint(data => ({
+    url: 'todos',
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+    }
+  }));
+
+  const payload = (todo) => (
     {
-      id: 1,
-      attributes: {
-        title: 'First Task'
-      }
-    },
-    {
-      id: 2,
-      attributes: {
-        title: 'Second Task'
-      }
-    },
-    {
-      id: 3,
-      attributes: {
-        title: 'Third Task'
+      data: {
+        ...todo,
+        relationships: {
+          task: {
+            data: {
+              type: 'tasks',
+              id: props.taskId
+            }
+          }
+        }
       }
     }
-  ];
+  );
 
-  const [todos, setTodos] = useState(initialTodos)
+  useEffect(() => {
+
+    const execute = async () => {
+
+      if(!todos.response) fetchTodos();
+      
+      if(todo.completed && !todo.error) {
+        setTodos(todo.response.data);
+      }
+    };
+
+    execute();
+  }, [todo]);
 
   const handleCreateFormSubmit = (todo) => {
-    const newTodos = todos.concat(todo);
-    setTodos(newTodos);
+    postNewTodo(payload(todo));
   }
 
+  console.log(todos);
   return(
     <>
       <Header>CheckList</Header>
-      <List relaxed>
-        <TodoList 
-          todos={todos}
-        />
-      </List>
+      {
+        (todos.pending && 'Loading...') ||
+        (todos.completed && <List relaxed> <TodoList todos={todos.response.data} /> </List>)
+      }
       <ToggleableTodoForm
         onFormSubmit={handleCreateFormSubmit}
+        todo={todo}
       />
     </>
   );

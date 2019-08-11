@@ -15,10 +15,13 @@ const ToggleableTodoForm = (props) => {
     <>
       {
         isOpen ?
-        <TodoForm 
-          onFormSubmit={handleFormSubmit}
-          closeForm={toggleIsOpen}
-        /> :
+        (
+         props.todo.pending ? 'Loading...' :
+         <TodoForm 
+           onFormSubmit={handleFormSubmit}
+           closeForm={toggleIsOpen}
+         />
+        ) :
         <Button
           onClick={toggleIsOpen}
         >
