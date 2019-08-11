@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190731070226) do
+ActiveRecord::Schema.define(version: 20190811112407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,13 @@ ActiveRecord::Schema.define(version: 20190731070226) do
     t.index ["list_id"], name: "index_tasks_on_list_id"
   end
 
+  create_table "todos", force: :cascade do |t|
+    t.string "title"
+    t.boolean "completed", default: false
+    t.bigint "task_id"
+    t.index ["task_id"], name: "index_todos_on_task_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -130,4 +137,5 @@ ActiveRecord::Schema.define(version: 20190731070226) do
   add_foreign_key "lists", "projects"
   add_foreign_key "memberships", "users"
   add_foreign_key "tasks", "lists"
+  add_foreign_key "todos", "tasks"
 end
