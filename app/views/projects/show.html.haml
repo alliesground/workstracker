@@ -35,9 +35,10 @@
 
 
 
-.sixteen.wide.column
-  .ui.four.cards
-    = render project.lists.persisted
+-#
+  .sixteen.wide.column
+    .ui.four.cards
+      = render project.lists.persisted
 
 = react_component('TaskLists',{project_id: project.id}, class: 'row')
 
