@@ -4,6 +4,7 @@ module Api
       attributes :title
 
       belongs_to :list
+      has_many :todos
     end
   end
 end

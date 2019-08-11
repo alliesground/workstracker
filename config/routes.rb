@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       jsonapi_resources :projects
       jsonapi_resources :lists, only: :create
       jsonapi_resources :tasks
+      jsonapi_resources :todos
     end
   end
 end
