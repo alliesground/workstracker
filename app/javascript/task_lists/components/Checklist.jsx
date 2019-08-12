@@ -3,6 +3,9 @@ import { Button, Header, List } from 'semantic-ui-react';
 import TodoList from './TodoList';
 import ToggleableTodoForm from './ToggleableTodoForm'
 import { useEndpoint } from './useEndpoint';
+import WithLoading from '../hocs/WithLoading';
+
+const TodosWithLoading = WithLoading(TodoList);
 
 const Checklist = (props) => {
 
@@ -39,7 +42,7 @@ const Checklist = (props) => {
 
   useEffect(() => {
 
-    const execute = async () => {
+    const execute = () => {
 
       if(!todos.response) fetchTodos();
       
@@ -58,10 +61,14 @@ const Checklist = (props) => {
   return(
     <>
       <Header>CheckList</Header>
-      {
-        (todos.pending && 'Loading...') ||
-        (todos.completed && <List relaxed> <TodoList todos={todos.response.data} /> </List>)
-      }
+      <List relaxed>
+        <TodosWithLoading 
+          pending={todos.pending}
+          completed={todos.completed}
+          todos={todos.response ? todos.response.data : null}
+        />
+      </List>
+
       <ToggleableTodoForm
         onFormSubmit={handleCreateFormSubmit}
         todo={todo}
