@@ -55,7 +55,6 @@ const Checklist = (props) => {
     postNewTodo(payload(todo));
   }
 
-  console.log(todos);
   return(
     <>
       <Header>CheckList</Header>

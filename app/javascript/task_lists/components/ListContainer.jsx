@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ToggleableTaskForm from './ToggleableTaskForm'
 import EditableTasks from './EditableTasks';
 import { useEndpoint } from './useEndpoint';
+import WithLoading from '../hocs/WithLoading';
 
 const Card = styled.div`
   max-height: 100%;
@@ -10,6 +11,8 @@ const Card = styled.div`
   overflow-x: hidden;
   white-space: normal;
 `;
+
+const EditableTasksWithLoading =  WithLoading(EditableTasks);
 
 const ListContainer = ({ list }) => {
 
@@ -31,7 +34,7 @@ const ListContainer = ({ list }) => {
       'Accept': 'application/vnd.api+json',
       'Content-Type': 'application/vnd.api+json',
     }
-  }));
+  })); 
 
   const handleCreateFormSubmit = (task) => {
     postNewTask(payload(task))
@@ -54,21 +57,24 @@ const ListContainer = ({ list }) => {
   );
 
   useEffect(() => {
-    const execute = async () => {
+
+    const execute = () => {
+
       if(!listTasks.pending && !listTasks.completed) {
-        fetchListTasks(); 
+        fetchListTasks();
       }
 
       if(listTasks.completed && !listTasks.error) {
         if(!tasks.response) fetchTasks();
       }
-
+      
       if(task.completed && !task.error) {
         setTasks(task.response.data);
       }
     };
 
     execute();
+
   }, [listTasks, task]);
 
   return(
@@ -78,10 +84,11 @@ const ListContainer = ({ list }) => {
           <div className='header'>
             { list.attributes.title }
           </div>
-          {
-            (tasks.pending && 'Loading...') ||
-            (tasks.completed && <EditableTasks tasks={tasks.response.data} />)
-          }
+          <EditableTasksWithLoading 
+            pending={tasks.pending}
+            completed={tasks.completed}
+            tasks={tasks.response ? tasks.response.data : null}
+          />
         </div>
         <div className='extra content'>
           <ToggleableTaskForm

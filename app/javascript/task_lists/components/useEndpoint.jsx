@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 
 const BASE_URL = process.env.REACT_APP_API_HOST
 
@@ -85,16 +85,19 @@ export const useEndpoint = (fn) => {
     return res;
   }
 
-  async function execute(request) {
+  let _isMounted = false;
 
+  async function execute(request) {
     dispatch(actions.request());
 
-    fetch(request)
+    await fetch(request)
       .then(res => checkStatus(res))
       .then(res => res.json())
       .then(
         (res) => {
-          dispatch(actions.success(res))
+          if (_isMounted) {
+            dispatch(actions.success(res))
+          }
         },
         (error) => {
           dispatch(actions.error())
@@ -113,7 +116,13 @@ export const useEndpoint = (fn) => {
     const {url, ...options} = req
     const request = new Request(fullUrl(url), options); 
 
+    _isMounted = true;
     execute(request);
+
+    return () => {
+      _isMounted = false;
+    }
+
   }, [req]);
 
   return [res, (...args) => setReq(fn(...args)), setData];

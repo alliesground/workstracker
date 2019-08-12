@@ -3,6 +3,7 @@ import ListContainers from './ListContainers';
 import ToggleableListForm from './ToggleableListForm';
 import styled from 'styled-components';
 import { useEndpoint } from './useEndpoint';
+import WithLoading from '../hocs/WithLoading';
 
 const HorizontalScrollGrid = styled.div`
   overflow-x: auto;
@@ -14,6 +15,8 @@ const HorizontalScrollGrid = styled.div`
     margin-left: -12px;
   }
 `;
+
+const ListContainersWithLoading = WithLoading(ListContainers);
 
 export const TaskListsDashboard = (props) => {
 
@@ -37,9 +40,10 @@ export const TaskListsDashboard = (props) => {
     }
   }));
 
+  
   useEffect(() => {
+    const execute = () => {
 
-    const execute = async () => {
       if(!projectLists.pending && !projectLists.completed) {
         fetchProjectLists(); 
       }
@@ -47,14 +51,23 @@ export const TaskListsDashboard = (props) => {
       if(projectLists.completed && !projectLists.error) {
         if(!lists.response) fetchLists();
       }
+    }
 
+    execute();
+
+  }, [projectLists]);
+  
+  useEffect(() => {
+
+    const execute = () => {
       if(list.completed && !list.error) {
         setLists(list.response.data);
       }
     };
 
     execute();
-  }, [projectLists, list]);
+
+  }, [list]);
 
   const handleCreateFormSubmit = (list) => {
     postNewList(payload(list));
@@ -74,7 +87,7 @@ export const TaskListsDashboard = (props) => {
         }
       }
     }
-  );
+  ); 
 
   return(
     <>
@@ -83,9 +96,16 @@ export const TaskListsDashboard = (props) => {
         style={{display: 'block'}}
       >
         {
+          /*
           (lists.pending && 'Loading...') ||
-          (lists.completed && <ListContainers lists={lists.response.data} />)
+          (lists.completed && <ListContainers />)
+          */
         }
+        <ListContainersWithLoading 
+          pending={lists.pending}
+          completed={lists.completed}
+          lists={lists.response ? lists.response.data : null}
+        />
 
         <div className="column" style={{height: '100%'}}>
           <ToggleableListForm
