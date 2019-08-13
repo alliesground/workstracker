@@ -48,7 +48,7 @@ const resReducer = (state, action) => {
     case 'SET':
       return Object.assign({...state}, {
         response: Object.assign({...state.response}, {
-          data: state.response.data.concat(action.data)
+          data: state.response.data.concat(action.datum)
         })
       });
     case 'REQUEST':

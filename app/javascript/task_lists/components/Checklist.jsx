@@ -47,7 +47,7 @@ const Checklist = (props) => {
       if(!todos.response) fetchTodos();
       
       if(todo.completed && !todo.error) {
-        setTodo(todo.response.data);
+        setTodos(todo.response.data);
       }
     };
 
@@ -66,7 +66,7 @@ const Checklist = (props) => {
           pending={todos.pending}
           completed={todos.completed}
           todos={todos.response ? todos.response.data : null}
-          onUpdateTodos={updateTodos}
+          onUpdateTodo={updateTodos}
         />
       </List>
 

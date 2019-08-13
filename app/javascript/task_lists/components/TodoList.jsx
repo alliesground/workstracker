@@ -2,8 +2,8 @@ import React from 'react';
 import Todo from './Todo';
 
 const TodoList = ({ todos, ...props }) => {
-  const handleSetTodos = (todo) => {
-    props.onUpdateTodos(todo)
+  const handleUpdateTodo = (todo) => {
+    props.onUpdateTodo(todo)
   }
 
   return(
@@ -11,7 +11,7 @@ const TodoList = ({ todos, ...props }) => {
       <Todo 
         key={todo.id}
         todo={todo}
-        onUpdateTodos={handleSetTodos}
+        onUpdateTodo={handleUpdateTodo}
       />
     ))
   )

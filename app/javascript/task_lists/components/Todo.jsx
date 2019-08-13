@@ -5,7 +5,7 @@ import { useEndpoint } from './useEndpoint';
 import EditableLabel from './EditableLabel';
 
 
-const Todo = ({ todo, onUpdateTodos }) => { 
+const Todo = ({ todo, onUpdateTodo }) => { 
 
   const [checked, setChecked] = useState(false);
   const [checkListUpdated, setCheckListUpdated] = useState(false);
@@ -27,7 +27,15 @@ const Todo = ({ todo, onUpdateTodos }) => {
 
   const handleEditTitle = (title) => {
     const attributes = {...todo.attributes, title}
-    onUpdateTodos({...todo, attributes})
+    onUpdateTodo({...todo, attributes});
+
+    updateTodo({
+      data: {
+        id: todo.id,
+        type: 'todos',
+        attributes: { title }
+      }
+    });
   }
 
   useEffect(() => {
