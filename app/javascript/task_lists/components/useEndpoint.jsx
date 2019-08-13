@@ -7,7 +7,8 @@ const types = {
   REQUEST: 'REQUEST',
   SUCCESS: 'SUCCESS',
   ERROR: 'ERROR',
-  SET_DATA: 'SET_DATA'
+  SET: 'SET',
+  UPDATE: 'UPDATE'
 }
 
 const actions = {
@@ -23,11 +24,30 @@ const actions = {
   })
 }
 
+const update = (state, action) => {
+
+  const updatedDatumIdx = state.response.data.findIndex(
+    datum => datum.id === action.datum.id
+  );
+
+  return(
+    Object.assign({...state}, {
+      response: Object.assign({...state.response}, {
+        data: Object.assign([...state.response.data], {
+          [updatedDatumIdx]: action.datum
+        })
+      })
+    })
+  );
+}
+
 const resReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_DATA':
-      return Object.assign({}, state, {
-        response: Object.assign({}, state.response, {
+    case 'UPDATE':
+      return update(state, action)
+    case 'SET':
+      return Object.assign({...state}, {
+        response: Object.assign({...state.response}, {
           data: state.response.data.concat(action.data)
         })
       });
@@ -70,11 +90,18 @@ export const useEndpoint = (fn) => {
 
   const [req, setReq] = useState();
 
-  const setData = (data) => {
+  const setData = (datum) => {
     dispatch({
-      type: types.SET_DATA,
-      data
+      type: types.SET,
+      datum
     });
+  }
+
+  const updateData = (datum) => {
+    dispatch({
+      type: types.UPDATE,
+      datum
+    })
   }
 
   function checkStatus(res) {
@@ -125,5 +152,5 @@ export const useEndpoint = (fn) => {
 
   }, [req]);
 
-  return [res, (...args) => setReq(fn(...args)), setData];
+  return [res, (...args) => setReq(fn(...args)), setData, updateData];
 }

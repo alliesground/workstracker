@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Checkbox } from 'semantic-ui-react';
-import { List } from 'semantic-ui-react';
+import { List, Label } from 'semantic-ui-react';
 import { useEndpoint } from './useEndpoint';
+import EditableLabel from './EditableLabel';
 
 
-const Todo = ({ todo }) => { 
+const Todo = ({ todo, onUpdateTodos }) => { 
 
   const [checked, setChecked] = useState(false);
   const [checkListUpdated, setCheckListUpdated] = useState(false);
@@ -19,9 +20,14 @@ const Todo = ({ todo }) => {
     }
   }));
 
-  const handleTaskComplete = () => {
+  const handleTaskComplete = (e) => {
     setCheckListUpdated(true)
     setChecked(!checked);
+  }
+
+  const handleEditTitle = (title) => {
+    const attributes = {...todo.attributes, title}
+    onUpdateTodos({...todo, attributes})
   }
 
   useEffect(() => {
@@ -42,12 +48,32 @@ const Todo = ({ todo }) => {
 
   return(
     <List.Item>
-      <Checkbox
-        label= {todo.attributes.title} 
-        onChange={handleTaskComplete}
-        style={checked ? {textDecoration:"line-through"} : null}
-        checked={checked}
-      />
+      <div className="ui form">
+        <div className="inline fields">
+          <div className="field">
+            <div className="ui checkbox">
+              <input 
+                type="checkbox" 
+                tabIndex="0" 
+                className="hidden" 
+                onChange={handleTaskComplete}
+                checked={checked}
+              />
+              <label
+                onClick={handleTaskComplete}
+              ></label>
+            </div>
+          </div>
+          
+          <div className="sixteen wide field">
+            <EditableLabel
+              title={todo.attributes.title}
+              onSubmit={handleEditTitle}
+              strikeThrough={checked}
+            />
+          </div>
+        </div>
+      </div>
     </List.Item>
   );
 }

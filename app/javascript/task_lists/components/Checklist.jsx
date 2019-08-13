@@ -5,11 +5,11 @@ import ToggleableTodoForm from './ToggleableTodoForm'
 import { useEndpoint } from './useEndpoint';
 import WithLoading from '../hocs/WithLoading';
 
-const TodosWithLoading = WithLoading(TodoList);
+const TodoListWithLoading = WithLoading(TodoList);
 
 const Checklist = (props) => {
 
-  const [todos, fetchTodos, setTodos] = useEndpoint(() => ({
+  const [todos, fetchTodos, setTodos, updateTodos] = useEndpoint(() => ({
     url: props.todosLink,
     method: 'GET'
   }))
@@ -47,7 +47,7 @@ const Checklist = (props) => {
       if(!todos.response) fetchTodos();
       
       if(todo.completed && !todo.error) {
-        setTodos(todo.response.data);
+        setTodo(todo.response.data);
       }
     };
 
@@ -62,10 +62,11 @@ const Checklist = (props) => {
     <>
       <Header>CheckList</Header>
       <List relaxed>
-        <TodosWithLoading 
+        <TodoListWithLoading 
           pending={todos.pending}
           completed={todos.completed}
           todos={todos.response ? todos.response.data : null}
+          onUpdateTodos={updateTodos}
         />
       </List>
 
