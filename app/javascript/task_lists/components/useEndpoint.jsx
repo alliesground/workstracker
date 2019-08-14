@@ -19,8 +19,9 @@ const actions = {
     type: types.SUCCESS,
     res
   }),
-  error: () => ({
-    type: types.ERROR
+  error: (errors) => ({
+    type: types.ERROR,
+    errors
   })
 }
 
@@ -67,7 +68,7 @@ const resReducer = (state, action) => {
       }
     case 'ERROR':
       return {
-        response: null,
+        response: action.errors,
         pending: false,
         error: true,
         completed: true
@@ -105,18 +106,20 @@ export const useEndpoint = (fn) => {
   }
 
   function checkStatus(res) {
-    if(res.status == 404) {
-      return Promise.reject();
+    if(res.status >= 200 && res.status < 300) {
+      return res
     }
-
-    return res;
+    
+    return res.json().then(errors => {
+      return Promise.reject(errors);
+    })
   }
 
   let _isMounted = false;
 
   async function execute(request) {
-    dispatch(actions.request());
-
+    dispatch(actions.request()); 
+    
     await fetch(request)
       .then(res => checkStatus(res))
       .then(res => res.json())
@@ -126,8 +129,8 @@ export const useEndpoint = (fn) => {
             dispatch(actions.success(res))
           }
         },
-        (error) => {
-          dispatch(actions.error())
+        (errors) => {
+          dispatch(actions.error(errors))
         }
       )
   }

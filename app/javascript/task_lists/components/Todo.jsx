@@ -52,6 +52,7 @@ const Todo = ({ todo, onUpdateTodo }) => {
     } else {
       setChecked(todo.attributes.completed)
     }
+    setCheckListUpdated(false);
   },[checked]);
 
   return(

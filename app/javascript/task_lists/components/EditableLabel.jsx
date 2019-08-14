@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useToggle } from './useToggle'
 
 const LabelForm = (props) => {
@@ -6,12 +6,17 @@ const LabelForm = (props) => {
   const [title, setTitle] = useState('');
 
   const handleSubmit = (e) => {
+    if (title === '' || title === props.title) return
     props.onFormSubmit(title);
   }
 
   const handleChange = (e) => {
     setTitle(e.target.value);
   }
+
+  useEffect(() => {
+    setTitle(props.title)
+  }, [])
 
   return(
     <>
@@ -28,6 +33,7 @@ const LabelForm = (props) => {
       </button>
       <button
         className='ui compact button negative'
+        onClick={props.onToggleIsEdit}
       >
         Cancel
       </button>
@@ -50,6 +56,8 @@ const EditableLabel = ({ title, onSubmit, ...rest }) => {
         isEdit ? (
           <LabelForm 
             onFormSubmit={handleFormSubmit}
+            onToggleIsEdit={toggleIsEdit}
+            title={title}
           />
         ) : (
           <label
