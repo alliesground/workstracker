@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Task = ({ task, ...props }) => {
+const Task = ({ task, members, ...props }) => {
   return(
     <a 
       className='ui card'
@@ -11,6 +11,12 @@ const Task = ({ task, ...props }) => {
           <p>{task.attributes.title}</p>
         </div>
       </div>
+
+      {
+        members.map(member =>
+          <div> {member.attributes.name} </div>
+        )
+      }
     </a>
   );
 };
