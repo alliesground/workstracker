@@ -88,6 +88,7 @@ export const useEndpoint = (fn) => {
   }
 
   const [res, dispatch] = useReducer(resReducer, initialState);
+  const [error, setError] = useState();
 
   const [req, setReq] = useState();
 
@@ -106,33 +107,28 @@ export const useEndpoint = (fn) => {
   }
 
   function checkStatus(res) {
-    if(res.status >= 200 && res.status < 300) {
-      return res
+    if (!res.ok) {
+      throw new Error(res.statusText);
     }
-    
-    return res.json().then(errors => {
-      return Promise.reject(errors);
-    })
+    return res;
   }
 
   let _isMounted = false;
 
   async function execute(request) {
-    dispatch(actions.request()); 
+    dispatch(actions.request());
     
-    await fetch(request)
-      .then(res => checkStatus(res))
-      .then(res => res.json())
-      .then(
-        (res) => {
+    try {
+      let res = await fetch(request);
+      checkStatus(res).json()
+        .then(jsonRes => {
           if (_isMounted) {
-            dispatch(actions.success(res))
+            dispatch(actions.success(jsonRes));
           }
-        },
-        (errors) => {
-          dispatch(actions.error(errors))
-        }
-      )
+        });
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   const fullUrl = (url) => {
