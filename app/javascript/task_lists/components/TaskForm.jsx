@@ -10,6 +10,8 @@ const TaskForm = (props) => {
     setTitle(e.target.value);
   }
   const handleSubmit = () => {
+    if (title === '') return
+
     const task = {
       type: 'tasks',
       attributes: { title }
