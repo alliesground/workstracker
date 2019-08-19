@@ -43,9 +43,17 @@ Rails.application.routes.draw do
 #      resources :profiles, only: [:index]
 
       jsonapi_resources :projects
-      jsonapi_resources :lists, only: :create
-      jsonapi_resources :tasks
-      jsonapi_resources :todos
+      jsonapi_resources :lists
+      jsonapi_resources :tasks do
+        jsonapi_related_resources :members
+        jsonapi_related_resources :todos
+      end
+      jsonapi_resources :todos do
+        jsonapi_related_resource :task
+      end
+      jsonapi_resources :users do
+        jsonapi_related_resources :tasks
+      end
     end
   end
 end

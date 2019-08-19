@@ -13,7 +13,7 @@ const AddTaskMemberForm = (props) => {
   const possibleMembers = props.possibleMembers.map(member => (
         <Dropdown.Item 
           key={member.id}
-          text={member.attributes.name} 
+          text={member.attributes.email} 
           value={member.id}
           onClick={handleSubmit}
         />

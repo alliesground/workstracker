@@ -4,6 +4,7 @@ module Api
       attributes :title
 
       has_many :lists
+      has_many :members
     end
   end
 end

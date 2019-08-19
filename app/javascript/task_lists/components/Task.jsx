@@ -1,5 +1,8 @@
 import React from 'react';
 import MemberList from './MemberList';
+import WithLoading from '../hocs/WithLoading';
+
+const MemberListWithLoading = WithLoading(MemberList);
 
 const Task = ({ task, members, ...props }) => {
   return(
@@ -12,7 +15,11 @@ const Task = ({ task, members, ...props }) => {
           <p>{task.attributes.title}</p>
         </div>
 
-        <MemberList members={members} />
+        <MemberListWithLoading 
+          pending={members.pending}
+          completed={members.completed}
+          members={members}
+        />
       </div>
 
     </a>

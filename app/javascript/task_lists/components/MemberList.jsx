@@ -5,9 +5,9 @@ const MemberList = ({ members }) => (
   <>
     <List relaxed>
       {
-        members.map(member =>
+        members.response.data.map(member =>
           <List.Item key={member.id}>
-          {member.attributes.name}
+          {member.attributes.email}
           </List.Item>
         )
       }

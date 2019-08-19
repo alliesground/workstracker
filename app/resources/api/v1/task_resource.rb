@@ -5,6 +5,7 @@ module Api
 
       belongs_to :list
       has_many :todos
+      has_many :members
     end
   end
 end

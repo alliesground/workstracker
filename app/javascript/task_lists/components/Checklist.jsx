@@ -10,7 +10,7 @@ const TodoListWithLoading = WithLoading(TodoList);
 const Checklist = (props) => {
 
   const [todos, fetchTodos, setTodos, updateTodos] = useEndpoint(() => ({
-    url: props.todosLink,
+    url: `/tasks/${props.taskId}/todos`,
     method: 'GET'
   }))
 

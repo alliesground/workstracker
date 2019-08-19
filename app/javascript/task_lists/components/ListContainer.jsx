@@ -14,7 +14,7 @@ const Card = styled.div`
 
 const EditableTasksWithLoading =  WithLoading(EditableTasks);
 
-const ListContainer = ({ list }) => {
+const ListContainer = ({ list, projectId }) => {
 
   const [listTasks, fetchListTasks] = useEndpoint(() => ({
     url: `lists/${list.id}/relationships/tasks`,
@@ -88,6 +88,7 @@ const ListContainer = ({ list }) => {
             pending={tasks.pending}
             completed={tasks.completed}
             tasks={tasks.response ? tasks.response.data : null}
+            projectId={projectId}
           />
         </div>
         <div className='extra content'>

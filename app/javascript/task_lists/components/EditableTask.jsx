@@ -7,56 +7,26 @@ import { useToggle } from './useToggle';
 import Checklist from './Checklist';
 import AddTaskMemberForm from './AddTaskMemberForm'
 import MemberList from './MemberList'
+import { useEndpoint } from './useEndpoint';
+import WithLoading from '../hocs/WithLoading';
 
-const EditableTask = ({ task }) => {
+const MemberListWithLoading = WithLoading(MemberList);
+
+const EditableTask = ({ task, projectId }) => {
+
   const [modalOpen, toggleModalOpen] = useToggle();
+
   const [filteredProjectMembers, setFilteredProjectMembers] = useState();
 
-  const projectMembers = {
-    response: {
-      data: [
-        {
-          id: 1,
-          attributes: {
-            name: 'Tylon'
-          }
-        },
-        {
-          id: 2,
-          attributes: {
-            name: 'Manus'
-          }
-        },
-        {
-          id: 3,
-          attributes: {
-            name: 'Tim'
-          }
-        }
-      ]
-    }
-  }
+  const [members, fetchMembers, setMembers] = useEndpoint(() => ({
+    url: `/tasks/${task.id}/members`,
+    method: 'GET'
+  }));
 
-  const initialMembers = {
-    response: {
-      data: [
-        {
-          id: 1,
-          attributes: {
-            name: 'Tylon'
-          }
-        },
-        {
-          id: 2,
-          attributes: {
-            name: 'Jerry'
-          }
-        }
-      ]
-    }
-  }
-
-  const [members, setMembers] = useState(initialMembers)
+  const [projectMembers, fetchProjectMembers] = useEndpoint(() => ({
+    url: `/projects/${projectId}/members`,
+    method: 'GET'
+  }));
 
   const filterProjectMembers = () => {
     const possibleMembers = [...projectMembers.response.data];
@@ -79,18 +49,26 @@ const EditableTask = ({ task }) => {
   }
 
   const handleAddMember = (member) => {
+    /*
     const newMembers = Object.assign({...members}, {
       response: Object.assign({...members.response}, {
         data: members.response.data.concat(member)
       })
-    })
+    })*/
 
-    setMembers(newMembers);
+    setMembers(member);
   }
 
   useEffect(() => {
-    setFilteredProjectMembers(filterProjectMembers());
-  }, [members]);
+    fetchMembers();
+    fetchProjectMembers();
+  }, []);
+
+  useEffect(() => {
+    if (members.response && projectMembers.response) {
+      setFilteredProjectMembers(filterProjectMembers());
+    }
+  }, [members, projectMembers]);
   
   return(
     <Modal 
@@ -98,7 +76,7 @@ const EditableTask = ({ task }) => {
         <Task 
           onClick={toggleModalOpen}
           task={task}
-          members={members.response.data}
+          members={members}
         />
       } 
       open={modalOpen}
@@ -120,11 +98,14 @@ const EditableTask = ({ task }) => {
         </Menu>
 
         <Header>Members</Header>
-        <MemberList members={members.response.data}/>
+        <MemberListWithLoading 
+          pending={members.pending}
+          completed={members.completed}
+          members={members}
+        />
 
         <Checklist 
           taskId={task.id} 
-          todosLink={task.relationships.todos.links.related}
         />
       </Modal.Content>
     </Modal>

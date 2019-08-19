@@ -105,6 +105,7 @@ export const TaskListsDashboard = (props) => {
           pending={lists.pending}
           completed={lists.completed}
           lists={lists.response ? lists.response.data : null}
+          projectId={props.projectId}
         />
 
         <div className="column" style={{height: '100%'}}>
