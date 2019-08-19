@@ -1,4 +1,5 @@
 import React from 'react';
+import MemberList from './MemberList';
 
 const Task = ({ task, members, ...props }) => {
   return(
@@ -10,13 +11,10 @@ const Task = ({ task, members, ...props }) => {
         <div className='description'>
           <p>{task.attributes.title}</p>
         </div>
+
+        <MemberList members={members} />
       </div>
 
-      {
-        members.map(member =>
-          <div> {member.attributes.name} </div>
-        )
-      }
     </a>
   );
 };

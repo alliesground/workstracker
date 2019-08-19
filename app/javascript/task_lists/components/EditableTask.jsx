@@ -119,6 +119,7 @@ const EditableTask = ({ task }) => {
           </Menu.Item>
         </Menu>
 
+        <Header>Members</Header>
         <MemberList members={members.response.data}/>
 
         <Checklist 

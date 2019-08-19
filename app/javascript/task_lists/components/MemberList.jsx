@@ -3,11 +3,10 @@ import { Header, List } from 'semantic-ui-react';
 
 const MemberList = ({ members }) => (
   <>
-    <Header>Members</Header>
     <List relaxed>
       {
         members.map(member =>
-          <List.Item>
+          <List.Item key={member.id}>
           {member.attributes.name}
           </List.Item>
         )
