@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useReducer } from 'react';
 
 const BASE_URL = process.env.REACT_APP_API_HOST
-console.log('Base URL => ', BASE_URL);
 
 
 const types = {
