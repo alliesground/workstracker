@@ -4,6 +4,7 @@ import ToggleableListForm from './ToggleableListForm';
 import styled from 'styled-components';
 import { useEndpoint } from './useEndpoint';
 import WithLoading from '../hocs/WithLoading';
+import EditableTask from './EditableTask';
 
 const HorizontalScrollGrid = styled.div`
   overflow-x: auto;
@@ -16,9 +17,17 @@ const HorizontalScrollGrid = styled.div`
   }
 `;
 
-const ListContainersWithLoading = WithLoading(ListContainers);
+const ListContainersWithLoading = WithLoading(ListContainers); 
 
 export const TaskListsDashboard = (props) => {
+
+  const editableTask = (task) => (
+    <EditableTask
+      key={task.id}
+      task={task}
+      projectId={props.projectId}
+    />
+  )
 
   const [projectLists, fetchProjectLists] = useEndpoint(() => ({
     url: `projects/${props.projectId}/relationships/lists`,
@@ -105,7 +114,7 @@ export const TaskListsDashboard = (props) => {
           pending={lists.pending}
           completed={lists.completed}
           lists={lists.response ? lists.response.data : null}
-          projectId={props.projectId}
+          editableTask={editableTask}
         />
 
         <div className="column" style={{height: '100%'}}>

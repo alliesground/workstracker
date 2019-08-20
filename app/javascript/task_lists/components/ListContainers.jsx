@@ -1,12 +1,12 @@
 import React from 'react';
 import ListContainer from './ListContainer'
 
-const ListContainers = ({ lists, projectId }) => (
+const ListContainers = ({ lists, ...props }) => (
   lists.map(list => (
     <ListContainer 
       key={list.id} 
       list={list} 
-      projectId={projectId}
+      editableTask={props.editableTask}
     />
   ))
 );
