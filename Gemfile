@@ -31,6 +31,7 @@ gem 'sidekiq'
 gem 'webpacker', '~> 4.x'
 gem 'jsonapi-resources'
 gem 'webpacker-react', "~> 1.0.0.beta.1"
+gem 'public_activity'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
