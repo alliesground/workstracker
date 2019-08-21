@@ -5,6 +5,7 @@ module Api
 
       has_many :tasks
       has_many :projects
+      has_many :assignments
     end
   end
 end

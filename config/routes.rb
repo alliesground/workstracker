@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       jsonapi_resources :users do
         jsonapi_related_resources :tasks
       end
+      jsonapi_resource :assignments, only: [:create, :destroy] do
+      end
     end
   end
 end

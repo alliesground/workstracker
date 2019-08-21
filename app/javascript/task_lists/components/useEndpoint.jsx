@@ -8,7 +8,8 @@ const types = {
   SUCCESS: 'SUCCESS',
   ERROR: 'ERROR',
   SET: 'SET',
-  UPDATE: 'UPDATE'
+  UPDATE: 'UPDATE',
+  DESTROY: 'DESTROY'
 }
 
 const actions = {
@@ -25,11 +26,15 @@ const actions = {
   })
 }
 
-const update = (state, action) => {
-
-  const updatedDatumIdx = state.response.data.findIndex(
+const getIndex = (state, action) => {
+  const index = state.response.data.findIndex(
     datum => datum.id === action.datum.id
   );
+  return index;
+}
+
+const update = (state, action) => {
+  const updatedDatumIdx = getIndex(state, action);
 
   return(
     Object.assign({...state}, {
@@ -42,8 +47,22 @@ const update = (state, action) => {
   );
 }
 
+const destroy = (state, action) => {
+  return(
+    Object.assign({...state}, {
+      response: Object.assign({...state.response}, {
+        data: state.response.data.filter((val, idx) => {
+          return idx !== getIndex(state, action)
+        })
+      })
+    })
+  )
+}
+
 const resReducer = (state, action) => {
   switch (action.type) {
+    case 'DESTROY':
+      return destroy(state, action)
     case 'UPDATE':
       return update(state, action)
     case 'SET':
@@ -106,6 +125,13 @@ export const useEndpoint = (fn) => {
     })
   }
 
+  const deleteData = (datum) => {
+    dispatch({
+      type: types.DESTROY,
+      datum
+    })
+  }
+
   function checkStatus(res) {
     if (!res.ok) {
       throw new Error(res.statusText);
@@ -120,12 +146,18 @@ export const useEndpoint = (fn) => {
     
     try {
       let res = await fetch(request);
-      checkStatus(res).json()
-        .then(jsonRes => {
-          if (_isMounted) {
-            dispatch(actions.success(jsonRes));
-          }
-        });
+      res = checkStatus(res);
+
+      if (res.status === 204) {
+        dispatch(actions.success(null));
+      } else {
+        res.json()
+          .then(jsonRes => {
+            if (_isMounted) {
+              dispatch(actions.success(jsonRes));
+            }
+          })
+      }
     } catch (error) {
       throw new Error(error);
     }
@@ -151,5 +183,5 @@ export const useEndpoint = (fn) => {
 
   }, [req]);
 
-  return [res, (...args) => setReq(fn(...args)), setData, updateData];
+  return [res, (...args) => setReq(fn(...args)), setData, updateData, deleteData];
 }

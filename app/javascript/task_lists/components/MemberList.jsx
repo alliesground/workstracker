@@ -1,18 +1,31 @@
 import React from 'react';
 import { Header, List } from 'semantic-ui-react';
 
-const MemberList = ({ members }) => (
-  <>
-    <List relaxed>
+const MemberList = ({ members, ...props }) => {
+  const handleDelete = (e) => {
+    props.onMemberDelete(e.target.getAttribute('value'));
+  }
+
+  return(
+    <>
       {
-        members.response.data.map(member =>
-          <List.Item key={member.id}>
-          {member.attributes.email}
-          </List.Item>
+        members.map(member =>
+          <div 
+            className='ui label' 
+            key={member.id}
+          >
+            {member.attributes.email}
+            <i 
+              className='delete icon'
+              value={member.id}
+              onClick={handleDelete}
+            >
+            </i>
+          </div>
         )
       }
-    </List>
-  </>
-)
+    </>
+  )
+}
 
 export default MemberList;

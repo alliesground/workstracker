@@ -18,7 +18,7 @@ const EditableTask = ({ task, projectId }) => {
 
   const [filteredProjectMembers, setFilteredProjectMembers] = useState();
 
-  const [members, fetchMembers, setMembers] = useEndpoint(() => ({
+  const [members, fetchMembers, setMembers,, deleteMembers] = useEndpoint(() => ({
     url: `/tasks/${task.id}/members`,
     method: 'GET'
   }));
@@ -27,6 +27,28 @@ const EditableTask = ({ task, projectId }) => {
     url: `/projects/${projectId}/members`,
     method: 'GET'
   }));
+
+  const [newAssignment, postNewAssignment] = useEndpoint(data => ({
+    url: 'assignments',
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+    },
+  }));
+
+  const [, deleteAssignment] = useEndpoint(data => (
+    {
+      url: 'assignments',
+      method: 'DELETE',
+      body: JSON.stringify(data),
+      headers: {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json',
+      },
+    }
+  ));
 
   const filterProjectMembers = () => {
     const possibleMembers = [...projectMembers.response.data];
@@ -49,14 +71,31 @@ const EditableTask = ({ task, projectId }) => {
   }
 
   const handleAddMember = (member) => {
-    /*
-    const newMembers = Object.assign({...members}, {
-      response: Object.assign({...members.response}, {
-        data: members.response.data.concat(member)
-      })
-    })*/
-
     setMembers(member);
+    postNewAssignment(payload(member))
+  }
+
+  const payload = (member) => (
+    {
+      data: {
+        type: 'assignments',
+        attributes: {
+          user_id: member.id,
+          task_id: task.id
+        }
+      }
+    }
+  );
+
+  const handleMemberDelete = (memberId) => {
+    deleteAssignment(
+      {
+        user_id: memberId,
+        task_id: task.id
+      }
+    );
+
+    deleteMembers({id: memberId});
   }
 
   useEffect(() => {
@@ -101,7 +140,8 @@ const EditableTask = ({ task, projectId }) => {
         <MemberListWithLoading 
           pending={members.pending}
           completed={members.completed}
-          members={members}
+          members={members.response && members.response.data}
+          onMemberDelete={handleMemberDelete}
         />
 
         <Checklist 

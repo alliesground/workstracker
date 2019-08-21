@@ -4,6 +4,15 @@ import WithLoading from '../hocs/WithLoading';
 
 const MemberListWithLoading = WithLoading(MemberList);
 
+const MemberCount = ({ members }) => (
+  <>
+    <i className='users icon'></i>
+    { members.length }
+  </>
+)
+
+const MemberCountWithLoading = WithLoading(MemberCount);
+
 const Task = ({ task, members, ...props }) => {
   return(
     <a 
@@ -14,11 +23,12 @@ const Task = ({ task, members, ...props }) => {
         <div className='description'>
           <p>{task.attributes.title}</p>
         </div>
-
-        <MemberListWithLoading 
+      </div>
+      <div className='extra content'>
+        <MemberCountWithLoading
           pending={members.pending}
           completed={members.completed}
-          members={members}
+          members={members.response && members.response.data}
         />
       </div>
 
