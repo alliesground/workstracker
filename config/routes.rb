@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   get 'pages/*page' => 'pages#show'
   post 'quiz' => 'pages#create'
 
+  resources :activities
+
   namespace :api do
     #mount_devise_token_auth_for 'User', at: 'auth'
     namespace :v1 do

@@ -1,0 +1,5 @@
+- if activity.trackable
+  - if activity.trackable.user == activity.owner
+    = "#{activity.owner.email} joined #{activity.trackable.task.title}"
+  - else
+    = "#{activity.owner.email} added #{activity.trackable.user.email} to #{activity.trackable.task.title}"
