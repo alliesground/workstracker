@@ -14,4 +14,5 @@
 //= xxxrequire turbolinks
 //= require jquery3
 //= require semantic-ui
+//= require_tree ./channels
 //= require_tree .
