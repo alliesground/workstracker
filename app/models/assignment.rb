@@ -13,11 +13,17 @@ class Assignment < ApplicationRecord
   belongs_to :user
   belongs_to :task
 
+  def task
+    task ||= Task.find_by_id(task_id)
+  end
+
   private
 
   def broadcast_activity_message
-    ActionCable.server.broadcast 'activities',
+    ActivitiesChannel.broadcast_to(
+      task.list.project,
       activity_message: activity_message
+    )
   end
 
   def activity_message

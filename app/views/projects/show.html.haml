@@ -16,15 +16,23 @@
     }
   });
 
+- content_for :activities_channel do
+  = javascript_include_tag 'channels/activities'
 
 = javascript_pack_tag 'task_lists'
 
 .sixteen.wide.column
-  .ui.message.transition.hidden#activities
+  .ui.message.transition.hidden#activities{'data-project-id' => project.id }
     %i.close.icon
-    .header
-      Activities
-    %ul.ui.list
+    .ui.grid
+      .twelve.wide.column
+        .header
+          Activities
+        %ul.ui.list
+      .four.wide.column
+        .ui.button.primary#btn-reload
+          Refresh to view changes
+
 
 
 

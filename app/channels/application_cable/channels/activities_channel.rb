@@ -1,5 +1,6 @@
 class ActivitiesChannel < ApplicationCable::Channel
   def subscribed
-    stream_from 'activities'
+    project = Project.find(params[:project_id])
+    stream_for project
   end
 end
