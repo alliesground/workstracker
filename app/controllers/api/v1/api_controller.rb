@@ -12,7 +12,7 @@ module Api
 
       include Concerns::NestedResourcesParentFinder
 
-      #before_action :authenticate_api_user! 
+      #before_action :authenticate_api_user!
     end
   end
 end

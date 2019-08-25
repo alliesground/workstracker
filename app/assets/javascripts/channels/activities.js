@@ -13,6 +13,6 @@ App.activities = App.cable.subscriptions.create('ActivitiesChannel', {
   },
 
   renderMessage: function(data) {
-    return "<li class='item'>" + data.activity + "</li>";
+    return "<li class='item'>" + data.activity_message + "</li>";
   }
 });

@@ -1,7 +1,0 @@
-
-- if User.find_by_id(p[:user_id])
-  - if p[:user_id] == activity.owner.id
-    = "#{activity.owner.email} left #{Task.find(p[:task_id]).title}"
-  - else
-    = "#{activity.owner.email} removed #{User.find(p[:user_id]).email} from #{Task.find(p[:task_id]).title}"
-
