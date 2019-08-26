@@ -1,10 +1,5 @@
 :javascript
   $(function() {
-    /* Add list form */
-    $('#btn_add_list').on('click', function() {
-      $('.modal#add-list-form').modal('show');
-    });
-
     /* Invite form */
     $('#btn-invite').on('click', function() {
       $('.modal#invite-form').modal('show');
@@ -14,6 +9,11 @@
     if( $formFieldWithError.length > 0 ) {
       $formFieldWithError.closest('.modal').modal('show');
     }
+
+    /* refresh activites */
+    $('#activities').find('#btn-reload').on('click', function() {
+      location.reload(true);
+    });
   });
 
 - content_for :activities_channel do
@@ -22,7 +22,7 @@
 = javascript_pack_tag 'task_lists'
 
 .sixteen.wide.column
-  .ui.message.transition.hidden#activities{'data-project-id' => project.id }
+  .ui.message.transition.hidden#activities{'data-project-id' => project.id, 'data-current-user-id' => current_user.id }
     %i.close.icon
     .ui.grid
       .twelve.wide.column
@@ -30,11 +30,8 @@
           Activities
         %ul.ui.list
       .four.wide.column
-        .ui.button.primary#btn-reload
+        .ui.button.primary.hidden#btn-reload
           Refresh to view changes
-
-
-
 
 .sixteen.wide.column 
   .ui.horizontal.divided.list
@@ -46,25 +43,7 @@
         .item
           .tiny.ui.button#btn-invite Invite
 
-
-
--#
-  .sixteen.wide.column
-    .ui.four.cards
-      = render project.lists.persisted
-
 = react_component('TaskLists',{project_id: project.id}, class: 'row')
 
 -# Modal for invite form
 = render "#{(invite ||= project.invites.new).to_partial_path}_form", invite: invite
-
--# Modal for list form
-.ui.mini.modal#add-list-form
-  .header
-    Add List
-  .content
-    = simple_form_for [project, list ||= project.lists.new], class: 'ui form' do |f|
-      .field
-        = f.input :title
-      %button{type:"submit", class: "ui green ok inverted button"}
-        Submit

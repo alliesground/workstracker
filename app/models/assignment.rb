@@ -22,8 +22,12 @@ class Assignment < ApplicationRecord
   def broadcast_activity_message
     ActivitiesChannel.broadcast_to(
       task.list.project,
-      activity_message: activity_message
+      activity_message: activity_message,
+      activity_owner_id: activities.last.owner_id 
     )
+  end
+
+  def show_refresh?
   end
 
   def activity_message

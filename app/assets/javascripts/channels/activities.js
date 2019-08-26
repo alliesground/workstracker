@@ -9,8 +9,15 @@ $(function(){
         project_id: $('#activities').data('project-id')
       }, {
         received: function(data) {
-          $("#activities").removeClass('hidden')
-          return $('#activities .list').prepend(this.renderMessage(data));
+          $("#activities").removeClass('hidden');
+
+          if (data.activity_owner_id !== $("#activities").data('current-user-id')) {
+            $("#activities").find('#btn-reload').show();
+          } else {
+            $("#activities").find('#btn-reload').hide();
+          }
+
+          $('#activities .list').prepend(this.renderMessage(data));
         },
 
         renderMessage: function(data) {
