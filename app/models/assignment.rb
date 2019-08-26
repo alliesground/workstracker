@@ -27,32 +27,20 @@ class Assignment < ApplicationRecord
   end
 
   def activity_message
-    case PublicActivity::Activity.last.key
-    when 'assignment.create'
-      activity_create_message
-    when 'assignment.destroy'
-      activity_destroy_message
+    case activity_user_email
+    when activity_owner_email
+      "#{activity_owner_email} #{key == 'create' ? 'joined' : 'left'} #{activity_task_title}"
     else
-      'Message not assigned for this activity'
+      "#{activity_owner_email} #{key == 'create' ? 'added' : 'removed'} #{activity_user_email} #{key == 'create' ? 'to' : 'from'} #{activity_task_title}"
     end
   end
 
-  def activity_create_message
-    case activity_user_email
-    when activities.last.owner.email
-      "#{activities.last.owner.email} joined #{activity_task_title}"
-    else
-      "#{activities.last.owner.email} added #{activity_user_email} to #{activity_task_title}"
-    end
+  def key
+    PublicActivity::Activity.last.key.split('.').last
   end
 
-  def activity_destroy_message
-    case activity_user_email
-    when activities.last.owner.email
-      "#{activity_user_email} left #{activity_task_title}"
-    else
-      "#{activities.last.owner.email} removed #{activity_user_email} from #{activity_task_title}"
-    end
+  def activity_owner_email
+    activities.last.owner.email
   end
 
   def activity_user_email
