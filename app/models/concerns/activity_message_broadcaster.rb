@@ -8,20 +8,14 @@ module ActivityMessageBroadcaster
   private
 
   def broadcast_activity_message
-    broadcast_to do |channel_scope|
-      ActivitiesChannel.broadcast_to(
-        channel_scope,
-        activity_message: activity_message,
-        activity_owner_id: activities.last.owner_id 
-      )
-    end
+    ActivitiesChannel.broadcast_to(
+      project,
+      activity_message: activity_message,
+      activity_owner_id: activities.last.owner_id 
+    )
   end
 
   def activity_owner_email
     activities.last.owner.email
-  end
-
-  def key
-    PublicActivity::Activity.last.key.split('.').last
   end
 end
