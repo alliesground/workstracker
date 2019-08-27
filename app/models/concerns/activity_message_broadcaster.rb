@@ -20,4 +20,8 @@ module ActivityMessageBroadcaster
   def activity_owner_email
     activities.last.owner.email
   end
+
+  def key
+    PublicActivity::Activity.last.key.split('.').last
+  end
 end

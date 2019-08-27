@@ -29,11 +29,7 @@ class Assignment < ApplicationRecord
     else
       "#{activity_owner_email} #{key == 'create' ? 'added' : 'removed'} #{activity_user_email} #{key == 'create' ? 'to' : 'from'} #{activity_task_title}"
     end
-  end
-
-  def key
-    PublicActivity::Activity.last.key.split('.').last
-  end
+  end 
 
   def activity_user_email
     activities.last.parameters[:user_email]
