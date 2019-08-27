@@ -35,10 +35,6 @@ class Assignment < ApplicationRecord
     PublicActivity::Activity.last.key.split('.').last
   end
 
-  def activity_owner_email
-    activities.last.owner.email
-  end
-
   def activity_user_email
     activities.last.parameters[:user_email]
   end

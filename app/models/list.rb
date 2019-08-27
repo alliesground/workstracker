@@ -19,7 +19,7 @@ class List < ApplicationRecord
   end
 
   def activity_message
-    "Something happend to List"
+    "#{activity_owner_email} added List: #{title}"
   end
 
 end
