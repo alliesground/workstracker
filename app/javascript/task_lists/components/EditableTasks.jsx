@@ -4,7 +4,7 @@ import EditableTask from './EditableTask';
 const EditableTasks = (props) => {
   return(
     props.tasks.map((task) => (
-      props.editableTask(task)
+      props.editableTask(task, props.includedMembers)
     ))
   );
 };

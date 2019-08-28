@@ -21,11 +21,12 @@ const ListContainersWithLoading = WithLoading(ListContainers);
 
 export const TaskListsDashboard = (props) => {
 
-  const editableTask = (task) => (
+  const editableTask = (task, includedMembers) => (
     <EditableTask
       key={task.id}
       task={task}
       projectId={props.projectId}
+      includedMembers={includedMembers}
     />
   )
 

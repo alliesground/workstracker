@@ -12,16 +12,13 @@ import WithLoading from '../hocs/WithLoading';
 
 const MemberListWithLoading = WithLoading(MemberList);
 
-const EditableTask = ({ task, projectId }) => {
+const EditableTask = ({ task, projectId, includedMembers }) => {
 
   const [modalOpen, toggleModalOpen] = useToggle();
 
   const [filteredProjectMembers, setFilteredProjectMembers] = useState();
 
-  const [members, fetchMembers, setMembers,, deleteMembers] = useEndpoint(() => ({
-    url: `/tasks/${task.id}/members`,
-    method: 'GET'
-  }));
+  const [members, setMembers] = useState();
 
   const [projectMembers, fetchProjectMembers] = useEndpoint(() => ({
     url: `/projects/${projectId}/members`,
@@ -56,9 +53,9 @@ const EditableTask = ({ task, projectId }) => {
     loop1:
     for(var i in possibleMembers) {
       loop2:
-      for(var j in members.response.data) {
+      for(var j in members) {
 
-        if(possibleMembers[i].id == members.response.data[j].id) {
+        if(possibleMembers[i].id == members[j].id) {
           delete possibleMembers[i];
           break loop2;
         }
@@ -71,7 +68,7 @@ const EditableTask = ({ task, projectId }) => {
   }
 
   const handleAddMember = (member) => {
-    setMembers(member);
+    setMembers(members.concat(member));
     postNewAssignment(payload(member))
   }
 
@@ -95,60 +92,96 @@ const EditableTask = ({ task, projectId }) => {
       }
     );
 
-    deleteMembers({id: memberId});
+    const indexOfDeletedMember = members.findIndex(
+      member => member.id === memberId
+    )
+
+    const remainingMembers = members.filter(
+      (val, idx) => {
+        return idx !== indexOfDeletedMember 
+      }
+    ) 
+
+    setMembers(remainingMembers);
+  }
+  
+  const getMembers = () => {
+    if (includedMembers) {
+      let uniqueIncludedMembers = includedMembers.filter(im => {
+        return task.relationships.members.data.some(rm => {
+          return im.id === rm.id;
+        })
+      });
+
+      let uniqueRelatedMembers = task.relationships.members.data.filter(rm => {
+        return !includedMembers.some(im => {
+          return rm.value == im.value;
+        });
+      });
+
+      setMembers(uniqueIncludedMembers.concat(uniqueRelatedMembers));
+    }
+
   }
 
   useEffect(() => {
-    fetchMembers();
+    getMembers();
     fetchProjectMembers();
   }, []);
 
   useEffect(() => {
-    if (members.response && projectMembers.response) {
+    if (members && projectMembers.response) {
       setFilteredProjectMembers(filterProjectMembers());
     }
   }, [members, projectMembers]);
-  
+
   return(
-    <Modal 
-      trigger={
-        <Task 
-          onClick={toggleModalOpen}
-          task={task}
-          members={members}
-        />
-      } 
-      open={modalOpen}
-      onClose={toggleModalOpen}
-      size='tiny'
-      style={{top:'10%'}}
-    >
-      <Modal.Header>{task.attributes.title}</Modal.Header>
-      <Modal.Content>
-        <Menu secondary>
-          <Menu.Item
-            style={{paddingLeft:'0px'}}
-          >
-            <AddTaskMemberForm
-              onFormSubmit={handleAddMember}
-              possibleMembers={filteredProjectMembers}
+    <>
+      {
+        (members && filteredProjectMembers) &&
+        <Modal 
+          trigger={
+            <>
+              {
+                <Task 
+                  onClick={toggleModalOpen}
+                  task={task}
+                  members={members}
+                />
+              }
+            </>
+          } 
+          open={modalOpen}
+          onClose={toggleModalOpen}
+          size='tiny'
+          style={{top:'10%'}}
+        >
+          <Modal.Header>{task.attributes.title}</Modal.Header>
+          <Modal.Content>
+            <Menu secondary>
+              <Menu.Item
+                style={{paddingLeft:'0px'}}
+              >
+                <AddTaskMemberForm
+                  onFormSubmit={handleAddMember}
+                  possibleMembers={filteredProjectMembers}
+                />
+              </Menu.Item>
+            </Menu>
+
+            <Header>Members</Header>
+            <MemberList
+              members={members}
+              onMemberDelete={handleMemberDelete}
             />
-          </Menu.Item>
-        </Menu>
 
-        <Header>Members</Header>
-        <MemberListWithLoading 
-          pending={members.pending}
-          completed={members.completed}
-          members={members.response && members.response.data}
-          onMemberDelete={handleMemberDelete}
-        />
-
-        <Checklist 
-          taskId={task.id} 
-        />
-      </Modal.Content>
-    </Modal>
+            <Checklist 
+              taskId={task.id} 
+            />
+          </Modal.Content>
+        </Modal>
+      }
+    </>
   );
 }
 
