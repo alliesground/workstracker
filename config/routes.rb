@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   root to: 'pages#home'
 
-
   namespace :users do
     resources :profiles, only: :show
   end

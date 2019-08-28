@@ -16,13 +16,8 @@ const EditableTasksWithLoading =  WithLoading(EditableTasks);
 
 const ListContainer = ({ list, ...props }) => {
 
-  const [listTasks, fetchListTasks] = useEndpoint(() => ({
-    url: `lists/${list.id}/relationships/tasks`,
-    method: 'GET'
-  }));
-
-  const [tasks, fetchTasks, setTasks] = useEndpoint(() => ({
-    url: `${listTasks.response.links.related}`,
+  const [listTasks, fetchListTasks, setListTasks] = useEndpoint(() => ({
+    url: `lists/${list.id}/tasks`,
     method: 'GET'
   }));
 
@@ -64,12 +59,9 @@ const ListContainer = ({ list, ...props }) => {
         fetchListTasks();
       }
 
-      if(listTasks.completed && !listTasks.error) {
-        if(!tasks.response) fetchTasks();
-      }
       
       if(task.completed && !task.error) {
-        setTasks(task.response.data);
+        setListTasks(task.response.data);
       }
     };
 
@@ -85,9 +77,9 @@ const ListContainer = ({ list, ...props }) => {
             { list.attributes.title }
           </div>
           <EditableTasksWithLoading 
-            pending={tasks.pending}
-            completed={tasks.completed}
-            tasks={tasks.response ? tasks.response.data : null}
+            pending={listTasks.pending}
+            completed={listTasks.completed}
+            tasks={listTasks.response ? listTasks.response.data : null}
             editableTask={props.editableTask}
           />
         </div>

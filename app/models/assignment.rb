@@ -21,7 +21,7 @@ class Assignment < ApplicationRecord
   private
 
   def activity_message
-    transaction_include_action?(:create) ? 
+    transaction_include_any_action?([:create]) ? 
       message_for_create :
       message_for_destroy
   end
