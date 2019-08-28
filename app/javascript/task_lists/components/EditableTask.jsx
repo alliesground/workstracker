@@ -48,23 +48,20 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
   ));
 
   const filterProjectMembers = () => {
-    const possibleMembers = [...projectMembers.response.data];
+    const uniqueProjectMembers = projectMembers.response.data.filter(obj1 => {
+      return !members.some(obj2 => {
+        return obj1.id === obj2.id;
+      })
+    });
 
-    loop1:
-    for(var i in possibleMembers) {
-      loop2:
-      for(var j in members) {
+    const uniqueMembers = members.filter(obj1 => {
+      return !projectMembers.response.data.some(obj2 => {
+        return obj1.id == obj2.id;
+      });
+    });
 
-        if(possibleMembers[i].id == members[j].id) {
-          delete possibleMembers[i];
-          break loop2;
-        }
-      }
-    }
+    return uniqueProjectMembers.concat(uniqueMembers);
 
-    return possibleMembers.filter(possibleMember => 
-      possibleMember !== undefined
-    )
   }
 
   const handleAddMember = (member) => {
@@ -107,21 +104,14 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
   
   const getMembers = () => {
     if (includedMembers) {
-      let uniqueIncludedMembers = includedMembers.filter(im => {
-        return task.relationships.members.data.some(rm => {
-          return im.id === rm.id;
+      const taskMembers = includedMembers.filter(obj1 => {
+        return task.relationships.members.data.find(obj2 => {
+          return obj1.id === obj2.id;
         })
-      });
+      }); 
 
-      let uniqueRelatedMembers = task.relationships.members.data.filter(rm => {
-        return !includedMembers.some(im => {
-          return rm.value == im.value;
-        });
-      });
-
-      setMembers(uniqueIncludedMembers.concat(uniqueRelatedMembers));
+      setMembers(taskMembers);
     }
-
   }
 
   useEffect(() => {
