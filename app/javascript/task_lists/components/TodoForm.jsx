@@ -5,12 +5,18 @@ const TodoForm = (props) => {
   const [title, setTitle] = useState('');
 
   const handleSubmit = () => {
+    if(!isValid()) return;
+
     const todo = {
       type: 'todos',
       attributes: { title }
     }
     props.onFormSubmit(todo);
     props.closeForm;
+  }
+
+  const isValid = () => {
+    return title !== ''
   }
 
   const handleChange = (e) => {
