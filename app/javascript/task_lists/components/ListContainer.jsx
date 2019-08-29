@@ -22,7 +22,7 @@ const ListContainer = ({ list, ...props }) => {
   }));
 
   const [task, postNewTask] = useEndpoint(data => ({
-    url: 'tasks',
+    url: 'tasks?include=members',
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
@@ -57,9 +57,6 @@ const ListContainer = ({ list, ...props }) => {
 
       if(!listTasks.pending && !listTasks.completed) {
         fetchListTasks();
-      }
-      if(task.completed && !task.error) {
-        console.log('List Tasks: ', listTasks)
       }
       
     };

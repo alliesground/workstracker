@@ -14,9 +14,9 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
 
   const [modalOpen, toggleModalOpen] = useToggle();
 
-  const [filteredProjectMembers, setFilteredProjectMembers] = useState();
+  const [filteredProjectMembers, setFilteredProjectMembers] = useState([]);
 
-  const [members, setMembers] = useState();
+  const [members, setMembers] = useState([]);
 
   const [projectMembers, fetchProjectMembers] = useEndpoint(() => ({
     url: `/projects/${projectId}/members`,
@@ -101,13 +101,11 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
   }
   
   const getMembers = () => {
-    if (includedMembers) {
+    if (includedMembers && task.relationships.members.data) {
       const taskMembers = includedMembers.filter(obj1 => {
-        if (task.relationships.members.data) {
-          return task.relationships.members.data.find(obj2 => {
-            return obj1.id === obj2.id;
-          })
-        }
+        return task.relationships.members.data.find(obj2 => {
+          return obj1.id === obj2.id;
+        })
       }); 
 
       setMembers(taskMembers);
@@ -126,52 +124,48 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
   }, [members, projectMembers]);
 
   return(
-    <>
-      {
-        <Modal 
-          trigger={
-            <>
-              {
-                <Task 
-                  onClick={toggleModalOpen}
-                  task={task}
-                  members={members}
-                  filteredProjectMembers={filteredProjectMembers}
-                />
-              }
-            </>
-          } 
-          open={modalOpen}
-          onClose={toggleModalOpen}
-          size='tiny'
-          style={{top:'10%'}}
-        >
-          <Modal.Header>{task.attributes.title}</Modal.Header>
-          <Modal.Content>
-            <Menu secondary>
-              <Menu.Item
-                style={{paddingLeft:'0px'}}
-              >
-                <AddTaskMemberForm
-                  onFormSubmit={handleAddMember}
-                  possibleMembers={filteredProjectMembers}
-                />
-              </Menu.Item>
-            </Menu>
-
-            <Header>Members</Header>
-            <MemberList
+    <Modal 
+      trigger={
+        <>
+          {
+            <Task 
+              onClick={toggleModalOpen}
+              task={task}
               members={members}
-              onMemberDelete={handleMemberDelete}
+              filteredProjectMembers={filteredProjectMembers}
             />
+          }
+        </>
+      } 
+      open={modalOpen}
+      onClose={toggleModalOpen}
+      size='tiny'
+      style={{top:'10%'}}
+    >
+      <Modal.Header>{task.attributes.title}</Modal.Header>
+      <Modal.Content>
+        <Menu secondary>
+          <Menu.Item
+            style={{paddingLeft:'0px'}}
+          >
+            <AddTaskMemberForm
+              onFormSubmit={handleAddMember}
+              possibleMembers={filteredProjectMembers}
+            />
+          </Menu.Item>
+        </Menu>
 
-            <Checklist 
-              taskId={task.id} 
-            />
-          </Modal.Content>
-        </Modal>
-      }
-    </>
+        <Header>Members</Header>
+        <MemberList
+          members={members}
+          onMemberDelete={handleMemberDelete}
+        />
+
+        <Checklist 
+          taskId={task.id} 
+        />
+      </Modal.Content>
+    </Modal>
   );
 }
 

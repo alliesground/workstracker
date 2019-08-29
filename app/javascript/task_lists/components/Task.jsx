@@ -14,7 +14,6 @@ const Task = ({ task, members, ...props }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    console.log('MemberChanged ', members)
     if (members && props.filteredProjectMembers) {
       setOnClickProp({
         onClick: props.onClick
@@ -39,7 +38,7 @@ const Task = ({ task, members, ...props }) => {
       </div>
       <div className='extra content'>
         <i className='users icon'></i>
-        { members && members.length }
+        { members.length }
       </div>
 
     </a>
