@@ -58,16 +58,22 @@ const ListContainer = ({ list, ...props }) => {
       if(!listTasks.pending && !listTasks.completed) {
         fetchListTasks();
       }
-
-      
       if(task.completed && !task.error) {
-        setListTasks(task.response.data);
+        console.log('List Tasks: ', listTasks)
       }
+      
     };
 
     execute();
 
-  }, [listTasks, task]);
+  }, [listTasks]);
+
+  useEffect(() => {
+    if (task.completed && !task.error) {
+      setListTasks(task.response.data);
+    }
+
+  }, [task]);
 
   return(
     <div className='column' style={{height: '100%'}}>

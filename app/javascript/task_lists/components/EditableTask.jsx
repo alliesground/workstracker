@@ -10,8 +10,6 @@ import MemberList from './MemberList'
 import { useEndpoint } from './useEndpoint';
 import WithLoading from '../hocs/WithLoading';
 
-const MemberListWithLoading = WithLoading(MemberList);
-
 const EditableTask = ({ task, projectId, includedMembers }) => {
 
   const [modalOpen, toggleModalOpen] = useToggle();
@@ -105,9 +103,11 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
   const getMembers = () => {
     if (includedMembers) {
       const taskMembers = includedMembers.filter(obj1 => {
-        return task.relationships.members.data.find(obj2 => {
-          return obj1.id === obj2.id;
-        })
+        if (task.relationships.members.data) {
+          return task.relationships.members.data.find(obj2 => {
+            return obj1.id === obj2.id;
+          })
+        }
       }); 
 
       setMembers(taskMembers);
@@ -128,7 +128,6 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
   return(
     <>
       {
-        (members && filteredProjectMembers) &&
         <Modal 
           trigger={
             <>
@@ -137,6 +136,7 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
                   onClick={toggleModalOpen}
                   task={task}
                   members={members}
+                  filteredProjectMembers={filteredProjectMembers}
                 />
               }
             </>
