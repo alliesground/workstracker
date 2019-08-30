@@ -1,12 +1,13 @@
-%section.container
-  .row
-    .col-sm-6
-      = simple_form_for @project do |f|
-        %header
-          %h1 Create new project
+.sixteen.wide.column
+  .ui.three.column.centered.grid
+    .column
+      .ui.segment
+        .ui.header
+          Create New Project
+        = simple_form_for @project, class: 'ui form' do |f|
+          .field
+            = f.input :title, label: 'Title'
+            = f.input :description, label: 'Description'
 
-        %fieldset.form-group
-          = f.input :title, label: 'Title'
-          = f.input :description, label: 'Description'
+          = f.submit 'Save', class: "ui primary button"
 
-        = f.submit 'Save', class: "btn btn-default"

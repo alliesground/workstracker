@@ -1,8 +1,0 @@
-.item
-  = image_tag stakeholder.gravatar_url, class: "ui avatar image"
-  .content
-    .header= stakeholder.email
-    - stakeholder.roles_scoped_to(resource: @project).each do |role|
-      %span.badge.badge-secondary= role.name
-
-
