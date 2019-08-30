@@ -5,55 +5,6 @@
       $('.modal#invite-form').modal('show');
     });
 
-    $('#invite-form form').submit(function(e) {
-      var $form = $(this);
-
-      if (isValid($form)) return;
-      e.preventDefault();
-    });
-
-    var isValid = function($form) {
-      const $emailField = $form.find(".field.email");
-      const $emailInput = $form.find("input[type='email']");
-
-      if ($emailInput.val() === '') {
-        showError($emailField, 'Email must be present')
-        return false
-      }
-
-      if (!isValidEmail($emailInput.val())) {
-        showError($emailField, 'Please Enter Valid Email')
-        return false
-      }
-
-      return true
-    }
-
-    var isValidEmail = function(email) {
-      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      return regex.test(email);
-    }
-
-    var showError = function($field, message) {
-      console.log(message);
-      console.log($field);
-      $field.addClass('error');
-      $field.append(errorMessage(message))
-    }
-
-    var errorMessage = function(message) {
-      return `
-        <div class='ui basic red pointing label transition visible'>
-          ${message}
-        </div>
-      `
-    }
-
-    var $formFieldWithError = $('form').find('.field.error');
-    if( $formFieldWithError.length > 0 ) {
-      $formFieldWithError.closest('.modal').modal('show');
-    }
-
     /* refresh activites */
     $('#activities').find('#btn-reload').on('click', function() {
       location.reload(true);
@@ -62,6 +13,9 @@
 
 - content_for :activities_channel do
   = javascript_include_tag 'channels/activities'
+
+- content_for :invite_form_validation do
+  = javascript_include_tag 'invite-form-validation'
 
 = javascript_pack_tag 'task_lists'
 
