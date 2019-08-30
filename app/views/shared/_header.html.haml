@@ -4,13 +4,9 @@
       .header.item
         WorksTracker
       .right.menu
-        .ui.item
-          = link_to "Home", root_path
         - if user_signed_in?
           .ui.item
-            = link_to "My projects", projects_path
-          .ui.item
-            = link_to "My profile", users_profile_path(current_user)
+            = link_to "My projects", root_path
           .ui.item
             = link_to "Logout", destroy_user_session_path, method: :delete
         - else

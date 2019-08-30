@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
-  root to: 'pages#home'
+  root to: 'projects#index'
 
   namespace :users do
     resources :profiles, only: :show
@@ -16,9 +16,6 @@ Rails.application.routes.draw do
     get '/users/sign_up_with_token/:token', to: 'users/registrations#new_with_invite_token', as: :new_user_registration_with_token
   end
 
-  get 'ui(/:action)', controller: 'ui'
-
-
   resources :projects, only: [:index, :show, :new, :create] do
     resources :lists, only: :create
   end
@@ -26,11 +23,6 @@ Rails.application.routes.draw do
   post 'lists/:list_id/tasks', to: 'tasks#create', as: 'list_tasks'
   resources :tasks, only: :show
 
-  resources :project_forms, only: [:new, :create]
-
-  post 'roles' => 'roles#create'
-
-  resources :invitations, only: [:new, :create]
   resources :invites, only: [:create]
 
   get 'pages/*page' => 'pages#show'
@@ -41,11 +33,6 @@ Rails.application.routes.draw do
   namespace :api do
     #mount_devise_token_auth_for 'User', at: 'auth'
     namespace :v1 do
-#      resources :projects, only: [:index, :create, :show] do
-#        resources :members, only: :index
-#      end
-#      resources :profiles, only: [:index]
-
       jsonapi_resources :projects
       jsonapi_resources :lists
       jsonapi_resources :tasks do
