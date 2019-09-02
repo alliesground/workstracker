@@ -14,10 +14,6 @@ class List < ApplicationRecord
 
   private
 
-  def broadcast_to
-    yield(project) if block_given?
-  end
-
   def activity_message
     "#{activity_owner_email} added List: #{title}"
   end

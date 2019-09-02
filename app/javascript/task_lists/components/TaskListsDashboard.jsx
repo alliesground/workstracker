@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useEndpoint } from './useEndpoint';
 import WithLoading from '../hocs/WithLoading';
 import EditableTask from './EditableTask';
+import ActionCable from 'actioncable';
 
 const HorizontalScrollGrid = styled.div`
   overflow-x: auto;
@@ -50,7 +51,43 @@ export const TaskListsDashboard = (props) => {
     }
   }));
 
+  const [broadcastedListActivity, setBroadcastedListActivity] = useState(null);
+
+  const handleReceiveBroadcastedList = ({ response, ownerId }) => {
+    console.log(response);
+    if (response === null || response.data.type !== 'lists') return
+
+    setBroadcastedListActivity({
+      ...response,
+      ownerId
+    })
+  }
+
+  const handleCreateFormSubmit = (list) => {
+    postNewList(payload(list));
+  }
+
+  const payload = (list) => (
+    {
+      data: {
+        ...list,
+        relationships: {
+          project: {
+            data: {
+              type: 'projects',
+              id: props.projectId
+            }
+          }
+        }
+      }
+    }
+  ); 
   
+  useEffect(() => {
+    if (lists.completed && !lists.error) {
+    }
+  }, [lists]);
+
   useEffect(() => {
     const execute = () => {
 
@@ -79,25 +116,25 @@ export const TaskListsDashboard = (props) => {
 
   }, [list]);
 
-  const handleCreateFormSubmit = (list) => {
-    postNewList(payload(list));
-  }
+  useEffect(() => {
+    const cable = ActionCable.createConsumer('ws:localhost:3000/cable');
+    cable.subscriptions.create(
+      {
+        channel: 'ActivitiesChannel',
+        project_id: props.projectId
+      }, {
+      received: handleReceiveBroadcastedList
+    });
 
-  const payload = (list) => (
-    {
-      data: {
-        ...list,
-        relationships: {
-          project: {
-            data: {
-              type: 'projects',
-              id: props.projectId
-            }
-          }
-        }
-      }
+  }, []);
+
+  useEffect(() => {
+    if (broadcastedListActivity === null) return;
+
+    if (!(broadcastedListActivity.ownerId == props.current_user_id)) {
+      setLists(broadcastedListActivity.data)
     }
-  ); 
+  }, [broadcastedListActivity]); 
 
   return(
     <>
@@ -105,12 +142,6 @@ export const TaskListsDashboard = (props) => {
         className='ui five column grid'
         style={{display: 'block'}}
       >
-        {
-          /*
-          (lists.pending && 'Loading...') ||
-          (lists.completed && <ListContainers />)
-          */
-        }
         <ListContainersWithLoading 
           pending={lists.pending}
           completed={lists.completed}

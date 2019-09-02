@@ -11,7 +11,7 @@ $(function(){
         received: function(data) {
           $("#activities").removeClass('hidden');
 
-          if (data.activity_owner_id !== $("#activities").data('current-user-id')) {
+          if (data.ownerId !== $("#activities").data('current-user-id')) {
             $("#activities").find('#btn-reload').show();
           } else {
             $("#activities").find('#btn-reload').hide();
@@ -21,7 +21,7 @@ $(function(){
         },
 
         renderMessage: function(data) {
-          return "<li class='item'>" + data.activity_message + "</li>";
+          return "<li class='item'>" + data.message + "</li>";
         }
 
       });
