@@ -54,7 +54,6 @@ export const TaskListsDashboard = (props) => {
   const [broadcastedListActivity, setBroadcastedListActivity] = useState(null);
 
   const handleReceiveBroadcastedList = ({ response, ownerId }) => {
-    console.log(response);
     if (response === null || response.data.type !== 'lists') return
 
     setBroadcastedListActivity({
@@ -117,7 +116,7 @@ export const TaskListsDashboard = (props) => {
   }, [list]);
 
   useEffect(() => {
-    const cable = ActionCable.createConsumer('ws:localhost:3000/cable');
+    const cable = ActionCable.createConsumer(process.env.REACT_APP_WS_HOST);
     cable.subscriptions.create(
       {
         channel: 'ActivitiesChannel',
