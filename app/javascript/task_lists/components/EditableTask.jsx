@@ -101,15 +101,16 @@ const EditableTask = ({ task, projectId, includedMembers }) => {
   }
   
   const getMembers = () => {
-    if (includedMembers && task.relationships.members.data) {
-      const taskMembers = includedMembers.filter(obj1 => {
-        return task.relationships.members.data.find(obj2 => {
-          return obj1.id === obj2.id;
-        })
-      }); 
+    if (!includedMembers) return
+    if (!task.relationships || !task.relationships.members) return
 
-      setMembers(taskMembers);
-    }
+    const taskMembers = includedMembers.filter(obj1 => {
+      return task.relationships.members.data.find(obj2 => {
+        return obj1.id === obj2.id;
+      })
+    }); 
+
+    setMembers(taskMembers);
   }
 
   useEffect(() => {

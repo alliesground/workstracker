@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import ToggleableTaskForm from './ToggleableTaskForm'
 import EditableTasks from './EditableTasks';
 import { useEndpoint } from './useEndpoint';
 import WithLoading from '../hocs/WithLoading';
+import ActionCable from 'actioncable';
+import CurrentUserContext from './CurrentUserContext';
+import CurrentProjectContext from './CurrentProjectContext';
 
 const Card = styled.div`
   max-height: 100%;
@@ -15,6 +18,8 @@ const Card = styled.div`
 const EditableTasksWithLoading =  WithLoading(EditableTasks);
 
 const ListContainer = ({ list, ...props }) => {
+  const current_user = useContext(CurrentUserContext);
+  const current_project = useContext(CurrentProjectContext);
 
   const [listTasks, fetchListTasks, setListTasks] = useEndpoint(() => ({
     url: `lists/${list.id}/tasks?include=members`,
@@ -51,6 +56,28 @@ const ListContainer = ({ list, ...props }) => {
     }
   );
 
+  const [broadcastedTask, setBroadcastedTask] = useState(null);
+
+  const handleReceiveBroadcastedTask = ({ response }) => {
+    if (response === null) return
+
+    setBroadcastedTask({
+      ...response
+    })
+  }
+
+  useEffect(() => {
+    const consumer = ActionCable.createConsumer(process.env.REACT_APP_WS_HOST);
+    consumer.subscriptions.create(
+      {
+        channel: 'TasksChannel',
+        list_id: list.id
+      }, {
+      received: handleReceiveBroadcastedTask
+    });
+
+  }, []);
+
   useEffect(() => {
 
     const execute = () => {
@@ -66,15 +93,15 @@ const ListContainer = ({ list, ...props }) => {
   }, [listTasks]);
 
   useEffect(() => {
-    if (task.completed && !task.error) {
-      setListTasks(task.response.data);
-    }
+    if (broadcastedTask === null) return;
 
-  }, [task]);
+    setListTasks(broadcastedTask.data)
+
+  }, [broadcastedTask]);
 
   return(
     <div className='column' style={{height: '100%'}}>
-      <Card className='ui card'>
+      <Card className='ui fluid card'>
         <div className='content'>
           <div className='header'>
             { list.attributes.title }

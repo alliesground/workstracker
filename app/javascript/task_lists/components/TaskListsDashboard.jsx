@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useContext } from 'react';
 import ListContainers from './ListContainers';
 import ToggleableListForm from './ToggleableListForm';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import { useEndpoint } from './useEndpoint';
 import WithLoading from '../hocs/WithLoading';
 import EditableTask from './EditableTask';
 import ActionCable from 'actioncable';
+import CurrentUserContext from './CurrentUserContext';
 
 const HorizontalScrollGrid = styled.div`
   overflow-x: auto;
@@ -21,6 +22,7 @@ const HorizontalScrollGrid = styled.div`
 const ListContainersWithLoading = WithLoading(ListContainers); 
 
 export const TaskListsDashboard = (props) => {
+  const current_user = useContext(CurrentUserContext);
 
   const editableTask = (task, includedMembers) => (
     <EditableTask
@@ -36,7 +38,7 @@ export const TaskListsDashboard = (props) => {
     method: 'GET'
   }));
 
-  const [lists, fetchLists, setLists] = useEndpoint(() => ({
+  const [lists, fetchLists, setLists,,, getList] = useEndpoint(() => ({
     url: `${projectLists.response.links.related}`,
     method: 'GET'
   }));
@@ -51,14 +53,13 @@ export const TaskListsDashboard = (props) => {
     }
   }));
 
-  const [broadcastedListActivity, setBroadcastedListActivity] = useState(null);
+  const [broadcastedList, setBroadcastedList] = useState(null);
 
-  const handleReceiveBroadcastedList = ({ response, ownerId }) => {
-    if (response === null || response.data.type !== 'lists') return
+  const handleReceiveBroadcastedList = ({ response }) => {
+    if (response === null) return
 
-    setBroadcastedListActivity({
-      ...response,
-      ownerId
+    setBroadcastedList({
+      ...response
     })
   }
 
@@ -102,24 +103,12 @@ export const TaskListsDashboard = (props) => {
     execute();
 
   }, [projectLists]);
-  
-  useEffect(() => {
-
-    const execute = () => {
-      if(list.completed && !list.error) {
-        setLists(list.response.data);
-      }
-    };
-
-    execute();
-
-  }, [list]);
 
   useEffect(() => {
-    const cable = ActionCable.createConsumer(process.env.REACT_APP_WS_HOST);
-    cable.subscriptions.create(
+    const consumer = ActionCable.createConsumer(process.env.REACT_APP_WS_HOST);
+    consumer.subscriptions.create(
       {
-        channel: 'ActivitiesChannel',
+        channel: 'ListsChannel',
         project_id: props.projectId
       }, {
       received: handleReceiveBroadcastedList
@@ -128,12 +117,11 @@ export const TaskListsDashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    if (broadcastedListActivity === null) return;
+    if (broadcastedList === null) return;
 
-    if (!(broadcastedListActivity.ownerId == props.current_user_id)) {
-      setLists(broadcastedListActivity.data)
-    }
-  }, [broadcastedListActivity]); 
+    setLists(broadcastedList.data)
+
+  }, [broadcastedList]); 
 
   return(
     <>

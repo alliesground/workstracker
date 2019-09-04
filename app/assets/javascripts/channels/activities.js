@@ -9,19 +9,9 @@ $(function(){
         project_id: $('#activities').data('project-id')
       }, {
         received: function(data) {
-          $("#activities").removeClass('hidden');
-
-          if (data.ownerId !== $("#activities").data('current-user-id')) {
-            $("#activities").find('#btn-reload').show();
-          } else {
-            $("#activities").find('#btn-reload').hide();
-          }
-
-          $('#activities .list').prepend(this.renderMessage(data));
-        },
-
-        renderMessage: function(data) {
-          return "<li class='item'>" + data.message + "</li>";
+          $('body').toast({
+            message: data.message
+          })
         }
 
       });

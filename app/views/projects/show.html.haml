@@ -4,11 +4,6 @@
     $('#btn-invite').on('click', function() {
       $('.modal#invite-form').modal('show');
     });
-
-    /* refresh activites */
-    $('#activities').find('#btn-reload').on('click', function() {
-      location.reload(true);
-    });
   });
 
 - content_for :activities_channel do
@@ -19,17 +14,7 @@
 
 = javascript_pack_tag 'task_lists'
 
-.sixteen.wide.column
-  .ui.message.transition.hidden#activities{'data-project-id' => project.id, 'data-current-user-id' => current_user.id }
-    %i.close.icon
-    .ui.grid
-      .twelve.wide.column
-        .header
-          Activities
-        %ul.ui.list
-      .four.wide.column
-        .ui.button.primary.hidden#btn-reload
-          Refresh to view changes
+.hidden#activities{'data-project-id' => project.id}
 
 .sixteen.wide.column 
   .ui.horizontal.divided.list
