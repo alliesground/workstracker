@@ -24,7 +24,7 @@ const Task = ({ task, members, ...props }) => {
 
   return(
     <a 
-      className='ui card'
+      className='ui fluid card'
       {...onClickProp}
     >
       <div className='content'>

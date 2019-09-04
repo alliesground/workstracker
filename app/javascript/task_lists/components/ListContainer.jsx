@@ -101,7 +101,7 @@ const ListContainer = ({ list, ...props }) => {
 
   return(
     <div className='column' style={{height: '100%'}}>
-      <Card className='ui card'>
+      <Card className='ui fluid card'>
         <div className='content'>
           <div className='header'>
             { list.attributes.title }
