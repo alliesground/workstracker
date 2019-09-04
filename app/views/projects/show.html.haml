@@ -5,12 +5,6 @@
       $('.modal#invite-form').modal('show');
     });
 
-    /* refresh activites */
-    $('#activities').find('#btn-reload').on('click', function() {
-      location.reload(true);
-    });
-  });
-
 - content_for :activities_channel do
   = javascript_include_tag 'channels/activities'
 
