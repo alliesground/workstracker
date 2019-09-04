@@ -4,9 +4,9 @@
   = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
     .ui.segment
       .field
-        = f.input :email, required: false, autofocus: true
+        = f.input :email, required: false, autofocus: true, input_html: {value: 'demo@email.com'}
       .field
-        = f.input :password, required: false
+        = f.input :password, required: false, input_html: {value: 'demoforuser'}
       .field
         .ui.checkbox
           = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
