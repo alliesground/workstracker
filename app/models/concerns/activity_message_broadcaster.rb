@@ -19,7 +19,7 @@ module ActivityMessageBroadcaster
   def json_response
     return unless class_exists?("#{self.class.name}Resource")
 
-    JSONAPI::ResourceSerializer.new(resource_class).serialize_to_hash(ListResource.new(self, nil))
+    JSONAPI::ResourceSerializer.new(resource_class).serialize_to_hash(resource_class.new(self, nil))
   end
 
   def resource_class

@@ -59,6 +59,10 @@ const destroy = (state, action) => {
   )
 }
 
+const selectors = {
+  getUser : (state, id) => state[id]
+}
+
 const resReducer = (state, action) => {
   switch (action.type) {
     case 'DESTROY':
@@ -116,6 +120,12 @@ export const useEndpoint = (fn) => {
       type: types.SET,
       datum
     });
+  }
+
+  const getData = (id) => {
+    return res.response.data.find(obj => {
+      obj.id === id
+    })
   }
 
   const updateData = (datum) => {
@@ -183,5 +193,5 @@ export const useEndpoint = (fn) => {
 
   }, [req]);
 
-  return [res, (...args) => setReq(fn(...args)), setData, updateData, deleteData];
+  return [res, (...args) => setReq(fn(...args)), setData, updateData, deleteData, getData];
 }

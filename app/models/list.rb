@@ -6,11 +6,13 @@ class List < ApplicationRecord
 
   belongs_to :project
 
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
 
   validates_presence_of :title
 
   scope :persisted, -> { where "id IS NOT NULL" } 
+
+  after_commit :broadcast, on: :create
 
   private
 
@@ -18,4 +20,15 @@ class List < ApplicationRecord
     "#{activity_owner_email} added List: #{title}"
   end
 
+  def broadcast
+    ListsChannel.broadcast_to(
+      project,
+      response: json_api_response
+    )
+  end
+
+  def json_api_response
+    JSONAPI::ResourceSerializer.new(ListResource).
+      serialize_to_hash(ListResource.new(self, nil))
+  end
 end
