@@ -9,13 +9,9 @@ $(function(){
         project_id: $('#activities').data('project-id')
       }, {
         received: function(data) {
-          $("#activities").removeClass('hidden');
-
-          $('#activities span').text(data.message);
-        },
-
-        renderMessage: function(data) {
-          return data.message ;
+          $('body').toast({
+            message: data.message
+          })
         }
 
       });

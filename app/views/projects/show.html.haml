@@ -4,6 +4,7 @@
     $('#btn-invite').on('click', function() {
       $('.modal#invite-form').modal('show');
     });
+  });
 
 - content_for :activities_channel do
   = javascript_include_tag 'channels/activities'
@@ -13,9 +14,7 @@
 
 = javascript_pack_tag 'task_lists'
 
-.ui.compact.message.sticky.fixed.top.transition.hidden#activities{'data-project-id' => project.id, 'data-current-user-id' => current_user.id }
-  %i.close.icon
-  %span
+.hidden#activities{'data-project-id' => project.id}
 
 .sixteen.wide.column 
   .ui.horizontal.divided.list
