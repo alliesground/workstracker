@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Set cable server's URI
-  config.web_socket_server_url = "ws://staging-workstracker.herokuapp.com/cable" 
+  config.web_socket_server_url = "wss://staging-workstracker.herokuapp.com/cable" 
 
   # Code is not reloaded between requests.
   config.cache_classes = true
