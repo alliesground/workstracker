@@ -19,17 +19,9 @@
 
 = javascript_pack_tag 'task_lists'
 
-.sixteen.wide.column
-  .ui.message.transition.hidden#activities{'data-project-id' => project.id, 'data-current-user-id' => current_user.id }
-    %i.close.icon
-    .ui.grid
-      .twelve.wide.column
-        .header
-          Activities
-        %ul.ui.list
-      .four.wide.column
-        .ui.button.primary.hidden#btn-reload
-          Refresh to view changes
+.ui.compact.message.sticky.fixed.top.transition.hidden#activities{'data-project-id' => project.id, 'data-current-user-id' => current_user.id }
+  %i.close.icon
+  %span
 
 .sixteen.wide.column 
   .ui.horizontal.divided.list
