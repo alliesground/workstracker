@@ -15,5 +15,5 @@
 //= require jquery3
 //= require semantic-ui
 //= require ./segment_ui
-//= xxxrequire_tree ./channels
+//= require_tree ./channels
 //= xxxrequire_tree .
